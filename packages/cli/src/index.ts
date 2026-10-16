@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import pkg from "../package.json" with { type: "json" };
 import { registerAdd } from "./commands/add";
 import { registerDiff } from "./commands/diff";
 import { registerInit } from "./commands/init";
@@ -9,7 +10,7 @@ import { CliError, logger } from "./utils/logger";
 const program = new Command()
   .name("expressive")
   .description("Material 3 Expressive–inspired components you own.")
-  .version("0.1.0");
+  .version(pkg.version);
 
 registerInit(program);
 registerAdd(program);

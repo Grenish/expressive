@@ -1,6 +1,6 @@
 {
   "name": "@grenishrai/expressive",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Add Material 3 Expressive–inspired components to your project. You own the code.",
   "license": "MIT",
   "repository": {
@@ -14,7 +14,8 @@
     "expressive": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "engines": {
     "node": ">=20"
@@ -43,5 +44,17 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "keywords": [
+    "material",
+    "material-3",
+    "material-you",
+    "expressive",
+    "design-system",
+    "react",
+    "tailwindcss",
+    "components",
+    "cli",
+    "shadcn"
+  ]
 }
