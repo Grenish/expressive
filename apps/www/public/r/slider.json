@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "slider",
+  "type": "component",
+  "description": "Expressive slider with a bar handle; single value or range.",
+  "files": [
+    {
+      "path": "slider.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport { Slider as BaseSlider } from \"@base-ui/react/slider\";\nimport { cn } from \"@/registry/lib/utils\";\nimport type { MotionProp } from \"@/registry/lib/use-motion\";\n\nexport interface SliderProps extends Omit<BaseSlider.Root.Props, \"className\"> {\n  className?: string;\n  motion?: MotionProp;\n  /** Accessible names for the thumbs, e.g. `[\"Minimum price\", \"Maximum price\"]`. */\n  thumbLabels?: string[];\n}\n\n/*\n * M3 Expressive slider: a 16px track with a bar-shaped handle that narrows\n * while dragged. The gap around the handle is drawn with a ring in\n * `--ex-slider-gap-color` (defaults to `surface`); set it to the slider's\n * background when it sits on another surface.\n */\nexport function Slider({ className, motion, thumbLabels, value, defaultValue, ...props }: SliderProps) {\n  const current = value ?? defaultValue;\n  const count = Array.isArray(current) ? current.length : 1;\n\n  return (\n    <BaseSlider.Root\n      data-slot=\"slider\"\n      data-motion={motion}\n      value={value}\n      defaultValue={defaultValue}\n      className={cn(\"group w-full data-disabled:opacity-(--ex-disabled-content)\", className)}\n      {...props}\n    >\n      <BaseSlider.Control className=\"flex h-11 w-full touch-none items-center select-none\">\n        <BaseSlider.Track className=\"relative h-4 w-full rounded-shape-full bg-secondary-container\">\n          <BaseSlider.Indicator className=\"rounded-shape-full bg-primary group-data-disabled:bg-on-surface\" />\n          {Array.from({ length: count }, (_, index) => (\n            <BaseSlider.Thumb\n              key={index}\n              index={index}\n              aria-label={thumbLabels?.[index]}\n              className={cn(\n                \"h-11 w-1 cursor-grab rounded-shape-full bg-primary select-none\",\n                \"ring-6 ring-(--ex-slider-gap-color,var(--ex-color-surface))\",\n                \"transition-[width] spring-spatial-fast data-dragging:w-0.5 data-dragging:cursor-grabbing\",\n                \"has-focus-visible:outline-(length:--ex-focus-ring-width) has-focus-visible:outline-offset-(--ex-focus-ring-offset) has-focus-visible:outline-(--ex-focus-ring-color) has-focus-visible:outline-solid\",\n                \"group-data-disabled:bg-on-surface\",\n              )}\n            />\n          ))}\n        </BaseSlider.Track>\n      </BaseSlider.Control>\n    </BaseSlider.Root>\n  );\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "motion",
+    "styles"
+  ]
+}

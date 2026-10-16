@@ -1,0 +1,164 @@
+/* ---------------------------------------------------------------------------
+ * Interaction, shape and motion utilities. Everything reads --ex-* tokens.
+ * ------------------------------------------------------------------------ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* State layer: a currentColor overlay whose opacity follows interaction tokens. */
+@utility state-layer {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ex-spring-effects-fast-duration) var(--ex-spring-effects-fast-easing);
+  }
+  @media (hover: hover) {
+    &:hover:not(:disabled, [data-disabled])::before {
+      opacity: var(--ex-state-hover);
+    }
+  }
+  &:focus-visible::before,
+  &[data-focus-visible]::before {
+    opacity: var(--ex-state-focus);
+  }
+  &:active:not(:disabled, [data-disabled])::before,
+  &[data-dragged]::before {
+    opacity: var(--ex-state-pressed);
+  }
+  &[data-dragged]::before {
+    opacity: var(--ex-state-dragged);
+  }
+}
+
+/* Focus ring: only for keyboard focus. */
+@utility focus-ring {
+  outline: none;
+  &:focus-visible,
+  &[data-focus-visible] {
+    outline: var(--ex-focus-ring-width) solid var(--ex-focus-ring-color);
+    outline-offset: var(--ex-focus-ring-offset);
+  }
+}
+
+/*
+ * Pill corners that animate well. `rounded-shape-full` is 9999px, which springs
+ * badly: the radius stays huge for most of a transition, then snaps, and spring
+ * overshoot past a small target can clamp to a square. `rounded-pill` uses half
+ * the control height instead; set --ex-control-height alongside the height.
+ */
+@utility rounded-pill {
+  border-radius: calc(var(--ex-control-height, 9999px) / 2);
+}
+
+/* Corner styles. Progressive enhancement: unsupported browsers render round corners. */
+@utility corner-round {
+  corner-shape: round;
+}
+@utility corner-squircle {
+  corner-shape: squircle;
+}
+@utility corner-cut {
+  corner-shape: bevel;
+}
+
+/* Spring transitions: `spring-spatial-fast`, `spring-effects-default`, … */
+@utility spring-spatial-fast {
+  --tw-duration: var(--ex-spring-spatial-fast-duration);
+  --tw-ease: var(--ex-spring-spatial-fast-easing);
+  transition-duration: var(--ex-spring-spatial-fast-duration);
+  transition-timing-function: var(--ex-spring-spatial-fast-easing);
+}
+@utility spring-spatial-default {
+  --tw-duration: var(--ex-spring-spatial-default-duration);
+  --tw-ease: var(--ex-spring-spatial-default-easing);
+  transition-duration: var(--ex-spring-spatial-default-duration);
+  transition-timing-function: var(--ex-spring-spatial-default-easing);
+}
+@utility spring-spatial-slow {
+  --tw-duration: var(--ex-spring-spatial-slow-duration);
+  --tw-ease: var(--ex-spring-spatial-slow-easing);
+  transition-duration: var(--ex-spring-spatial-slow-duration);
+  transition-timing-function: var(--ex-spring-spatial-slow-easing);
+}
+@utility spring-effects-fast {
+  --tw-duration: var(--ex-spring-effects-fast-duration);
+  --tw-ease: var(--ex-spring-effects-fast-easing);
+  transition-duration: var(--ex-spring-effects-fast-duration);
+  transition-timing-function: var(--ex-spring-effects-fast-easing);
+}
+@utility spring-effects-default {
+  --tw-duration: var(--ex-spring-effects-default-duration);
+  --tw-ease: var(--ex-spring-effects-default-easing);
+  transition-duration: var(--ex-spring-effects-default-duration);
+  transition-timing-function: var(--ex-spring-effects-default-easing);
+}
+@utility spring-effects-slow {
+  --tw-duration: var(--ex-spring-effects-slow-duration);
+  --tw-ease: var(--ex-spring-effects-slow-easing);
+  transition-duration: var(--ex-spring-effects-slow-duration);
+  transition-timing-function: var(--ex-spring-effects-slow-easing);
+}
+
+@layer base {
+  body {
+    background-color: var(--ex-color-surface);
+    color: var(--ex-color-on-surface);
+    font-family: var(--ex-font-plain);
+  }
+}
+
+/* Progress indicator animations. */
+@keyframes ex-progress-linear {
+  0% {
+    left: -40%;
+    width: 40%;
+  }
+  60% {
+    width: 60%;
+  }
+  100% {
+    left: 100%;
+    width: 30%;
+  }
+}
+@keyframes ex-progress-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ex-progress-arc {
+  0% {
+    stroke-dasharray: 1 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90 200;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes ex-progress-wave {
+  to {
+    mask-position: calc(-1 * var(--ex-wave-length, 40px)) 0;
+  }
+}
+
+/* A small spring "pop" for selection controls; replays each time it's applied. */
+@keyframes ex-pop {
+  from {
+    transform: scale(0.8);
+  }
+}
+@utility animate-pop {
+  animation: ex-pop var(--ex-spring-spatial-fast-duration) var(--ex-spring-spatial-fast-easing);
+}

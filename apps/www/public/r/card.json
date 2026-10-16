@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "card",
+  "type": "component",
+  "description": "Elevated, filled and outlined cards, optionally interactive.",
+  "files": [
+    {
+      "path": "card.tsx",
+      "target": "components",
+      "content": "import * as React from \"react\";\nimport { useRender } from \"@base-ui/react/use-render\";\nimport { mergeProps } from \"@base-ui/react/merge-props\";\nimport { type VariantProps, cva } from \"class-variance-authority\";\nimport { cn } from \"@/registry/lib/utils\";\n\nexport const cardVariants = cva(\"relative flex flex-col overflow-hidden text-on-surface\", {\n  variants: {\n    variant: {\n      elevated: \"bg-surface-container-low shadow-elevation-1\",\n      filled: \"bg-surface-container-highest\",\n      outlined: \"border border-outline-variant bg-surface\",\n    },\n    shape: {\n      small: \"rounded-shape-small\",\n      medium: \"rounded-shape-medium\",\n      large: \"rounded-shape-large\",\n      \"extra-large\": \"rounded-shape-extra-large\",\n      squircle: \"rounded-shape-extra-large corner-squircle\",\n      cut: \"rounded-shape-large corner-cut\",\n    },\n    interactive: {\n      true: \"state-layer focus-ring cursor-pointer text-left transition-[box-shadow,border-radius] spring-spatial-default active:rounded-shape-extra-large\",\n      false: \"\",\n    },\n  },\n  compoundVariants: [{ interactive: true, variant: \"elevated\", className: \"hover:shadow-elevation-2\" }],\n  defaultVariants: { variant: \"elevated\", shape: \"medium\", interactive: false },\n});\n\nexport interface CardProps extends useRender.ComponentProps<\"div\">, VariantProps<typeof cardVariants> {}\n\n/**\n * A surface for related content. Make the whole card actionable with\n * `interactive` and a `render` element, e.g. `render={<a href=\"/post\" />}`.\n */\nexport function Card({ className, variant, shape, interactive, render, ...props }: CardProps) {\n  return useRender({\n    defaultTagName: \"div\",\n    render,\n    props: mergeProps<\"div\">(\n      { \"data-slot\": \"card\", className: cn(cardVariants({ variant, shape, interactive }), className) } as React.ComponentProps<\"div\">,\n      props,\n    ),\n  });\n}\n\nexport function CardMedia({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-media\" className={cn(\"overflow-hidden [&>img]:size-full [&>img]:object-cover\", className)} {...props} />;\n}\n\nexport function CardHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-header\" className={cn(\"flex flex-col gap-1 px-4 pt-4\", className)} {...props} />;\n}\n\nexport function CardTitle({ className, ...props }: React.ComponentProps<\"h3\">) {\n  return <h3 data-slot=\"card-title\" className={cn(\"text-title-large text-on-surface\", className)} {...props} />;\n}\n\nexport function CardDescription({ className, ...props }: React.ComponentProps<\"p\">) {\n  return <p data-slot=\"card-description\" className={cn(\"text-body-medium text-on-surface-variant\", className)} {...props} />;\n}\n\nexport function CardContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-content\" className={cn(\"px-4 py-4 text-body-medium\", className)} {...props} />;\n}\n\nexport function CardActions({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-actions\" className={cn(\"flex items-center justify-end gap-2 px-4 pb-4\", className)} {...props} />;\n}\n",
+      "client": false
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0",
+    "class-variance-authority@^0.7.1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "styles"
+  ]
+}

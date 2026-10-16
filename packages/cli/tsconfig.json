@@ -1,0 +1,10 @@
+{
+  "extends": "../../tooling/tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": { "@/registry/*": ["../registry/src/*"] },
+    "types": ["node"]
+  },
+  "include": ["src", "test", "tsup.config.ts"]
+}

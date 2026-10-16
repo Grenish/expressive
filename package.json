@@ -1,0 +1,16 @@
+{
+  "name": "expressive-monorepo",
+  "private": true,
+  "packageManager": "pnpm@11.3.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "registry:build": "pnpm --filter @expressive/registry build"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.8",
+    "typescript": "^5.9.3"
+  }
+}

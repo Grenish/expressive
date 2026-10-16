@@ -1,0 +1,20 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "motion-adapter-gsap",
+  "type": "lib",
+  "description": "GSAP engine for the motion layer.",
+  "files": [
+    {
+      "path": "adapters/gsap.ts",
+      "target": "lib",
+      "content": "import gsap from \"gsap\";\nimport { springDuration, springEasing } from \"@/registry/lib/spring\";\nimport type { MotionAdapter } from \"./types\";\n\n/** GSAP engine. GSAP has no spring ease, so we pass the solved spring curve. */\nexport const adapter: MotionAdapter = {\n  name: \"gsap\",\n  animate(element, keyframes, { spring, delay = 0 }) {\n    const from: gsap.TweenVars = {};\n    const to: gsap.TweenVars = {};\n    for (const [property, values] of Object.entries(keyframes)) {\n      from[property] = values[0];\n      to[property] = values[values.length - 1];\n    }\n    let resolve!: () => void;\n    const finished = new Promise<void>((r) => (resolve = r));\n    const tween = gsap.fromTo(element, from, {\n      ...to,\n      duration: springDuration(spring) / 1000,\n      ease: springEasing(spring),\n      delay: delay / 1000,\n      onComplete: resolve,\n      onInterrupt: resolve,\n    });\n    return { finished, cancel: () => tween.kill() };\n  },\n};\n",
+      "client": false
+    }
+  ],
+  "dependencies": [
+    "gsap@^3.13.0"
+  ],
+  "registryDependencies": [
+    "motion"
+  ]
+}

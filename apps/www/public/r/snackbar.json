@@ -1,0 +1,21 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "snackbar",
+  "type": "component",
+  "description": "One-at-a-time snackbars with an optional action, via useSnackbar().",
+  "files": [
+    {
+      "path": "snackbar.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Toast } from \"@base-ui/react/toast\";\nimport { cn } from \"@/registry/lib/utils\";\n\n/*\n * Snackbars: brief messages at the bottom of the screen, one at a time.\n *\n *   <SnackbarProvider>…app…</SnackbarProvider>\n *   const snackbar = useSnackbar();\n *   snackbar.show({ message: \"Photo deleted\", action: { label: \"Undo\", onClick: restore } });\n */\n\nexport interface SnackbarOptions {\n  message: React.ReactNode;\n  action?: { label: string; onClick: () => void };\n  /** Show a close icon (recommended for long or actionable messages). */\n  closable?: boolean;\n  /** ms before auto-dismiss; 0 keeps it open. Defaults to 4000, or 8000 with an action. */\n  timeout?: number;\n}\n\ninterface SnackbarData {\n  closable?: boolean;\n}\n\nexport function useSnackbar() {\n  const manager = Toast.useToastManager<SnackbarData>();\n  return React.useMemo(\n    () => ({\n      show: ({ message, action, closable, timeout }: SnackbarOptions) => {\n        // Using the action also dismisses the snackbar.\n        let id = \"\";\n        id = manager.add({\n          description: message,\n          timeout: timeout ?? (action ? 8000 : 4000),\n          // Default (polite) priority: \"high\" hides the toast from assistive tech\n          // until focused, which would make the action hard to reach.\n          actionProps: action\n            ? {\n                children: action.label,\n                onClick: () => {\n                  action.onClick();\n                  manager.close(id);\n                },\n              }\n            : undefined,\n          data: { closable },\n        });\n        return id;\n      },\n      dismiss: (id?: string) => manager.close(id),\n    }),\n    [manager],\n  );\n}\n\nexport interface SnackbarProviderProps {\n  children: React.ReactNode;\n  className?: string;\n}\n\nexport function SnackbarProvider({ children, className }: SnackbarProviderProps) {\n  return (\n    <Toast.Provider limit={1}>\n      {children}\n      <Toast.Portal>\n        <Toast.Viewport\n          className={cn(\"fixed inset-x-0 bottom-4 z-50 mx-auto flex w-[calc(100vw-2rem)] max-w-[42rem] justify-center sm:bottom-6\", className)}\n        >\n          <SnackbarList />\n        </Toast.Viewport>\n      </Toast.Portal>\n    </Toast.Provider>\n  );\n}\n\nfunction SnackbarList() {\n  const { toasts } = Toast.useToastManager<SnackbarData>();\n  return toasts.map((toast) => (\n    <Toast.Root\n      key={toast.id}\n      toast={toast}\n      data-slot=\"snackbar\"\n      className={cn(\n        \"absolute bottom-0 flex min-h-12 w-full max-w-[42rem] items-center gap-2 rounded-shape-extra-small bg-inverse-surface py-1 pr-2 pl-4 text-body-medium text-inverse-on-surface shadow-elevation-3 sm:w-auto sm:min-w-[22rem]\",\n        \"[transform:translateY(var(--toast-swipe-movement-y))] transition-[transform,opacity] spring-spatial-default\",\n        \"data-starting-style:translate-y-4 data-starting-style:opacity-0 data-ending-style:opacity-0 data-limited:opacity-0\",\n      )}\n    >\n      <Toast.Description className=\"flex-1 py-2.5\" />\n      <Toast.Action className=\"state-layer focus-ring h-10 shrink-0 cursor-pointer rounded-shape-full px-3 text-label-large text-inverse-primary\" />\n      {toast.data?.closable && (\n        <Toast.Close\n          aria-label=\"Dismiss\"\n          className=\"state-layer focus-ring flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-shape-full\"\n        >\n          <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"currentColor\" className=\"size-6\">\n            <path d=\"M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z\" />\n          </svg>\n        </Toast.Close>\n      )}\n    </Toast.Root>\n  ));\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "styles"
+  ]
+}

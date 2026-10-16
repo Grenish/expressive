@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "../../../packages/registry/src/styles/expressive.css";
+
+@source "../../../packages/registry/src";
+
+@theme inline {
+  --font-mono: var(--font-code), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}

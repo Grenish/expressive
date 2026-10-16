@@ -1,0 +1,18 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "theme-provider",
+  "type": "lib",
+  "description": "Apply a theme at runtime (e.g. a user-picked seed color).",
+  "files": [
+    {
+      "path": "theme-provider.tsx",
+      "target": "lib",
+      "content": "import * as React from \"react\";\nimport { type Theme, themeToCss } from \"@/registry/tokens/theme\";\n\ninterface ThemeProviderProps {\n  /** A theme from `createTheme()`. */\n  theme: Theme;\n  children?: React.ReactNode;\n}\n\n/**\n * Applies a theme at runtime by injecting its CSS variables. Use it when the\n * theme changes while the app runs (user-picked seed, per-tenant brand);\n * otherwise prefer the static CSS written by `expressive init`.\n */\nexport function ThemeProvider({ theme, children }: ThemeProviderProps) {\n  const css = React.useMemo(() => themeToCss(theme), [theme]);\n  return (\n    <>\n      <style data-expressive-theme=\"\">{css}</style>\n      {children}\n    </>\n  );\n}\n",
+      "client": false
+    }
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "tokens"
+  ]
+}

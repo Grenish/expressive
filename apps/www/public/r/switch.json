@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "switch",
+  "type": "component",
+  "description": "M3 switch with growing handle and optional icons.",
+  "files": [
+    {
+      "path": "switch.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport { Switch as BaseSwitch } from \"@base-ui/react/switch\";\nimport { cn } from \"@/registry/lib/utils\";\nimport type { MotionProp } from \"@/registry/lib/use-motion\";\n\nexport interface SwitchProps extends Omit<BaseSwitch.Root.Props, \"className\"> {\n  className?: string;\n  /** Show check / close icons inside the handle. */\n  icons?: boolean;\n  motion?: MotionProp;\n}\n\n/*\n * M3 switch: 52×32 track. The handle grows from 16px (off) to 24px (on),\n * and to 28px while pressed; position and size move on a spatial spring.\n */\nexport function Switch({ className, icons = false, motion, ...props }: SwitchProps) {\n  return (\n    <BaseSwitch.Root\n      data-slot=\"switch\"\n      data-motion={motion}\n      className={cn(\n        \"group focus-ring relative inline-flex h-8 w-13 shrink-0 cursor-pointer items-center rounded-shape-full\",\n        \"border-2 border-outline bg-surface-container-highest\",\n        \"transition-[background-color,border-color] spring-effects-default\",\n        \"data-checked:border-primary data-checked:bg-primary\",\n        \"data-disabled:cursor-default data-disabled:opacity-(--ex-disabled-content)\",\n        className,\n      )}\n      {...props}\n    >\n      <BaseSwitch.Thumb\n        data-slot=\"switch-thumb\"\n        className={cn(\n          // A 40px state-layer target centered on the handle.\n          \"state-layer pointer-events-none absolute top-1/2 left-3.5 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-shape-full text-on-surface\",\n          \"transition-[left] spring-spatial-fast\",\n          \"group-data-checked:left-[calc(100%-0.875rem)] group-data-checked:text-primary\",\n          \"group-hover:before:opacity-(--ex-state-hover) group-focus-visible:before:opacity-(--ex-state-focus) group-active:before:opacity-(--ex-state-pressed)\",\n        )}\n      >\n        <span\n          className={cn(\n            \"flex size-4 items-center justify-center rounded-shape-full bg-outline text-surface-container-highest\",\n            \"transition-[width,height,background-color] spring-spatial-fast\",\n            \"group-data-checked:size-6 group-data-checked:bg-on-primary group-data-checked:text-on-primary-container\",\n            \"group-active:size-7 group-hover:group-data-unchecked:bg-on-surface-variant group-data-checked:group-hover:bg-primary-container\",\n            icons && \"size-6\",\n            \"[&_svg]:size-4\",\n          )}\n        >\n          {icons && (\n            <>\n              <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" className=\"hidden group-data-checked:block\" fill=\"currentColor\">\n                <path d=\"M9.55 18 3.85 12.3l1.43-1.43 4.27 4.28 9.17-9.18 1.43 1.43Z\" />\n              </svg>\n              <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" className=\"block group-data-checked:hidden\" fill=\"currentColor\">\n                <path d=\"M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z\" />\n              </svg>\n            </>\n          )}\n        </span>\n      </BaseSwitch.Thumb>\n    </BaseSwitch.Root>\n  );\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "motion",
+    "styles"
+  ]
+}

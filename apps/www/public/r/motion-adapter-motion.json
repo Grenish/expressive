@@ -1,0 +1,20 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "motion-adapter-motion",
+  "type": "lib",
+  "description": "Motion (formerly Framer Motion) engine for the motion layer.",
+  "files": [
+    {
+      "path": "adapters/motion.ts",
+      "target": "lib",
+      "content": "import { animate } from \"motion\";\nimport type { MotionAdapter } from \"./types\";\n\n/** Motion (formerly Framer Motion) engine using real spring physics. */\nexport const adapter: MotionAdapter = {\n  name: \"motion\",\n  animate(element, keyframes, { spring, delay = 0 }) {\n    const controls = animate(element, keyframes, {\n      type: \"spring\",\n      stiffness: spring.stiffness,\n      damping: 2 * spring.dampingRatio * Math.sqrt(spring.stiffness),\n      mass: 1,\n      delay: delay / 1000,\n    });\n    return {\n      finished: controls.finished.then(() => undefined),\n      cancel: () => controls.stop(),\n    };\n  },\n};\n",
+      "client": false
+    }
+  ],
+  "dependencies": [
+    "motion@^12.23.0"
+  ],
+  "registryDependencies": [
+    "motion"
+  ]
+}

@@ -1,0 +1,443 @@
+[
+  {
+    "name": "utils",
+    "type": "lib",
+    "description": "cn() class merging helper aware of Expressive type roles.",
+    "internal": true,
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "utils.ts",
+        "target": "lib"
+      }
+    ]
+  },
+  {
+    "name": "motion",
+    "type": "token",
+    "description": "Motion tokens, spring physics, the adapter contract and the default CSS engine.",
+    "internal": true,
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "motion.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "spring.ts",
+        "target": "lib"
+      },
+      {
+        "path": "adapters/types.ts",
+        "target": "lib"
+      },
+      {
+        "path": "adapters/css.ts",
+        "target": "lib"
+      },
+      {
+        "path": "use-motion.ts",
+        "target": "lib"
+      },
+      {
+        "path": "use-reduced-motion.ts",
+        "target": "lib"
+      }
+    ]
+  },
+  {
+    "name": "motion-adapter-motion",
+    "type": "lib",
+    "description": "Motion (formerly Framer Motion) engine for the motion layer.",
+    "internal": false,
+    "registryDependencies": [
+      "motion"
+    ],
+    "files": [
+      {
+        "path": "adapters/motion.ts",
+        "target": "lib"
+      }
+    ]
+  },
+  {
+    "name": "motion-adapter-gsap",
+    "type": "lib",
+    "description": "GSAP engine for the motion layer.",
+    "internal": false,
+    "registryDependencies": [
+      "motion"
+    ],
+    "files": [
+      {
+        "path": "adapters/gsap.ts",
+        "target": "lib"
+      }
+    ]
+  },
+  {
+    "name": "tokens",
+    "type": "token",
+    "description": "Color, typography, shape, elevation, spacing and interaction tokens plus createTheme().",
+    "internal": true,
+    "registryDependencies": [
+      "motion"
+    ],
+    "files": [
+      {
+        "path": "colors.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "typography.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "shape.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "elevation.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "spacing.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "interaction.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "theme.ts",
+        "target": "tokens"
+      }
+    ]
+  },
+  {
+    "name": "styles",
+    "type": "style",
+    "description": "Tailwind v4 bridge: maps --ex-* variables to utilities, plus state-layer/focus-ring/spring utilities.",
+    "internal": true,
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "expressive.css",
+        "target": "styles"
+      }
+    ]
+  },
+  {
+    "name": "theme-provider",
+    "type": "lib",
+    "description": "Apply a theme at runtime (e.g. a user-picked seed color).",
+    "internal": false,
+    "registryDependencies": [
+      "tokens"
+    ],
+    "files": [
+      {
+        "path": "theme-provider.tsx",
+        "target": "lib"
+      }
+    ]
+  },
+  {
+    "name": "ripple",
+    "type": "component",
+    "description": "Pointer-origin ripple driven by the motion adapter.",
+    "internal": true,
+    "registryDependencies": [
+      "motion"
+    ],
+    "files": [
+      {
+        "path": "ripple.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "button",
+    "type": "component",
+    "description": "Filled, tonal, outlined, text and elevated buttons with shape morphing and toggle mode.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "button.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "icon-button",
+    "type": "component",
+    "description": "Icon buttons in four styles and three widths, with toggle mode.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "icon-button.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "card",
+    "type": "component",
+    "description": "Elevated, filled and outlined cards, optionally interactive.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "card.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "dialog",
+    "type": "component",
+    "description": "Modal dialog with focus trapping and spring enter/exit transitions.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "dialog.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "switch",
+    "type": "component",
+    "description": "M3 switch with growing handle and optional icons.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "switch.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "checkbox",
+    "type": "component",
+    "description": "Checkbox with a springy check mark, indeterminate and error states.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "checkbox.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "radio-group",
+    "type": "component",
+    "description": "Radio buttons with arrow-key navigation.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "radio-group.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "slider",
+    "type": "component",
+    "description": "Expressive slider with a bar handle; single value or range.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "slider.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "text-field",
+    "type": "component",
+    "description": "Filled and outlined text fields with floating labels, icons, supporting and error text.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "text-field.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "fab",
+    "type": "component",
+    "description": "Floating action buttons in three sizes, plus the extended FAB.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "fab.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "chip",
+    "type": "component",
+    "description": "Assist, suggestion, filter and input chips.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "chip.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "navigation-bar",
+    "type": "component",
+    "description": "Bottom navigation bar with a springy active indicator and badges.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "navigation-bar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "navigation-rail",
+    "type": "component",
+    "description": "Collapsed or expanded navigation rail for larger screens.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "navigation-bar",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "navigation-rail.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "top-app-bar",
+    "type": "component",
+    "description": "Small, center-aligned, medium and large top app bars that tint on scroll.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "top-app-bar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "snackbar",
+    "type": "component",
+    "description": "One-at-a-time snackbars with an optional action, via useSnackbar().",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "snackbar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "progress",
+    "type": "component",
+    "description": "Linear (including wavy) and circular progress, determinate or indeterminate.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "progress.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "tooltip",
+    "type": "component",
+    "description": "Plain and rich tooltips.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "tooltip.tsx",
+        "target": "components"
+      }
+    ]
+  }
+]

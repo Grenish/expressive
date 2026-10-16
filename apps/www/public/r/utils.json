@@ -1,0 +1,19 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "utils",
+  "type": "lib",
+  "description": "cn() class merging helper aware of Expressive type roles.",
+  "files": [
+    {
+      "path": "utils.ts",
+      "target": "lib",
+      "content": "import { type ClassValue, clsx } from \"clsx\";\nimport { extendTailwindMerge } from \"tailwind-merge\";\n\nconst typeRoles = [\"display\", \"headline\", \"title\", \"body\", \"label\"].flatMap((role) =>\n  [\"large\", \"medium\", \"small\"].flatMap((size) => [`${role}-${size}`, `${role}-${size}-emphasized`]),\n);\n\n/** tailwind-merge that knows `text-title-large` is a font size, not a color. */\nconst twMerge = extendTailwindMerge({\n  extend: { classGroups: { \"font-size\": [{ text: typeRoles }] } },\n});\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
+      "client": false
+    }
+  ],
+  "dependencies": [
+    "clsx@^2.1.1",
+    "tailwind-merge@^3.3.0"
+  ],
+  "registryDependencies": []
+}

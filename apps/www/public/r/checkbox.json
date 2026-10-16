@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "component",
+  "description": "Checkbox with a springy check mark, indeterminate and error states.",
+  "files": [
+    {
+      "path": "checkbox.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport { Checkbox as BaseCheckbox } from \"@base-ui/react/checkbox\";\nimport { cn } from \"@/registry/lib/utils\";\nimport type { MotionProp } from \"@/registry/lib/use-motion\";\n\nexport interface CheckboxProps extends Omit<BaseCheckbox.Root.Props, \"className\"> {\n  className?: string;\n  motion?: MotionProp;\n}\n\n/*\n * Checkbox: a 20px squircle inside a 40px state-layer target. Checking pops\n * the box, softens its corners and draws the check mark in; pressing squishes\n * it. `indeterminate` draws a dash. Invalid fields turn it error red.\n */\nexport function Checkbox({ className, motion, ...props }: CheckboxProps) {\n  return (\n    <BaseCheckbox.Root\n      data-slot=\"checkbox\"\n      data-motion={motion}\n      className={cn(\n        \"group state-layer focus-ring relative inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-shape-full text-on-surface-variant\",\n        \"data-checked:text-primary data-indeterminate:text-primary data-invalid:text-error\",\n        \"data-disabled:cursor-default data-disabled:opacity-(--ex-disabled-content) data-disabled:before:hidden\",\n        className,\n      )}\n      {...props}\n    >\n      <span\n        className={cn(\n          // Border color is explicit: currentColor is the check mark's color.\n          \"flex size-5 items-center justify-center rounded-shape-extra-small corner-squircle border-2 border-on-surface-variant text-on-primary\",\n          \"transition-[background-color,border-color,border-radius,transform] spring-spatial-fast group-active:scale-90\",\n          \"group-data-invalid:border-error group-data-disabled:border-on-surface\",\n          \"group-data-checked:animate-pop group-data-indeterminate:animate-pop\",\n          \"group-data-checked:rounded-shape-small group-data-indeterminate:rounded-shape-small\",\n          \"group-data-checked:border-primary group-data-checked:bg-primary group-data-indeterminate:border-primary group-data-indeterminate:bg-primary\",\n          \"group-data-invalid:group-data-checked:border-error group-data-invalid:group-data-checked:bg-error group-data-invalid:text-on-error\",\n          \"group-data-disabled:group-data-checked:border-on-surface group-data-disabled:group-data-checked:bg-on-surface group-data-disabled:text-surface\",\n        )}\n      >\n        <BaseCheckbox.Indicator\n          keepMounted\n          className=\"flex\"\n          render={(indicatorProps, state) => (\n            <span {...indicatorProps}>\n              <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" strokeWidth={3} strokeLinecap=\"round\" strokeLinejoin=\"round\" className=\"size-4\">\n                {/* pathLength=1 lets the stroke \"draw\" via dashoffset 1 → 0. */}\n                <path\n                  d={state.indeterminate ? \"M6 12h12\" : \"M5 12.5l4.5 4.5L19 7.5\"}\n                  pathLength={1}\n                  strokeDasharray={1}\n                  className=\"[stroke-dashoffset:1] transition-[stroke-dashoffset] spring-effects-default group-data-checked:[stroke-dashoffset:0] group-data-indeterminate:[stroke-dashoffset:0]\"\n                />\n              </svg>\n            </span>\n          )}\n        />\n      </span>\n    </BaseCheckbox.Root>\n  );\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "motion",
+    "styles"
+  ]
+}
