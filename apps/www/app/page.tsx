@@ -1,126 +1,162 @@
 import Link from "next/link";
 import { Button } from "@/registry/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/components/card";
-import { CodeBlock } from "@/components/code-block";
-import { Demo } from "@/components/demos";
+import { Code } from "@/components/code";
+import { ColorRoles } from "@/components/docs/foundations";
+import { Icon } from "@/components/icons";
+import { SeedDial } from "@/components/landing/seed-dial";
+import { Gallery, HeroSpecimen, MotionShowcase, SeedHint, ShapeShowcase } from "@/components/landing/sections";
+import { GITHUB_URL, SiteHeader } from "@/components/site-header";
 import { TonalPalettes } from "@/components/theme-controls";
-import { components, groups, titles } from "@/lib/site";
 
-const ordered = groups.flatMap((group) => group.items).flatMap((name) => components.filter((item) => item.name === name));
-
-const principles = [
-  [
-    "Tokens, not values",
-    "Color, type, shape, motion, elevation and interaction are semantic tokens. Components never hardcode a value.",
-  ],
-  [
-    "Seed-based color",
-    "One seed color generates five tonal palettes and every color role, for light and dark, with Material's HCT algorithm.",
-  ],
-  [
-    "One motion layer",
-    "Springs live in motion.ts. Use CSS by default, or switch the whole app to Motion or GSAP with one import.",
-  ],
-  [
-    "You own the code",
-    "The CLI copies source into your project. Change anything — there's no package to fight.",
-  ],
-];
-
-export default function Home() {
+function Section({ id, title, lead, children }: { id: string; title: string; lead: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-12 pb-16">
-      <section className="flex flex-col items-start gap-6 rounded-shape-extra-extra-large bg-primary-container p-8 text-on-primary-container sm:p-12">
-        <h1 className="max-w-3xl text-display-medium font-brand sm:text-display-large">
-          Material 3 Expressive, as code you own.
-        </h1>
-        <p className="max-w-2xl text-body-large">
-          Expressive brings Material&apos;s motion, color, shape and type
-          systems to React and Tailwind CSS, with shadcn/ui&apos;s copy-paste
-          model. Pick a seed color and every component follows.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Button
-            size="md"
-            render={<Link href="/docs/button" />}
-            nativeButton={false}
-          >
-            Browse components
-          </Button>
-          <Button
-            size="md"
-            variant="outlined"
-            render={<a href="#install" />}
-            nativeButton={false}
-            className="border-on-primary-container/40 text-on-primary-container"
-          >
-            Get started
-          </Button>
-        </div>
-      </section>
+    <section id={id} aria-labelledby={`${id}-title`} className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div className="flex flex-col gap-3">
+        <h2 id={`${id}-title`} className="font-display text-headline-large font-semibold tracking-tight text-balance">
+          {title}
+        </h2>
+        <p className="max-w-md text-body-large text-on-surface-variant">{lead}</p>
+      </div>
+      <div className="min-w-0">{children}</div>
+    </section>
+  );
+}
 
-      <section id="install" className="flex flex-col gap-4">
-        <h2 className="text-headline-medium font-brand">Get started</h2>
-        <p className="max-w-2xl text-body-large text-on-surface-variant">
-          Expressive needs React and Tailwind CSS v4. <code>init</code> writes{" "}
-          <code>expressive.json</code>, the token files, the motion layer and
-          your theme. <code>add</code> copies components in.
-        </p>
-        <CodeBlock
-          code={"npx expressive init\nnpx expressive add button dialog switch"}
-        />
-      </section>
-
-      <section className="grid gap-4 sm:grid-cols-2">
-        {principles.map(([title, body]) => (
-          <Card key={title} variant="filled" shape="large">
-            <CardHeader>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-on-surface-variant">
-              {body}
-            </CardContent>
-          </Card>
-        ))}
-      </section>
-
-      <section className="flex flex-col gap-4">
-        <h2 className="text-headline-medium font-brand">Tonal palettes</h2>
-        <p className="text-body-large text-on-surface-variant">
-          Generated from the seed color in the Theme panel.
-        </p>
-        <TonalPalettes />
-      </section>
-
-      {ordered.map((item) => (
-        <section key={item.name} className="flex flex-col gap-4">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 className="text-headline-medium font-brand">
-              {titles[item.name]}
-            </h2>
-            <Button
-              variant="text"
-              size="sm"
-              render={<Link href={`/docs/${item.name}`} />}
-              nativeButton={false}
+export default function Landing() {
+  return (
+    <>
+      <SiteHeader />
+      <main className="mx-auto flex max-w-7xl flex-col gap-28 px-4 pt-12 pb-24 lg:px-6 lg:pt-20">
+        {/* Hero: the seed dial re-themes everything on the page. */}
+        <section aria-labelledby="hero-title" className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
+          <div className="flex flex-col items-start gap-7">
+            <h1
+              id="hero-title"
+              className="font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.92] font-bold tracking-[-0.035em] text-balance text-on-surface [font-stretch:85%]"
             >
-              Docs
+              One color. <span className="text-primary">A whole</span> design system.
+            </h1>
+            <p className="max-w-xl text-body-large text-on-surface-variant sm:text-[1.125rem] sm:leading-7">
+              Expressive brings Material 3 Expressive&apos;s color, motion and shape to React and Tailwind CSS, as components you copy
+              into your app and own. Turn the dial: everything here is generated from that one seed.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button size="md" render={<Link href="/docs/installation" />} nativeButton={false} icon={<Icon name="terminal" />}>
+                Get started
+              </Button>
+              <Button size="md" variant="outlined" render={<Link href="/docs/components/button" />} nativeButton={false}>
+                Browse components
+              </Button>
+            </div>
+            <code className="rounded-shape-full bg-surface-container px-4 py-2 font-mono text-[13px] text-on-surface-variant">
+              <span className="text-primary">$</span> npx expressive init
+            </code>
+          </div>
+          <div className="flex flex-col gap-5">
+            <SeedDial />
+            <div className="text-center">
+              <SeedHint />
+            </div>
+            <HeroSpecimen />
+          </div>
+        </section>
+
+        <Section
+          id="color"
+          title="Every role, from one seed"
+          lead="Google's Material color algorithm turns your seed into five tonal palettes, then assigns each color role in light and dark. Contrast between a role and its on-role is built in."
+        >
+          <div className="flex flex-col gap-6">
+            <TonalPalettes />
+            <ColorRoles />
+          </div>
+        </Section>
+
+        <Section
+          id="motion"
+          title="Motion that springs"
+          lead="Movement uses Material's spring tokens instead of fixed durations. Same move, two schemes: expressive overshoots, standard settles. It all runs on CSS unless you pick Motion or GSAP."
+        >
+          <MotionShowcase />
+        </Section>
+
+        <Section
+          id="shape"
+          title="Shapes that respond"
+          lead="Corners are tokens, and they move. Press and hold a shape: it springs toward square, the way Expressive buttons do."
+        >
+          <ShapeShowcase />
+        </Section>
+
+        <Section
+          id="ownership"
+          title="The code is yours"
+          lead="The CLI copies each component's source into your project and rewrites imports to your paths. No package to upgrade around, nothing hidden in node_modules."
+        >
+          <div className="grid gap-4 xl:grid-cols-2">
+            <Code
+              lang="bash"
+              code={`npx expressive init
+npx expressive add button dialog
+npx expressive theme --seed "#0B57D0"
+npx expressive diff button`}
+            />
+            <Code
+              lang="bash"
+              title="your project"
+              code={`src/
+├── components/expressive/
+│   ├── button.tsx
+│   └── dialog.tsx
+└── lib/expressive/
+    ├── adapters/
+    └── tokens/
+        ├── colors.ts
+        └── motion.ts`}
+            />
+          </div>
+        </Section>
+
+        <section aria-labelledby="gallery-title" className="flex flex-col gap-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="gallery-title" className="font-display text-headline-large font-semibold tracking-tight">
+              17 components, all on Base UI
+            </h2>
+            <Button variant="text" render={<Link href="/docs/components/button" />} nativeButton={false}>
+              See them all
             </Button>
           </div>
-          <Card variant="outlined" shape="extra-large">
-            <CardContent className="p-6">
-              <Demo name={item.name as Parameters<typeof Demo>[0]["name"]} />
-            </CardContent>
-          </Card>
-          <CardDescription>{item.description}</CardDescription>
+          <Gallery />
         </section>
-      ))}
-    </div>
+
+        <section className="flex flex-col items-start gap-6 rounded-shape-extra-extra-large bg-primary-container p-8 text-on-primary-container sm:p-12">
+          <h2 className="max-w-2xl font-display text-display-small font-semibold tracking-tight text-balance">
+            Start with one command.
+          </h2>
+          <p className="max-w-xl text-body-large">Needs React 19 and Tailwind CSS v4. Works with Next.js, Vite, React Router, TanStack Start and Astro.</p>
+          <div className="flex flex-wrap gap-3">
+            <Button size="md" render={<Link href="/docs/installation" />} nativeButton={false}>
+              Read the installation guide
+            </Button>
+            <Button size="md" variant="text" render={<a href={GITHUB_URL} />} nativeButton={false} icon={<Icon name="github" />} className="text-on-primary-container">
+              View on GitHub
+            </Button>
+          </div>
+        </section>
+      </main>
+      <footer className="border-t border-outline-variant/50">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-body-small text-on-surface-variant lg:px-6">
+          <span>Expressive is MIT licensed. Inspired by Material 3 Expressive; not affiliated with Google.</span>
+          <nav aria-label="Footer" className="flex gap-4">
+            <Link className="focus-ring rounded-shape-extra-small hover:text-on-surface" href="/docs">
+              Docs
+            </Link>
+            <a className="focus-ring rounded-shape-extra-small hover:text-on-surface" href={GITHUB_URL}>
+              GitHub
+            </a>
+          </nav>
+        </div>
+      </footer>
+    </>
   );
 }

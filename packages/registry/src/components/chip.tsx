@@ -81,7 +81,8 @@ export function FilterChip({ className, appearance = "outlined", icon, motion, d
       className={cn(
         base,
         surface[appearance],
-        "group pl-2",
+        // Symmetric 16px padding until a leading icon or the check mark takes the space.
+        icon ? "group pl-2" : "group data-pressed:pl-2",
         "data-pressed:border-transparent data-pressed:bg-secondary-container data-pressed:text-on-secondary-container",
         className,
       )}

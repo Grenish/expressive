@@ -10,3 +10,24 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Shiki output: let our surface show through; swap to dark token colors in dark mode. */
+.code-block .shiki {
+  background-color: transparent !important;
+}
+.dark .code-block .shiki,
+.dark .code-block .shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+.font-display {
+  font-family: var(--font-bricolage), var(--ex-font-brand);
+  font-optical-sizing: auto;
+}
+
+/* Docs: dot travelling along a track with a spring easing. */
+@keyframes ex-spring-demo {
+  to {
+    left: calc(100% - 1.25rem);
+  }
+}
