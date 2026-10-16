@@ -57,3 +57,30 @@ export function springToLinear(spring: Spring, samples = 40): string {
   points[points.length - 1] = 1;
   return `linear(${points.join(", ")})`;
 }
+
+export interface SpringState {
+  value: number;
+  velocity: number;
+}
+
+/**
+ * Advance a spring by `dt` seconds toward `target` (semi-implicit Euler with
+ * ~1ms substeps, stable for every Expressive spring). Mutates and returns `state`.
+ */
+export function stepSpring(state: SpringState, target: number, { dampingRatio, stiffness }: Spring, dt: number): SpringState {
+  const damping = 2 * dampingRatio * Math.sqrt(stiffness);
+  const steps = Math.max(1, Math.ceil(dt / 0.001));
+  const h = dt / steps;
+  for (let i = 0; i < steps; i++) {
+    const acceleration = -stiffness * (state.value - target) - damping * state.velocity;
+    state.velocity += acceleration * h;
+    state.value += state.velocity * h;
+  }
+  return state;
+}
+
+/** At rest: close to the target and barely moving (relative to the travel). */
+export function springSettled(state: SpringState, target: number, travel: number): boolean {
+  const scale = Math.max(Math.abs(travel), 1e-3);
+  return Math.abs(state.value - target) < scale * 0.002 && Math.abs(state.velocity) < scale * 0.02;
+}

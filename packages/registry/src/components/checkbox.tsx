@@ -1,6 +1,8 @@
 "use client";
 
+import * as React from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
+import { useComposedRef, useFluidPop } from "@/registry/lib/use-fluid";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
 
@@ -14,9 +16,13 @@ export interface CheckboxProps extends Omit<BaseCheckbox.Root.Props, "className"
  * the box, softens its corners and draws the check mark in; pressing squishes
  * it. `indeterminate` draws a dash. Invalid fields turn it error red.
  */
-export function Checkbox({ className, motion, ...props }: CheckboxProps) {
+export function Checkbox({ className, motion, ref, ...props }: CheckboxProps) {
+  const root = React.useRef<HTMLElement>(null);
+  const box = React.useRef<HTMLSpanElement>(null);
+  useFluidPop(root, { attributes: ["data-checked", "data-indeterminate"], target: box, from: 0.6, motion });
   return (
     <BaseCheckbox.Root
+      ref={useComposedRef(root, ref)}
       data-slot="checkbox"
       data-motion={motion}
       className={cn(
@@ -28,12 +34,15 @@ export function Checkbox({ className, motion, ...props }: CheckboxProps) {
       {...props}
     >
       <span
+        ref={box}
         className={cn(
           // Border color is explicit: currentColor is the check mark's color.
           "flex size-5 items-center justify-center rounded-shape-extra-small corner-squircle border-2 border-on-surface-variant text-on-primary",
           "transition-[background-color,border-color,border-radius,transform] spring-spatial-fast group-active:scale-90",
           "group-data-invalid:border-error group-data-disabled:border-on-surface",
           "group-data-checked:animate-pop group-data-indeterminate:animate-pop",
+          // Fluid: the jelly pop is script-driven, so drop the CSS pop and transform transition.
+          "fluid:animate-none! fluid:transition-[background-color,border-color,border-radius] fluid:group-active:scale-100",
           "group-data-checked:rounded-shape-small group-data-indeterminate:rounded-shape-small",
           "group-data-checked:border-primary group-data-checked:bg-primary group-data-indeterminate:border-primary group-data-indeterminate:bg-primary",
           "group-data-invalid:group-data-checked:border-error group-data-invalid:group-data-checked:bg-error group-data-invalid:text-on-error",

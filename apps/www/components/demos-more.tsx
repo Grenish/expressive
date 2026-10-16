@@ -15,6 +15,9 @@ import { TopAppBar } from "@/registry/components/top-app-bar";
 import { CircularProgress, LinearProgress } from "@/registry/components/progress";
 import { RichTooltip, Tooltip } from "@/registry/components/tooltip";
 import { useSnackbar } from "@/registry/components/snackbar";
+import { Shape } from "@/registry/components/shape";
+import { Loading } from "@/registry/components/loading";
+import { type MaterialShapeName, shapeLabels, shapeNames } from "@/registry/tokens/material-shapes";
 import { Icon } from "@/components/icons";
 
 /* Demos render inside an outlined card on `surface`. */
@@ -326,6 +329,109 @@ export function TooltipDemo() {
       >
         <Button variant="outlined" icon={<Icon name="info" />}>Rich tooltip</Button>
       </RichTooltip>
+    </div>
+  );
+}
+
+/** All 35 shapes; picking one morphs the big preview into it. */
+export function ShapeGallery({ compact = false }: { compact?: boolean }) {
+  const [current, setCurrent] = React.useState<MaterialShapeName>("flower");
+  return (
+    <div className={compact ? "flex flex-col gap-6" : "grid gap-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]"}>
+      <div className="flex flex-col items-center justify-center gap-3 rounded-shape-extra-large bg-surface-container p-6">
+        <Shape name={current} className="size-40 text-primary" label={shapeLabels[current]} />
+        <span className="text-title-medium text-on-surface">{shapeLabels[current]}</span>
+        <code className="text-label-medium text-on-surface-variant">{`<Shape name="${current}" />`}</code>
+      </div>
+      <div role="radiogroup" aria-label="Shape" className="grid grid-cols-5 gap-2 sm:grid-cols-7">
+        {shapeNames.map((name) => (
+          <button
+            key={name}
+            type="button"
+            role="radio"
+            aria-checked={current === name}
+            aria-label={shapeLabels[name]}
+            title={shapeLabels[name]}
+            onClick={() => setCurrent(name)}
+            className="state-layer focus-ring flex aspect-square cursor-pointer items-center justify-center rounded-shape-large text-on-surface-variant aria-checked:bg-secondary-container aria-checked:text-on-secondary-container"
+          >
+            <Shape name={name} className="size-3/5" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ShapeDemo() {
+  return (
+    <div className="flex flex-col gap-8">
+      <ShapeGallery />
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="size-20 bg-linear-to-br from-primary to-tertiary shape-cookie-9" />
+        <div className="size-20 bg-linear-to-br from-secondary to-primary shape-clover-4" />
+        <div className="size-20 bg-linear-to-br from-tertiary to-secondary shape-soft-burst" />
+        <p className="max-w-xs text-body-small text-on-surface-variant">
+          The same shapes as Tailwind masks: <code>shape-cookie-9</code>, <code>shape-clover-4</code>, <code>shape-soft-burst</code>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function DemoCell({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex min-h-36 flex-col items-center justify-between gap-4 rounded-shape-large bg-surface-container-low p-4">
+      <div className="flex flex-1 items-center justify-center">{children}</div>
+      <span className="text-label-medium text-on-surface-variant">{title}</span>
+    </div>
+  );
+}
+
+export function LoadingDemo() {
+  const [value, setValue] = React.useState(20);
+  React.useEffect(() => {
+    const id = setInterval(() => setValue((v) => (v >= 100 ? 5 : Math.min(100, v + 11))), 900);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <DemoCell title="circular · label">
+        <Loading variant="circular" label="Loading…" size={40} />
+      </DemoCell>
+      <DemoCell title="wavy">
+        <Loading variant="wavy" />
+      </DemoCell>
+      <DemoCell title="wavy · label below">
+        <Loading variant="wavy" label="Syncing photos" labelPosition="bottom" />
+      </DemoCell>
+      <DemoCell title="morph (M3 Expressive)">
+        <Loading variant="morph" />
+      </DemoCell>
+      <DemoCell title="morph · contained">
+        <Loading variant="morph" contained size={56} />
+      </DemoCell>
+      <DemoCell title="shape · flower">
+        <Loading variant="shape" shape="flower" size={52} />
+      </DemoCell>
+      <DemoCell title="shape · contained heart">
+        <Loading variant="shape" shape="heart" contained size={56} />
+      </DemoCell>
+      <DemoCell title="dots">
+        <Loading variant="dots" shape="cookie-4" label="Thinking" />
+      </DemoCell>
+      <DemoCell title="pulse">
+        <Loading variant="pulse" shape="sunny" size={44} />
+      </DemoCell>
+      <DemoCell title={`circular · ${value}%`}>
+        <Loading variant="circular" value={value} aria-label="Upload" />
+      </DemoCell>
+      <DemoCell title={`wavy · ${value}%`}>
+        <Loading variant="wavy" value={value} size={56} aria-label="Download" />
+      </DemoCell>
+      <DemoCell title="custom morph sequence">
+        <Loading variant="morph" shapes={["heart", "flower", "clover-4", "burst"]} />
+      </DemoCell>
     </div>
   );
 }

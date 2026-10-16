@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "tooltip",
   "type": "component",
   "description": "Plain and rich tooltips.",

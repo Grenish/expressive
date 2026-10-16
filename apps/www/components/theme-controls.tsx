@@ -95,6 +95,7 @@ export function ThemeControls() {
           >
             <option value="expressive">expressive</option>
             <option value="standard">standard</option>
+            <option value="fluid">fluid</option>
           </select>
         </label>
         <label className={field}>
@@ -107,11 +108,17 @@ export function ThemeControls() {
             }
           >
             {Object.keys(engines).map((name) => (
-              <option key={name}>{name}</option>
+              <option key={name} disabled={state.motion === "fluid" && name === "css"}>
+                {name}
+              </option>
             ))}
           </select>
         </label>
       </div>
+
+      {state.motion === "fluid" && (
+        <p className="-mt-2 text-body-small text-on-surface-variant">Fluid runs on Motion or GSAP; CSS can&apos;t track velocity.</p>
+      )}
 
       <label className="flex items-center justify-between gap-4 text-body-large text-on-surface">
         Dark theme

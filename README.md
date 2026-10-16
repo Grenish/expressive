@@ -4,10 +4,10 @@ Material 3 Expressive design language, shadcn/ui ownership model. A CLI copies
 token-driven React components into your project, and you own the code.
 
 ```bash
-npx expressive init                       # config, tokens, motion layer, theme from a seed color
-npx expressive add button dialog switch   # copy components in
-npx expressive theme --seed "#0B57D0"     # regenerate the theme
-npx expressive diff button                # compare your copy with the registry
+npx @grenishrai/expressive init                       # config, tokens, motion layer, theme from a seed color
+npx @grenishrai/expressive add button dialog switch   # copy components in
+npx @grenishrai/expressive theme --seed "#0B57D0"     # regenerate the theme
+npx @grenishrai/expressive diff button                # compare your copy with the registry
 ```
 
 Requires React 19 and Tailwind CSS v4.
@@ -18,7 +18,7 @@ Requires React 19 and Tailwind CSS v4.
 | --- | --- |
 | `packages/registry/src/tokens` | `colors` (seed → palettes/roles via material-color-utilities), `typography`, `shape`, `motion`, `elevation`, `spacing`, `interaction`, `theme` (`createTheme`, `themeToCss`) |
 | `packages/registry/src/lib` | spring physics, motion adapters (`css`, `motion`, `gsap`), `useMotion`, `ThemeProvider`, `cn` |
-| `packages/registry/src/components` | Button, IconButton, FAB, Chips, Checkbox, RadioGroup, Slider, Switch, TextField, NavigationBar, NavigationRail, TopAppBar, Card, Dialog, Progress, Snackbar, Tooltip (Base UI primitives) |
+| `packages/registry/src/components` | Button, IconButton, FAB, Chips, Checkbox, RadioGroup, Slider, Switch, TextField, NavigationBar, NavigationRail, TopAppBar, Card, Dialog, Shape, Loading, Progress, Snackbar, Tooltip (Base UI primitives) |
 | `packages/registry/src/styles` | `expressive.css`: Tailwind v4 bridge (generated) + state-layer/focus-ring/spring utilities |
 | `packages/registry/registry.ts` | item manifest → `apps/www/public/r/*.json` |
 | `packages/cli` | the `expressive` CLI |
@@ -36,7 +36,7 @@ pnpm --filter @expressive/www dev
 Try the CLI against the local registry:
 
 ```bash
-pnpm --filter expressive build
+pnpm --filter @grenishrai/expressive build
 node packages/cli/dist/index.js init --registry ./apps/www/public/r --cwd ../my-app
 ```
 

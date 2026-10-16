@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Code } from "@/components/code";
 import { C, Callout, DocsPage, H2, P, Preview } from "@/components/docs/prose";
 import { CornerScale, ShapeStyles } from "@/components/docs/foundations";
+import { ShapeGallery } from "@/components/demos-more";
+import { TextLink } from "@/components/docs/prose";
 
 export const metadata: Metadata = { title: "Shape" };
 
@@ -43,6 +45,23 @@ export default function Shape() {
         stays round for most of the animation, then snaps, and its overshoot can briefly clamp to a sharp square.{" "}
         <C>rounded-pill</C> uses half the control&apos;s real height instead (from <C>--ex-control-height</C>), so the morph stays
         smooth. Use it for anything round that changes shape.
+      </P>
+
+      <H2>Material shapes</H2>
+      <P>
+        Beyond corners, M3 Expressive has a library of 35 shapes, from the cookies and clovers to the burst, flower and heart. Pick
+        one to see the preview morph into it.
+      </P>
+      <Preview>
+        <ShapeGallery />
+      </Preview>
+      <Code
+        code={`<Shape name="cookie-9" className="size-24 text-primary" />
+<img src={photo} alt="" className="size-16 object-cover shape-clover-4" />`}
+      />
+      <P>
+        Add them with <C>npx @grenishrai/expressive add shape</C>. See the <TextLink href="/docs/components/shape">Shape component</TextLink>{" "}
+        for the full list of names and options.
       </P>
 
       <H2>Customizing</H2>

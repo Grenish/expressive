@@ -49,7 +49,7 @@ export default function Landing() {
               </Button>
             </div>
             <code className="rounded-shape-full bg-surface-container px-4 py-2 font-mono text-[13px] text-on-surface-variant">
-              <span className="text-primary">$</span> npx expressive init
+              <span className="text-primary">$</span> npx @grenishrai/expressive init
             </code>
           </div>
           <div className="flex flex-col gap-5">
@@ -75,7 +75,7 @@ export default function Landing() {
         <Section
           id="motion"
           title="Motion that springs"
-          lead="Movement uses Material's spring tokens instead of fixed durations. Same move, two schemes: expressive overshoots, standard settles. It all runs on CSS unless you pick Motion or GSAP."
+          lead="Movement uses spring physics instead of fixed durations. Same move, three schemes: expressive overshoots, standard settles, and fluid drifts like a droplet, stretching with speed and wobbling as it lands."
         >
           <MotionShowcase />
         </Section>
@@ -83,7 +83,7 @@ export default function Landing() {
         <Section
           id="shape"
           title="Shapes that respond"
-          lead="Corners are tokens, and they move. Press and hold a shape: it springs toward square, the way Expressive buttons do."
+          lead="All 35 Material 3 Expressive shapes, from cookies and clovers to the burst and the flower, morphing into each other on springs. And corners are tokens that move: press and hold a tile."
         >
           <ShapeShowcase />
         </Section>
@@ -96,10 +96,10 @@ export default function Landing() {
           <div className="grid gap-4 xl:grid-cols-2">
             <Code
               lang="bash"
-              code={`npx expressive init
-npx expressive add button dialog
-npx expressive theme --seed "#0B57D0"
-npx expressive diff button`}
+              code={`npx @grenishrai/expressive init
+npx @grenishrai/expressive add button dialog
+npx @grenishrai/expressive theme --seed "#0B57D0"
+npx @grenishrai/expressive diff button`}
             />
             <Code
               lang="bash"
@@ -120,7 +120,7 @@ npx expressive diff button`}
         <section aria-labelledby="gallery-title" className="flex flex-col gap-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 id="gallery-title" className="font-display text-headline-large font-semibold tracking-tight">
-              17 components, all on Base UI
+              19 components, all on Base UI
             </h2>
             <Button variant="text" render={<Link href="/docs/components/button" />} nativeButton={false}>
               See them all

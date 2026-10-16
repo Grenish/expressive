@@ -4,6 +4,7 @@ import * as React from "react";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import { useComposedRef, useFluidEnter } from "@/registry/lib/use-fluid";
 
 /*
  * Basic dialog. Base UI handles focus trapping, ARIA wiring, Escape and
@@ -19,7 +20,9 @@ export interface DialogContentProps extends BaseDialog.Popup.Props {
   className?: string;
 }
 
-export function DialogContent({ className, motion, children, ...props }: DialogContentProps) {
+export function DialogContent({ className, motion, children, ref, ...props }: DialogContentProps) {
+  const enter = useFluidEnter({ from: 0.55, motion });
+  const popupRef = useComposedRef(enter, ref);
   return (
     <BaseDialog.Portal>
       <BaseDialog.Backdrop
@@ -33,6 +36,7 @@ export function DialogContent({ className, motion, children, ...props }: DialogC
       />
       <BaseDialog.Viewport className="fixed inset-0 z-50 grid place-items-center p-6">
         <BaseDialog.Popup
+          ref={popupRef}
           data-slot="dialog"
           data-motion={motion}
           className={cn(
@@ -40,6 +44,8 @@ export function DialogContent({ className, motion, children, ...props }: DialogC
             "origin-top [transition:transform_var(--ex-spring-spatial-default-duration)_var(--ex-spring-spatial-default-easing),opacity_var(--ex-spring-effects-default-duration)_var(--ex-spring-effects-default-easing)]",
             "data-starting-style:-translate-y-4 data-starting-style:scale-y-75 data-starting-style:opacity-0",
             "data-ending-style:scale-95 data-ending-style:opacity-0",
+            // Fluid: the entrance is script-driven; CSS only fades.
+            "fluid:[transition:opacity_var(--ex-spring-effects-default-duration)_var(--ex-spring-effects-default-easing)] fluid:data-ending-style:scale-100",
             className,
           )}
           {...props}

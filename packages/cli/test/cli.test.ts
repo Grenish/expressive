@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import type { Config } from "../src/utils/config";
 import { resolveTree } from "../src/utils/registry";
-import { writeThemeToCss } from "../src/utils/theme";
+import { assertSchemeEngine } from "../src/utils/config";
+import { buildThemeCss, writeThemeToCss } from "../src/utils/theme";
 import { transform } from "../src/utils/transform";
 
 const registry = fileURLToPath(new URL("../../../apps/www/public/r", import.meta.url));
@@ -80,5 +81,20 @@ describe("writeThemeToCss", () => {
     expect(css).toContain("seed #B3261E");
     expect(css).toContain('--ex-font-brand: "Inter", ui-sans-serif');
     expect(css).toContain("body { margin: 0; }");
+  });
+});
+
+describe("fluid motion", () => {
+  it("rejects fluid on the CSS engine and allows it on Motion and GSAP", () => {
+    expect(() => assertSchemeEngine("fluid", "css")).toThrow(/needs the Motion or GSAP engine/);
+    expect(() => assertSchemeEngine("fluid", "motion")).not.toThrow();
+    expect(() => assertSchemeEngine("fluid", "gsap")).not.toThrow();
+    expect(() => assertSchemeEngine("expressive", "css")).not.toThrow();
+  });
+
+  it("writes the configured motion scheme into the theme", () => {
+    const css = buildThemeCss({ ...config().theme, motionScheme: "fluid" });
+    expect(css).toContain("--ex-motion-scheme: fluid;");
+    expect(buildThemeCss(config().theme)).toContain("--ex-motion-scheme: expressive;");
   });
 });

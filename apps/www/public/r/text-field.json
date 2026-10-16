@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "text-field",
   "type": "component",
   "description": "Filled and outlined text fields with floating labels, icons, supporting and error text.",

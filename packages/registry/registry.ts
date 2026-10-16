@@ -33,7 +33,7 @@ export const manifest: ManifestItem[] = [
   {
     name: "motion",
     type: "token",
-    description: "Motion tokens, spring physics, the adapter contract and the default CSS engine.",
+    description: "Motion tokens (expressive, standard, fluid), spring physics, fluid hooks, the adapter contract and the default CSS engine.",
     files: [
       { path: "tokens/motion.ts", target: "tokens" },
       { path: "lib/spring.ts", target: "lib" },
@@ -41,6 +41,8 @@ export const manifest: ManifestItem[] = [
       { path: "lib/adapters/css.ts", target: "lib" },
       { path: "lib/use-motion.ts", target: "lib" },
       { path: "lib/use-reduced-motion.ts", target: "lib" },
+      { path: "lib/fluid.ts", target: "lib" },
+      { path: "lib/use-fluid.ts", target: "lib" },
     ],
     internal: true,
   },
@@ -82,6 +84,16 @@ export const manifest: ManifestItem[] = [
     type: "style",
     description: "Tailwind v4 bridge: maps --ex-* variables to utilities, plus state-layer/focus-ring/spring utilities.",
     files: [{ path: "styles/expressive.css", target: "styles" }],
+    internal: true,
+  },
+  {
+    name: "material-shapes",
+    type: "token",
+    description: "The 35 Material 3 Expressive shapes as SVG paths, plus shapeMask() and the morph helpers.",
+    files: [
+      { path: "tokens/material-shapes.ts", target: "tokens" },
+      { path: "lib/shape-morph.ts", target: "lib" },
+    ],
     internal: true,
   },
   {
@@ -233,5 +245,19 @@ export const manifest: ManifestItem[] = [
     files: [{ path: "components/tooltip.tsx", target: "components" }],
     dependencies: [BASE_UI],
     registryDependencies: ["utils", "motion", "styles"],
+  },
+  {
+    name: "shape",
+    type: "component",
+    description: "All 35 Material 3 Expressive shapes (flower, cookies, bursts, clovers…) that morph into each other.",
+    files: [{ path: "components/shape.tsx", target: "components" }],
+    registryDependencies: ["material-shapes", "motion", "utils", "styles"],
+  },
+  {
+    name: "loading",
+    type: "component",
+    description: "Loading indicators: circular, wavy, the M3 Expressive shape morph, a spinning shape, bouncing dots and a pulse.",
+    files: [{ path: "components/loading.tsx", target: "components" }],
+    registryDependencies: ["shape", "motion", "utils", "styles"],
   },
 ];

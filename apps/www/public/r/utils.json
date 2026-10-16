@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "utils",
   "type": "lib",
   "description": "cn() class merging helper aware of Expressive type roles.",

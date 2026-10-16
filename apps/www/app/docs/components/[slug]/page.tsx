@@ -45,7 +45,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
       <P>{rich(doc.overview)}</P>
 
       <H2>Installation</H2>
-      <Code code={`npx expressive add ${slug}`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive add ${slug}`} lang="bash" />
       <P>
         This copies <C>{sources.map((s) => s.path.split("/").pop()).join(", ")}</C> into your components folder
         {item.registryDependencies?.length ? (

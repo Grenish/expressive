@@ -30,7 +30,7 @@ for (const item of manifest) {
     return { path: relative, target, content, client: content.startsWith('"use client"') };
   });
   const json = {
-    $schema: "https://expressive.dev/schema/registry-item.json",
+    $schema: "https://expressive.grenishrai.pro/schema/registry-item.json",
     name: item.name,
     type: item.type,
     description: item.description,

@@ -18,8 +18,8 @@ describe("corner animations", () => {
   for (const file of files) {
     it(`${file} never animates border-radius from rounded-shape-full`, () => {
       const source = readFileSync(join(root, file), "utf8");
-      // One region per element (className=…) or variant definition (cva(…)).
-      const regions = source.split(/className=|cva\(/).slice(1);
+      // One region per element (className=…), variant definition (cva(…)) or class list (cn(…)).
+      const regions = source.split(/className=|cva\(|cn\(/).slice(1);
       for (const region of regions) {
         if (/border-radius/.test(region)) {
           expect(region, `in ${file}`).not.toMatch(/(?<![\w-])(?:[\w-]+:)*rounded-shape-full/);

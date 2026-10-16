@@ -1,7 +1,10 @@
+"use client";
+
 import * as React from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { cn } from "@/registry/lib/utils";
+import { useFluidPop } from "@/registry/lib/use-fluid";
 
 /*
  * Bottom navigation bar (M3 Expressive "flexible" bar). Items are links:
@@ -54,10 +57,15 @@ export function Badge({ value }: { value: NonNullable<NavigationItemProps["badge
   );
 }
 
-export function NavigationBarItem({ className, icon, activeIcon, label, active = false, badge, render, ...props }: NavigationItemProps) {
+export function NavigationBarItem({ className, icon, activeIcon, label, active = false, badge, render, ref, ...props }: NavigationItemProps) {
+  const root = React.useRef<HTMLAnchorElement>(null);
+  const indicator = React.useRef<HTMLSpanElement>(null);
+  // Fluid: the indicator swells open with a jelly wobble.
+  useFluidPop(root, { attributes: ["data-active"], target: indicator, from: 0.35 });
   return useRender({
     defaultTagName: "a",
     render,
+    ref: [root, ref].filter(Boolean) as React.Ref<HTMLAnchorElement>[],
     props: mergeProps<"a">(
       {
         "data-slot": "navigation-bar-item",
@@ -73,8 +81,9 @@ export function NavigationBarItem({ className, icon, activeIcon, label, active =
             <span className="relative flex h-8 w-14 items-center justify-center [&_svg]:size-6">
               {/* Active indicator, plus a state layer that follows its shape. */}
               <span
+                ref={indicator}
                 aria-hidden="true"
-                className="absolute inset-0 scale-x-[0.4] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100"
+                className="absolute inset-0 scale-x-[0.4] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100 fluid:transition-opacity"
               />
               <span aria-hidden="true" className="state-layer absolute inset-0 rounded-shape-full group-hover:before:opacity-(--ex-state-hover) group-active:before:opacity-(--ex-state-pressed)" />
               <span className="relative flex group-data-active:text-on-secondary-container">

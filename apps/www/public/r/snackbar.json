@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "snackbar",
   "type": "component",
   "description": "One-at-a-time snackbars with an optional action, via useSnackbar().",

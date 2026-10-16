@@ -22,14 +22,14 @@ export default function Installation() {
       </List>
 
       <Callout title="Pre-release">
-        The <C>expressive</C> CLI isn&apos;t published to npm yet, and the hosted registry isn&apos;t live. Until then, run it from a
-        clone of the repository, as shown under <TextLink href="#run-from-source">Run from source</TextLink>.
+        The component registry is live at <C>expressive.grenishrai.pro/r</C>, but the CLI isn&apos;t published to npm yet. Until it
+        is, run it from a clone of the repository, as shown under <TextLink href="#run-from-source">Run from source</TextLink>.
       </Callout>
 
       <H2>1. Initialize</H2>
       <P>Run this in your project root:</P>
-      <Code code="npx expressive init" lang="bash" />
-      <P>It asks for five things, all changeable later:</P>
+      <Code code="npx @grenishrai/expressive init" lang="bash" />
+      <P>It asks for six things, all changeable later:</P>
       <List>
         <li>
           <strong>Seed color</strong>: the hex color your whole scheme is generated from.
@@ -40,6 +40,9 @@ export default function Installation() {
         </li>
         <li>
           <strong>Font</strong>: any font family. Variable fonts work best.
+        </li>
+        <li>
+          <strong>Motion scheme</strong>: <C>expressive</C>, <C>standard</C> or <C>fluid</C> (soft and gooey; needs Motion or GSAP).
         </li>
         <li>
           <strong>Motion engine</strong>: CSS (no dependency), Motion or GSAP.
@@ -64,7 +67,7 @@ export default function Installation() {
       </List>
 
       <H2>2. Add components</H2>
-      <Code code="npx expressive add button dialog switch" lang="bash" />
+      <Code code="npx @grenishrai/expressive add button dialog switch" lang="bash" />
       <P>
         Components land in <C>components/expressive/</C>, with imports rewritten to your path aliases (or to relative paths if you
         don&apos;t use aliases). Anything a component depends on is added too.
@@ -97,7 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }`}
       />
-      <Code code={`npx expressive theme --font "var(--font-geist)"`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive theme --font "var(--font-geist)"`} lang="bash" />
 
       <H2>Dark mode</H2>
       <P>
@@ -114,14 +117,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 cd expressive
 pnpm install
 pnpm --filter @expressive/registry build   # builds the registry JSON
-pnpm --filter expressive build             # builds the CLI
+pnpm --filter @grenishrai/expressive build             # builds the CLI
 
-# in your project:
-node /path/to/expressive/packages/cli/dist/index.js init \\
-  --registry /path/to/expressive/apps/www/public/r`}
+# in your project (uses the hosted registry):
+node /path/to/expressive/packages/cli/dist/index.js init`}
       />
       <P>
-        The registry location is saved in <C>expressive.json</C>, so later <C>add</C> commands find it on their own.
+        To work against your local checkout instead, add <C>--registry /path/to/expressive/apps/www/public/r</C>. The registry
+        location is saved in <C>expressive.json</C>, so later <C>add</C> commands find it on their own.
       </P>
 
       <H3>Troubleshooting</H3>

@@ -1,9 +1,11 @@
 "use client";
 
+import * as React from "react";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import { useComposedRef, useFluidPop } from "@/registry/lib/use-fluid";
 
 export interface RadioGroupProps extends Omit<BaseRadioGroup.Props, "className"> {
   className?: string;
@@ -20,9 +22,13 @@ export interface RadioProps extends Omit<BaseRadio.Root.Props, "className"> {
 }
 
 /* 20px ring inside a 40px state-layer target; the dot springs in when selected. */
-export function Radio({ className, motion, ...props }: RadioProps) {
+export function Radio({ className, motion, ref, ...props }: RadioProps) {
+  const root = React.useRef<HTMLElement>(null);
+  const ring = React.useRef<HTMLSpanElement>(null);
+  useFluidPop(root, { attributes: ["data-checked"], target: ring, from: 0.75, motion });
   return (
     <BaseRadio.Root
+      ref={useComposedRef(root, ref)}
       data-slot="radio"
       data-motion={motion}
       className={cn(
@@ -33,7 +39,7 @@ export function Radio({ className, motion, ...props }: RadioProps) {
       )}
       {...props}
     >
-      <span className="flex size-5 items-center justify-center rounded-shape-full border-2 border-current transition-colors spring-effects-fast">
+      <span ref={ring} className="flex size-5 items-center justify-center rounded-shape-full border-2 border-current transition-colors spring-effects-fast">
         <BaseRadio.Indicator
           keepMounted
           className="size-2.5 scale-0 rounded-shape-full bg-current transition-transform spring-spatial-fast data-checked:scale-100"

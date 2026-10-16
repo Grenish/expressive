@@ -1,6 +1,8 @@
 "use client";
 
+import * as React from "react";
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
+import { useFluidLayout } from "@/registry/lib/use-fluid";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
 
@@ -16,6 +18,10 @@ export interface SwitchProps extends Omit<BaseSwitch.Root.Props, "className"> {
  * and to 28px while pressed; position and size move on a spatial spring.
  */
 export function Switch({ className, icons = false, motion, ...props }: SwitchProps) {
+  const thumb = React.useRef<HTMLElement>(null);
+  // Fluid: the handle jumps to its new spot and springs there from the old one,
+  // stretching like a droplet on the way.
+  useFluidLayout(thumb, { attributes: ["data-checked"], motion });
   return (
     <BaseSwitch.Root
       data-slot="switch"
@@ -31,11 +37,12 @@ export function Switch({ className, icons = false, motion, ...props }: SwitchPro
       {...props}
     >
       <BaseSwitch.Thumb
+        ref={thumb}
         data-slot="switch-thumb"
         className={cn(
           // A 40px state-layer target centered on the handle.
           "state-layer pointer-events-none absolute top-1/2 left-3.5 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-shape-full text-on-surface",
-          "transition-[left] spring-spatial-fast",
+          "transition-[left] spring-spatial-fast fluid:transition-none",
           "group-data-checked:left-[calc(100%-0.875rem)] group-data-checked:text-primary",
           "group-hover:before:opacity-(--ex-state-hover) group-focus-visible:before:opacity-(--ex-state-focus) group-active:before:opacity-(--ex-state-pressed)",
         )}

@@ -60,7 +60,11 @@ export function Playground({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setState({ ...initial, ...JSON.parse(saved) });
+      if (saved) {
+        const next = { ...initial, ...JSON.parse(saved) };
+        if (next.motion === "fluid" && next.engine === "css") next.engine = "motion";
+        setState(next);
+      }
       else if (window.matchMedia("(prefers-color-scheme: dark)").matches) setState((s) => ({ ...s, dark: true }));
     } catch {}
   }, []);
@@ -72,7 +76,16 @@ export function Playground({ children }: { children: React.ReactNode }) {
     } catch {}
   }, [state]);
 
-  const update = React.useCallback((patch: Partial<PlaygroundState>) => setState((s) => ({ ...s, ...patch })), []);
+  const update = React.useCallback(
+    (patch: Partial<PlaygroundState>) =>
+      setState((s) => {
+        const next = { ...s, ...patch };
+        // Fluid needs per-frame velocity: move off the CSS engine when it's chosen.
+        if (next.motion === "fluid" && next.engine === "css") next.engine = "motion";
+        return next;
+      }),
+    [],
+  );
 
   const theme = React.useMemo(() => {
     const font = `${fonts[state.font]}, ui-sans-serif, system-ui, sans-serif`;

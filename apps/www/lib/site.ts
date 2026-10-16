@@ -20,12 +20,14 @@ export const titles: Record<string, string> = {
   progress: "Progress",
   snackbar: "Snackbar",
   tooltip: "Tooltip",
+  shape: "Shape",
+  loading: "Loading",
 };
 
 export const groups: Array<{ title: string; items: string[] }> = [
   { title: "Actions", items: ["button", "icon-button", "fab", "chip"] },
   { title: "Selection & input", items: ["checkbox", "radio-group", "slider", "switch", "text-field"] },
   { title: "Navigation", items: ["navigation-bar", "navigation-rail", "top-app-bar"] },
-  { title: "Containment", items: ["card", "dialog"] },
-  { title: "Communication", items: ["progress", "snackbar", "tooltip"] },
+  { title: "Containment", items: ["card", "dialog", "shape"] },
+  { title: "Communication", items: ["loading", "progress", "snackbar", "tooltip"] },
 ];

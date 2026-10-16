@@ -45,7 +45,7 @@ export default function Typography() {
         Roles use one of two families: <strong>brand</strong> (display, headline, title-large) and <strong>plain</strong> (the
         rest). By default both are Roboto Flex. Set them to any font, ideally a variable one so weights interpolate smoothly:
       </P>
-      <Code code={`npx expressive theme --font "Inter"`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive theme --font "Inter"`} lang="bash" />
       <Code code={`createTheme({ typography: { fonts: { brand: "var(--font-display)", plain: "var(--font-sans)" } } });`} />
 
       <H2>Using type</H2>

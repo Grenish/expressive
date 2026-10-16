@@ -12,7 +12,7 @@ export interface ComponentDoc {
 
 const motionProp: PropRow = {
   name: "motion",
-  type: '"expressive" | "standard" | "none"',
+  type: '"expressive" | "standard" | "fluid" | "none"',
   default: "theme default",
   description: "Motion scheme for this component's transitions. `none` turns animation off.",
 };
@@ -491,5 +491,71 @@ snackbar.show({ message: "Photo deleted", action: { label: "Undo", onClick: rest
       "A tooltip doesn't replace an accessible name: keep `aria-label` on icon buttons.",
       "Wrap toolbars in TooltipProvider so moving between triggers opens the next tooltip instantly.",
     ],
+  },
+  shape: {
+    overview:
+      "The 35 shapes of Material 3 Expressive: cookies, clovers, bursts, the flower, puffy and pixel shapes, and more. Use them for avatars, image crops, decorative accents and loading states. Change `name` and the shape morphs into the new one on the motion scheme's spring.",
+    usage: `import { Shape } from "@/components/expressive/shape";
+
+<Shape name="flower" className="size-24 text-primary" />
+
+// Morphs whenever the name changes
+<Shape name={loading ? "soft-burst" : "cookie-9"} className="size-12 text-tertiary" />
+
+// Clip anything to a shape with the Tailwind utilities
+<img src={avatar} alt="" className="size-16 object-cover shape-cookie-12" />`,
+    props: {
+      Shape: [
+        { name: "name", type: "MaterialShapeName", description: "One of 35 shapes, e.g. `flower`, `cookie-9`, `clover-4`, `soft-burst`, `heart`." },
+        { name: "label", type: "string", description: "Accessible name. Without it the shape is decorative (`aria-hidden`)." },
+        { name: "speed", type: '"fast" | "default" | "slow"', default: '"default"', description: "Spring speed of the morph." },
+        motionProp,
+        { name: "className", type: "string", description: "Size it with `size-*`; it fills with the text color (`text-*`)." },
+      ],
+      "shape-* utilities": [
+        { name: "shape-{name}", type: "Tailwind utility", description: "Masks any element to a shape, e.g. `shape-flower` on an `<img>`. Only the ones you use end up in your CSS." },
+        { name: "shapeMask(name)", type: "(name) => string", description: "The same mask as a CSS value, from `tokens/material-shapes`." },
+      ],
+    },
+    accessibility: [
+      "Shapes are decorative by default and hidden from screen readers.",
+      "Give a meaningful shape a `label`; it then renders as `role=\"img\"`.",
+      "Morphs respect reduced motion: the shape switches instantly.",
+    ],
+    notes: [
+      "Generated from Jetpack Compose's MaterialShapes and androidx.graphics.shapes (Apache-2.0), so the geometry matches Android.",
+      "Morphing samples both outlines and interpolates between them. Sharp shapes (the pixel ones) land on their exact outline when the morph ends.",
+    ],
+  },
+  loading: {
+    overview:
+      "Loading indicators show that something is happening. Use `morph`, the M3 Expressive loading indicator, for short waits of a few seconds; `circular` or `wavy` when you can show progress; `shape`, `dots` or `pulse` for lighter, branded moments. For long, measurable tasks prefer a progress bar.",
+    usage: `import { Loading } from "@/components/expressive/loading";
+
+<Loading variant="morph" />                                   // M3 Expressive shape morph
+<Loading variant="morph" contained />                          // on a filled container
+<Loading variant="circular" label="Loading…" />                 // with text
+<Loading variant="wavy" value={progress} aria-label="Upload" /> // determinate
+<Loading variant="shape" shape="flower" />                      // one shape spinning
+<Loading variant="dots" shape="cookie-4" label="Thinking" />`,
+    props: {
+      Loading: [
+        { name: "variant", type: '"circular" | "wavy" | "morph" | "shape" | "dots" | "pulse"', default: '"circular"', description: "Indicator style." },
+        { name: "label", type: "ReactNode", description: "Visible text; also the accessible name." },
+        { name: "labelPosition", type: '"end" | "bottom"', default: '"end"', description: "Where the label sits." },
+        { name: "size", type: "number", default: "48", description: "Indicator size in px." },
+        { name: "value", type: "number | null", default: "null", description: "`circular` and `wavy` only: 0–100 for determinate progress." },
+        { name: "shape", type: "MaterialShapeName", default: '"flower"', description: "`shape`, `dots` and `pulse`: which shape to draw." },
+        { name: "shapes", type: "MaterialShapeName[]", default: "Compose sequence", description: "`morph`: shapes to cycle through. Defaults to soft burst → 9-sided cookie → pentagon → pill → sunny → 4-sided cookie → oval." },
+        { name: "contained", type: "boolean", default: "false", description: "`morph` and `shape`: draw on a filled circular container." },
+        { name: "aria-label", type: "string", default: '"Loading"', description: "Accessible name when there's no `label`." },
+      ],
+    },
+    accessibility: [
+      "Renders `role=\"progressbar\"`, named by `label` (or `aria-label`, defaulting to “Loading”).",
+      "Determinate indicators expose `aria-valuenow` from 0 to 100; indeterminate ones expose no value.",
+      "Indicators keep moving under reduced motion, since the movement is the information, but morphs switch instantly and the morph indicator drops its quarter-turn jumps.",
+    ],
+    notes: ["The morph timing matches Compose's LoadingIndicator: a new shape every 650ms on a spring, a quarter turn per morph, and a full rotation every 4.7s."],
   },
 };

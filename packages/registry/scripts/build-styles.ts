@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { themeToTailwind } from "../src/tokens/theme";
+import { shapeMask, shapeNames } from "../src/tokens/material-shapes";
 
 const styles = new URL("../src/styles/", import.meta.url);
 const utilities = readFileSync(new URL("utilities.css", styles), "utf8");
@@ -14,7 +15,11 @@ const css = `/*
 
 ${themeToTailwind()}
 
-${utilities}`;
+${utilities}
+
+/* Material shapes as masks: \`shape-flower\`, \`shape-cookie-9\`, … clip any element. */
+${shapeNames.map((name) => `@utility shape-${name} {\n  mask: ${shapeMask(name)};\n}`).join("\n")}
+`;
 
 writeFileSync(fileURLToPath(new URL("expressive.css", styles)), css);
 console.log("wrote src/styles/expressive.css");

@@ -40,6 +40,8 @@ import {
   TextFieldDemo,
   TooltipDemo,
   TopAppBarDemo,
+  ShapeDemo,
+  LoadingDemo,
 } from "@/components/demos-more";
 
 export function ButtonDemo() {
@@ -250,6 +252,8 @@ export const demos = {
   progress: ProgressDemo,
   snackbar: SnackbarDemo,
   tooltip: TooltipDemo,
+  shape: ShapeDemo,
+  loading: LoadingDemo,
 } as const;
 
 export type DemoName = keyof typeof demos;

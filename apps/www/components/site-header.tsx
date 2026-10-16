@@ -16,11 +16,11 @@ export const GITHUB_URL = "https://github.com/Grenish/expressive";
 export function Logo() {
   return (
     <Link href="/" className="focus-ring flex items-center gap-2.5 rounded-shape-medium">
-      <span aria-hidden="true" className="grid size-9 place-items-center rounded-shape-medium bg-primary text-on-primary corner-squircle">
-        <svg viewBox="0 0 24 24" className="size-5" fill="currentColor">
-          <path d="M5 4h14v4H10v2.5h8v3h-8V16h9v4H5Z" />
-        </svg>
-      </span>
+      {/* public/expressive-logo.svg as a mask, so the mark takes the theme's text color. */}
+      <span
+        aria-hidden="true"
+        className="h-6 w-10 bg-on-surface [mask:url(/expressive-logo.svg)_center/contain_no-repeat]"
+      />
       <span className="font-display text-title-large font-semibold tracking-tight max-[360px]:sr-only">Expressive</span>
     </Link>
   );

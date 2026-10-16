@@ -14,7 +14,7 @@ interface RippleProps {
  */
 export function Ripple({ motion, disabled }: RippleProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
-  const { animate, reducedMotion } = useMotion(motion);
+  const { animate, isFluid, reducedMotion } = useMotion(motion);
 
   React.useEffect(() => {
     const container = ref.current;
@@ -43,7 +43,15 @@ export function Ripple({ motion, disabled }: RippleProps) {
         pointerEvents: "none",
       });
       container.appendChild(wave);
-      const grow = animate(wave, { transform: ["scale(0)", "scale(1)"] }, { type: "spatial", speed: "slow" });
+      const keyframes: Record<string, string[]> = { transform: ["scale(0)", "scale(1)"] };
+      if (isFluid(host)) {
+        // Fluid: an irregular blob that relaxes into a circle as it spreads.
+        const blob = () => `${30 + Math.round(Math.random() * 40)}%`;
+        const start = `${blob()} ${blob()} ${blob()} ${blob()} / ${blob()} ${blob()} ${blob()} ${blob()}`;
+        wave.style.borderRadius = start;
+        keyframes.borderRadius = [start, "50% 50% 50% 50% / 50% 50% 50% 50%"];
+      }
+      const grow = animate(wave, keyframes, { type: "spatial", speed: "slow" });
 
       const release = () => {
         window.removeEventListener("pointerup", release);
@@ -62,7 +70,7 @@ export function Ripple({ motion, disabled }: RippleProps) {
 
     host.addEventListener("pointerdown", onPointerDown);
     return () => host.removeEventListener("pointerdown", onPointerDown);
-  }, [animate, disabled, reducedMotion]);
+  }, [animate, isFluid, disabled, reducedMotion]);
 
   return (
     <span

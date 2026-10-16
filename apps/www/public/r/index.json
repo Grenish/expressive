@@ -15,7 +15,7 @@
   {
     "name": "motion",
     "type": "token",
-    "description": "Motion tokens, spring physics, the adapter contract and the default CSS engine.",
+    "description": "Motion tokens (expressive, standard, fluid), spring physics, fluid hooks, the adapter contract and the default CSS engine.",
     "internal": true,
     "registryDependencies": [],
     "files": [
@@ -41,6 +41,14 @@
       },
       {
         "path": "use-reduced-motion.ts",
+        "target": "lib"
+      },
+      {
+        "path": "fluid.ts",
+        "target": "lib"
+      },
+      {
+        "path": "use-fluid.ts",
         "target": "lib"
       }
     ]
@@ -124,6 +132,23 @@
       {
         "path": "expressive.css",
         "target": "styles"
+      }
+    ]
+  },
+  {
+    "name": "material-shapes",
+    "type": "token",
+    "description": "The 35 Material 3 Expressive shapes as SVG paths, plus shapeMask() and the morph helpers.",
+    "internal": true,
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "material-shapes.ts",
+        "target": "tokens"
+      },
+      {
+        "path": "shape-morph.ts",
+        "target": "lib"
       }
     ]
   },
@@ -436,6 +461,42 @@
     "files": [
       {
         "path": "tooltip.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "shape",
+    "type": "component",
+    "description": "All 35 Material 3 Expressive shapes (flower, cookies, bursts, clovers…) that morph into each other.",
+    "internal": false,
+    "registryDependencies": [
+      "material-shapes",
+      "motion",
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "shape.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "loading",
+    "type": "component",
+    "description": "Loading indicators: circular, wavy, the M3 Expressive shape morph, a spinning shape, bouncing dots and a pulse.",
+    "internal": false,
+    "registryDependencies": [
+      "shape",
+      "motion",
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "loading.tsx",
         "target": "components"
       }
     ]

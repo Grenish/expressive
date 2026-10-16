@@ -5,6 +5,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import { useComposedRef, useFluidPress } from "@/registry/lib/use-fluid";
 import { Ripple } from "@/registry/components/ripple";
 
 /*
@@ -31,13 +32,17 @@ interface ChipOwnProps {
   icon?: React.ReactNode;
   motion?: MotionProp;
   className?: string;
+  ref?: React.Ref<HTMLElement>;
 }
 
 export type AssistChipProps = ChipOwnProps & Omit<BaseButton.Props, "className">;
 
-export function AssistChip({ className, appearance = "outlined", icon, motion, disabled, children, ...props }: AssistChipProps) {
+export function AssistChip({ className, appearance = "outlined", icon, motion, disabled, children, ref, ...props }: AssistChipProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseButton
+      ref={useComposedRef(local, ref)}
       data-slot="assist-chip"
       data-motion={motion}
       disabled={disabled}
@@ -53,9 +58,12 @@ export function AssistChip({ className, appearance = "outlined", icon, motion, d
 
 export type SuggestionChipProps = AssistChipProps;
 
-export function SuggestionChip({ className, appearance = "outlined", icon, motion, disabled, children, ...props }: SuggestionChipProps) {
+export function SuggestionChip({ className, appearance = "outlined", icon, motion, disabled, children, ref, ...props }: SuggestionChipProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseButton
+      ref={useComposedRef(local, ref)}
       data-slot="suggestion-chip"
       data-motion={motion}
       disabled={disabled}
@@ -72,9 +80,12 @@ export function SuggestionChip({ className, appearance = "outlined", icon, motio
 export type FilterChipProps = ChipOwnProps & Omit<BaseToggle.Props, "className">;
 
 /** Use `pressed` / `onPressedChange` (or `defaultPressed`) for the selected state. */
-export function FilterChip({ className, appearance = "outlined", icon, motion, disabled, children, ...props }: FilterChipProps) {
+export function FilterChip({ className, appearance = "outlined", icon, motion, disabled, children, ref, ...props }: FilterChipProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseToggle
+      ref={useComposedRef(local, ref)}
       data-slot="filter-chip"
       data-motion={motion}
       disabled={disabled}

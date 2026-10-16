@@ -25,6 +25,7 @@ export function buildThemeCss(theme: Config["theme"]) {
       colors: { seed: theme.seed, variant: theme.variant, contrast: theme.contrast },
       typography: { fonts: { brand: fontStack(theme.font.brand), plain: fontStack(theme.font.plain) } },
       shape: { corners },
+      motion: { scheme: theme.motionScheme ?? "expressive" },
     }),
   );
 }

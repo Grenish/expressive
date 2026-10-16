@@ -5,6 +5,8 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { type VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import * as React from "react";
+import { useComposedRef, useFluidPress } from "@/registry/lib/use-fluid";
 import { Ripple } from "@/registry/components/ripple";
 
 export const iconButtonVariants = cva(
@@ -82,14 +84,18 @@ type AccessibleName = { "aria-label": string } | { "aria-labelledby": string };
 type OwnProps = Omit<VariantProps<typeof iconButtonVariants>, "toggle"> & {
   motion?: MotionProp;
   className?: string;
+  ref?: React.Ref<HTMLElement>;
 };
 
 export type IconButtonProps = OwnProps & Omit<BaseButton.Props, "className"> & AccessibleName;
 export type ToggleIconButtonProps = OwnProps & Omit<BaseToggle.Props, "className"> & AccessibleName;
 
-export function IconButton({ className, variant, size, width, shape, motion, children, disabled, ...props }: IconButtonProps) {
+export function IconButton({ className, variant, size, width, shape, motion, children, disabled, ref, ...props }: IconButtonProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseButton
+      ref={useComposedRef(local, ref)}
       data-slot="icon-button"
       data-motion={motion}
       disabled={disabled}
@@ -102,9 +108,12 @@ export function IconButton({ className, variant, size, width, shape, motion, chi
   );
 }
 
-export function ToggleIconButton({ className, variant, size, width, shape, motion, children, disabled, ...props }: ToggleIconButtonProps) {
+export function ToggleIconButton({ className, variant, size, width, shape, motion, children, disabled, ref, ...props }: ToggleIconButtonProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseToggle
+      ref={useComposedRef(local, ref)}
       data-slot="icon-button"
       data-motion={motion}
       disabled={disabled}

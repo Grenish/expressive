@@ -1,8 +1,11 @@
+"use client";
+
 import * as React from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { cn } from "@/registry/lib/utils";
 import { Badge, type NavigationItemProps } from "@/registry/components/navigation-bar";
+import { useFluidPop } from "@/registry/lib/use-fluid";
 
 /*
  * Navigation rail for medium and larger screens. Collapsed (96px) it shows
@@ -36,10 +39,17 @@ export function NavigationRail({ className, expanded = false, header, children, 
   );
 }
 
-export function NavigationRailItem({ className, icon, activeIcon, label, active = false, badge, render, ...props }: NavigationItemProps) {
+export function NavigationRailItem({ className, icon, activeIcon, label, active = false, badge, render, ref, ...props }: NavigationItemProps) {
+  const root = React.useRef<HTMLAnchorElement>(null);
+  const wide = React.useRef<HTMLSpanElement>(null);
+  const compact = React.useRef<HTMLSpanElement>(null);
+  // Fluid: whichever indicator is showing swells open with a jelly wobble.
+  useFluidPop(root, { attributes: ["data-active"], target: wide, from: 0.5 });
+  useFluidPop(root, { attributes: ["data-active"], target: compact, from: 0.35 });
   return useRender({
     defaultTagName: "a",
     render,
+    ref: [root, ref].filter(Boolean) as React.Ref<HTMLAnchorElement>[],
     props: mergeProps<"a">(
       {
         "data-slot": "navigation-rail-item",
@@ -55,8 +65,9 @@ export function NavigationRailItem({ className, icon, activeIcon, label, active 
           <>
             {/* In the expanded rail the indicator spans the whole item. */}
             <span
+              ref={wide}
               aria-hidden="true"
-              className="absolute inset-0 hidden scale-x-[0.6] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100 group-data-expanded/rail:block"
+              className="absolute inset-0 hidden scale-x-[0.6] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100 group-data-expanded/rail:block fluid:transition-opacity"
             />
             <span
               aria-hidden="true"
@@ -64,8 +75,9 @@ export function NavigationRailItem({ className, icon, activeIcon, label, active 
             />
             <span className="relative flex h-8 w-14 shrink-0 items-center justify-center group-data-expanded/rail:w-6 [&_svg]:size-6">
               <span
+                ref={compact}
                 aria-hidden="true"
-                className="absolute inset-0 scale-x-[0.4] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100 group-data-expanded/rail:hidden"
+                className="absolute inset-0 scale-x-[0.4] rounded-shape-full bg-secondary-container opacity-0 transition-[transform,opacity] spring-spatial-fast group-data-active:scale-x-100 group-data-active:opacity-100 group-data-expanded/rail:hidden fluid:transition-opacity"
               />
               <span
                 aria-hidden="true"

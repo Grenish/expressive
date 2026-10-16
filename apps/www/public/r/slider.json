@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "slider",
   "type": "component",
   "description": "Expressive slider with a bar handle; single value or range.",

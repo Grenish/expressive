@@ -6,7 +6,7 @@
     "./*": "./src/*"
   },
   "scripts": {
-    "build": "tsx scripts/build-styles.ts && tsx scripts/build-registry.ts",
+    "build": "tsx scripts/build-shapes.ts && tsx scripts/build-styles.ts && tsx scripts/build-registry.ts",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json"
   },
@@ -21,7 +21,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "optionalDependencies": {},
   "devDependencies": {
     "@testing-library/jest-dom": "~6.9.1",
     "@testing-library/react": "^16.3.3",
@@ -29,6 +28,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@wearables-ui-toolkit/androidx-shapes": "129.23.0",
     "axe-core": "^4.11.0",
     "gsap": "^3.15.0",
     "jsdom": "^26.1.0",

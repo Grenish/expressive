@@ -1,5 +1,5 @@
 {
-  "$schema": "https://expressive.dev/schema/registry-item.json",
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
   "name": "top-app-bar",
   "type": "component",
   "description": "Small, center-aligned, medium and large top app bars that tint on scroll.",

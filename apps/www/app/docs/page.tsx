@@ -38,7 +38,7 @@ export default function Introduction() {
           GSAP.
         </li>
         <li>
-          <strong>17 components</strong> built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
+          <strong>19 components</strong> built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
           screen reader behavior.
         </li>
         <li>

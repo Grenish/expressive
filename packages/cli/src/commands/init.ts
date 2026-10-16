@@ -4,7 +4,17 @@ import type { Command } from "commander";
 import prompts from "prompts";
 import { type SchemeVariant, schemeVariants } from "@/registry/tokens/colors";
 import { DEFAULT_SEED } from "@/registry/tokens/theme";
-import { CONFIG_FILE, type Config, DEFAULT_REGISTRY, type MotionEngine, type ShapeScale, writeConfig } from "../utils/config";
+import type { MotionScheme } from "@/registry/tokens/motion";
+import {
+  CONFIG_FILE,
+  type Config,
+  DEFAULT_REGISTRY,
+  MOTION_SCHEMES,
+  type MotionEngine,
+  type ShapeScale,
+  assertSchemeEngine,
+  writeConfig,
+} from "../utils/config";
 import { installDependencies } from "../utils/install";
 import { CliError, logger } from "../utils/logger";
 import { detectProject } from "../utils/project";
@@ -22,6 +32,7 @@ export interface InitOptions {
   variant?: SchemeVariant;
   font?: string;
   motion?: MotionEngine;
+  scheme?: MotionScheme;
   shape?: ShapeScale;
 }
 
@@ -67,14 +78,26 @@ export async function init(options: InitOptions) {
             initial: "Roboto Flex",
           },
           {
+            type: options.scheme ? null : "select",
+            name: "scheme",
+            message: "Motion scheme",
+            choices: [
+              { title: "Expressive (springy, Material default)", value: "expressive" },
+              { title: "Standard (calmer)", value: "standard" },
+              { title: "Fluid (soft and gooey; needs Motion or GSAP)", value: "fluid" },
+            ],
+          },
+          {
             type: options.motion ? null : "select",
             name: "motion",
             message: "Motion engine",
-            choices: [
-              { title: "CSS (no dependency)", value: "css" },
-              { title: "Motion (formerly Framer Motion)", value: "motion" },
-              { title: "GSAP", value: "gsap" },
-            ],
+            // Fluid needs per-frame velocity, so CSS isn't offered for it.
+            choices: (_prev: unknown, values: { scheme?: MotionScheme }) =>
+              [
+                { title: "CSS (no dependency)", value: "css" },
+                { title: "Motion (formerly Framer Motion)", value: "motion" },
+                { title: "GSAP", value: "gsap" },
+              ].filter((choice) => !((values.scheme ?? options.scheme) === "fluid" && choice.value === "css")),
           },
           {
             type: options.shape ? null : "select",
@@ -92,8 +115,11 @@ export async function init(options: InitOptions) {
 
   const seed = (options.seed ?? answers.seed ?? DEFAULT_SEED).replace(/^#?/, "#");
   if (!HEX.test(seed)) throw new CliError(`Invalid seed color: ${seed}`);
-  const motion: MotionEngine = options.motion ?? answers.motion ?? "css";
+  const scheme: MotionScheme = options.scheme ?? answers.scheme ?? "expressive";
+  if (!MOTION_SCHEMES.includes(scheme)) throw new CliError(`Unknown motion scheme "${scheme}". Use one of: ${MOTION_SCHEMES.join(", ")}`);
+  const motion: MotionEngine = options.motion ?? answers.motion ?? (scheme === "fluid" ? "motion" : "css");
   if (!ENGINES.includes(motion)) throw new CliError(`Unknown motion engine "${motion}". Use one of: ${ENGINES.join(", ")}`);
+  assertSchemeEngine(scheme, motion);
   const shape: ShapeScale = options.shape ?? answers.shape ?? "expressive";
   if (!SHAPES.includes(shape)) throw new CliError(`Unknown corner scale "${shape}". Use one of: ${SHAPES.join(", ")}`);
   const variant: SchemeVariant = options.variant ?? answers.variant ?? "expressive";
@@ -103,13 +129,13 @@ export async function init(options: InitOptions) {
   const base = project.alias?.dir ?? (project.srcDir ? "src/" : "");
   const prefix = project.alias?.prefix;
   const config: Config = {
-    $schema: "https://expressive.dev/schema.json",
+    $schema: "https://expressive.grenishrai.pro/schema.json",
     registry: options.registry ?? DEFAULT_REGISTRY,
     framework: project.framework,
     rsc: project.rsc,
     css,
     motion,
-    theme: { seed, variant, contrast: 0, font: { brand: font, plain: font }, shape },
+    theme: { seed, variant, contrast: 0, font: { brand: font, plain: font }, shape, motionScheme: scheme },
     dirs: {
       components: `${base}components/expressive`,
       lib: `${base}lib/expressive`,
@@ -139,7 +165,7 @@ export async function init(options: InitOptions) {
   }
 
   logger.info("");
-  logger.success("Expressive is ready. Add components with `npx expressive add button`.");
+  logger.success("Expressive is ready. Add components with `npx @grenishrai/expressive add button`.");
   if (font !== "Roboto Flex" || project.framework !== "next") {
     logger.dim(`Remember to load the "${font}" font (e.g. next/font, @fontsource-variable, or a <link>).`);
   }
@@ -155,6 +181,7 @@ export function registerInit(program: Command) {
     .option("--variant <scheme>", `color scheme (${Object.keys(schemeVariants).join(", ")})`)
     .option("--font <family>", "font family")
     .option("--motion <engine>", "motion engine (css, motion, gsap)")
+    .option("--scheme <scheme>", "motion scheme (expressive, standard, fluid)")
     .option("--shape <scale>", "corner scale (expressive, soft, sharp)")
     .option("--css <file>", "CSS entry that imports Tailwind")
     .option("--no-install", "don't install npm dependencies")

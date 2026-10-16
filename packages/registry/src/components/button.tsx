@@ -6,6 +6,7 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { type VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import { useComposedRef, useFluidPress } from "@/registry/lib/use-fluid";
 import { Ripple } from "@/registry/components/ripple";
 
 /*
@@ -82,9 +83,12 @@ export interface ButtonProps extends ButtonOwnProps, Omit<BaseButton.Props, "cla
   className?: string;
 }
 
-export function Button({ className, variant, size, shape, motion, icon, children, disabled, ...props }: ButtonProps) {
+export function Button({ className, variant, size, shape, motion, icon, children, disabled, ref, ...props }: ButtonProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseButton
+      ref={useComposedRef(local, ref)}
       data-slot="button"
       data-motion={motion}
       disabled={disabled}
@@ -103,9 +107,12 @@ export interface ToggleButtonProps extends ButtonOwnProps, Omit<BaseToggle.Props
 }
 
 /** A button with a selected state (`aria-pressed`). Use `pressed`/`onPressedChange` or `defaultPressed`. */
-export function ToggleButton({ className, variant, size, shape, motion, icon, children, disabled, ...props }: ToggleButtonProps) {
+export function ToggleButton({ className, variant, size, shape, motion, icon, children, disabled, ref, ...props }: ToggleButtonProps) {
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseToggle
+      ref={useComposedRef(local, ref)}
       data-slot="button"
       data-motion={motion}
       disabled={disabled}

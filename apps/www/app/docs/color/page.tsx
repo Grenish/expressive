@@ -65,7 +65,7 @@ export default function Color() {
         tertiary colors; <C>tonal-spot</C> is the calmer classic Material look; <C>monochrome</C> removes chroma entirely. Try them in
         Customize.
       </P>
-      <Code code={`npx expressive theme --variant tonal-spot\nnpx expressive theme --contrast 0.5   # higher contrast`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive theme --variant tonal-spot\nnpx @grenishrai/expressive theme --contrast 0.5   # higher contrast`} lang="bash" />
 
       <H2>Using color</H2>
       <Code

@@ -1,14 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  type MotionScheme,
-  type SpringSpeed,
-  type SpringType,
-  adapter,
-  defaultMotion,
-  getSpring,
-} from "@/registry/tokens/motion";
+import { type MotionScheme, type SpringSpeed, type SpringType, adapter, defaultMotion, getSpring } from "@/registry/tokens/motion";
 import type { Keyframes, MotionAdapter, MotionControls } from "@/registry/lib/adapters/types";
 import { useReducedMotion } from "@/registry/lib/use-reduced-motion";
 
@@ -28,30 +21,47 @@ export const MotionAdapterContext = React.createContext<MotionAdapter>(adapter);
 
 const noop: MotionControls = { finished: Promise.resolve(), cancel() {} };
 
+/** The scheme that applies to `element`: the prop, else `--ex-motion-scheme` from the theme. */
+function schemeOf(element: Element, motion?: MotionProp): MotionScheme | "none" {
+  if (motion) return motion;
+  if (typeof getComputedStyle === "undefined") return defaultMotion.scheme;
+  const value = getComputedStyle(element).getPropertyValue("--ex-motion-scheme").trim();
+  return (value as MotionScheme | "none") || defaultMotion.scheme;
+}
+
 /**
  * Imperative animations through the active motion adapter (CSS, Motion, GSAP
- * or your own). Respects `prefers-reduced-motion` and `motion="none"` by
- * jumping straight to the final keyframe.
+ * or your own). Without a `motion` argument the element's own scheme applies.
+ * Respects `prefers-reduced-motion` and `motion="none"` by jumping straight to
+ * the final keyframe. `fluid` falls back to `expressive` on engines without a
+ * fluid driver.
  */
-export function useMotion(motion: MotionProp = defaultMotion.scheme) {
+export function useMotion(motion?: MotionProp) {
   const engine = React.useContext(MotionAdapterContext);
   const reducedMotion = useReducedMotion();
-  const disabled = reducedMotion || motion === "none";
 
   const animate = React.useCallback(
     (element: Element | null, keyframes: Keyframes, { type = "spatial", speed = "default", delay }: MotionAnimateOptions = {}) => {
       if (!element) return noop;
-      if (disabled) {
+      let scheme = schemeOf(element, motion);
+      if (reducedMotion || scheme === "none") {
         const style = (element as HTMLElement).style;
         for (const [property, values] of Object.entries(keyframes)) {
           style.setProperty(property.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`), String(values[values.length - 1]));
         }
         return noop;
       }
-      return engine.animate(element, keyframes, { spring: getSpring(motion as MotionScheme, type, speed), delay });
+      if (scheme === "fluid" && !engine.fluid) scheme = "expressive";
+      return engine.animate(element, keyframes, { spring: getSpring(scheme, type, speed), delay });
     },
-    [disabled, engine, motion],
+    [reducedMotion, engine, motion],
   );
 
-  return { animate, reducedMotion: disabled, engine: engine.name };
+  /** Whether `element` currently animates with the fluid scheme. */
+  const isFluid = React.useCallback(
+    (element: Element | null) => Boolean(element && engine.fluid && !reducedMotion && schemeOf(element, motion) === "fluid"),
+    [engine, reducedMotion, motion],
+  );
+
+  return { animate, isFluid, reducedMotion: reducedMotion || motion === "none", engine: engine.name };
 }

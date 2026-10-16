@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { springDuration, springEasing } from "@/registry/lib/spring";
+import { springDuration, springEasing, springSettled, stepSpring } from "@/registry/lib/spring";
 import type { MotionAdapter } from "./types";
 
 /** GSAP engine. GSAP has no spring ease, so we pass the solved spring curve. */
@@ -23,5 +23,23 @@ export const adapter: MotionAdapter = {
       onInterrupt: resolve,
     });
     return { finished, cancel: () => tween.kill() };
+  },
+  // Fluid: a spring simulated on GSAP's ticker, so velocity is exact every frame.
+  fluid: {
+    spring({ from, to, velocity = 0, spring, onUpdate, onComplete }) {
+      const state = { value: from, velocity };
+      const tick = (_time: number, deltaMs: number) => {
+        stepSpring(state, to, spring, Math.min(deltaMs, 64) / 1000);
+        if (springSettled(state, to, to - from)) {
+          gsap.ticker.remove(tick);
+          onUpdate(to, 0);
+          onComplete?.();
+        } else {
+          onUpdate(state.value, state.velocity);
+        }
+      };
+      gsap.ticker.add(tick);
+      return { stop: () => gsap.ticker.remove(tick) };
+    },
   },
 };

@@ -5,6 +5,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { type VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/registry/lib/utils";
 import type { MotionProp } from "@/registry/lib/use-motion";
+import { useComposedRef, useFluidPress } from "@/registry/lib/use-fluid";
 import { Ripple } from "@/registry/components/ripple";
 
 /*
@@ -51,15 +52,19 @@ type FabBase = Omit<VariantProps<typeof fabVariants>, "extended"> &
     icon?: React.ReactNode;
     motion?: MotionProp;
     className?: string;
+    ref?: React.Ref<HTMLElement>;
   };
 
 export type FabProps = FabBase &
   ({ label: React.ReactNode } | { label?: undefined; "aria-label": string } | { label?: undefined; "aria-labelledby": string });
 
-export function Fab({ className, color, size, icon, label, motion, disabled, children, ...props }: FabProps) {
+export function Fab({ className, color, size, icon, label, motion, disabled, children, ref, ...props }: FabProps) {
   const extended = label !== undefined;
+  const local = React.useRef<HTMLElement>(null);
+  useFluidPress(local, motion, !disabled);
   return (
     <BaseButton
+      ref={useComposedRef(local, ref)}
       data-slot="fab"
       data-motion={motion}
       disabled={disabled}

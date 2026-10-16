@@ -17,16 +17,21 @@ export default function Cli() {
       title="CLI"
       lead="The expressive CLI sets up your project, copies components in, regenerates your theme, and shows how your copies differ from the originals."
     >
+      <P>
+        Run it with <C>npx @grenishrai/expressive</C>, as in the examples below. If you install it globally (
+        <C>npm i -g @grenishrai/expressive</C>), the command is simply <C>expressive</C>.
+      </P>
       <H2>init</H2>
       <P>Sets up config, tokens, the motion layer, the stylesheet and your theme. Run it once.</P>
-      <Code code={`npx expressive init\nnpx expressive init --yes --seed "#0B57D0" --motion motion`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive init\nnpx @grenishrai/expressive init --yes --seed "#0B57D0" --motion motion`} lang="bash" />
       <PropsTable
         rows={[
           { name: "-y, --yes", type: "flag", description: "Skip prompts and use defaults for anything not passed." },
           { name: "--seed <hex>", type: "string", default: "#6750A4", description: "Seed color." },
           { name: "--variant <scheme>", type: "string", default: "expressive", description: "`expressive`, `tonal-spot`, `vibrant`, `neutral`, `monochrome`, `fidelity`, `content`, `rainbow` or `fruit-salad`." },
           { name: "--font <family>", type: "string", default: "Roboto Flex", description: "Font family, or a CSS variable like `var(--font-geist)`." },
-          { name: "--motion <engine>", type: "css | motion | gsap", default: "css", description: "Motion engine." },
+          { name: "--scheme <scheme>", type: "expressive | standard | fluid", default: "expressive", description: "Default motion scheme. `fluid` needs the Motion or GSAP engine." },
+          { name: "--motion <engine>", type: "css | motion | gsap", default: "css (motion for fluid)", description: "Motion engine." },
           { name: "--shape <scale>", type: "expressive | soft | sharp", default: "expressive", description: "Corner scale." },
           { name: "--css <file>", type: "path", default: "detected", description: "Global CSS file that imports Tailwind." },
           { name: "--no-install", type: "flag", description: "Don't install npm packages." },
@@ -36,7 +41,7 @@ export default function Cli() {
 
       <H2>add</H2>
       <P>Copies components, and anything they depend on, into your project.</P>
-      <Code code="npx expressive add button text-field navigation-bar" lang="bash" />
+      <Code code="npx @grenishrai/expressive add button text-field navigation-bar" lang="bash" />
       <P>
         If a file already exists and you&apos;ve changed it, <C>add</C> asks before replacing it. With <C>--yes</C> it skips those
         files and tells you which ones; with <C>--overwrite</C> it replaces them.
@@ -55,7 +60,7 @@ export default function Cli() {
         Regenerates the theme variables in your global CSS (between the <C>expressive:theme</C> markers) and saves the new settings
         to <C>expressive.json</C>.
       </P>
-      <Code code={`npx expressive theme --seed "#B3261E" --variant vibrant\nnpx expressive theme --contrast 0.5`} lang="bash" />
+      <Code code={`npx @grenishrai/expressive theme --seed "#B3261E" --variant vibrant\nnpx @grenishrai/expressive theme --contrast 0.5\nnpx @grenishrai/expressive theme --scheme fluid --motion motion`} lang="bash" />
       <PropsTable
         rows={[
           { name: "--seed <hex>", type: "string", description: "New seed color." },
@@ -63,17 +68,19 @@ export default function Cli() {
           { name: "--contrast <level>", type: "number", description: "From -1 (lower) through 0 (standard) to 1 (high contrast)." },
           { name: "--font <family>", type: "string", description: "New font family." },
           { name: "--shape <scale>", type: "string", description: "New corner scale." },
+          { name: "--scheme <scheme>", type: "expressive | standard | fluid", description: "New default motion scheme." },
+          { name: "--motion <engine>", type: "css | motion | gsap", description: "Switch engine: installs its adapter and repoints `tokens/motion.ts`." },
           { name: "-c, --cwd <path>", type: "path", description: "Project directory." },
         ]}
       />
 
       <H2>list</H2>
       <P>Lists available components and marks the ones you&apos;ve installed.</P>
-      <Code code="npx expressive list" lang="bash" />
+      <Code code="npx @grenishrai/expressive list" lang="bash" />
 
       <H2>diff</H2>
       <P>Shows how your copy of a component differs from the registry version, for example before updating it.</P>
-      <Code code="npx expressive diff button" lang="bash" />
+      <Code code="npx @grenishrai/expressive diff button" lang="bash" />
 
       <H2>expressive.json</H2>
       <P>
@@ -83,7 +90,7 @@ export default function Cli() {
         lang="json"
         title="expressive.json"
         code={`{
-  "registry": "https://expressive.dev/r",
+  "registry": "https://expressive.grenishrai.pro/r",
   "framework": "next",
   "rsc": true,
   "css": "src/app/globals.css",
@@ -93,7 +100,8 @@ export default function Cli() {
     "variant": "expressive",
     "contrast": 0,
     "font": { "brand": "Roboto Flex", "plain": "Roboto Flex" },
-    "shape": "expressive"
+    "shape": "expressive",
+    "motionScheme": "expressive"
   },
   "dirs": {
     "components": "src/components/expressive",
