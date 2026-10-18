@@ -3,11 +3,17 @@
 import * as React from "react";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { IconButton } from "@/registry/components/icon-button";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { DocsSidebar } from "@/components/docs/sidebar";
+import { OnThisPage } from "@/components/docs/toc";
 import { Icon } from "@/components/icons";
 
-/* Docs frame: header, sticky sidebar on large screens, a drawer on small ones. */
+/*
+ * Docs frame, full width like the landing page: a hairline-ruled navigation
+ * rail on the left, a centered reading column, and "On this page" on the right
+ * (wide screens). Small screens get the navigation as a drawer.
+ */
 export function DocsShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const menu = (
@@ -27,15 +33,19 @@ export function DocsShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <SiteHeader menu={menu} />
-      <div className="mx-auto flex max-w-7xl gap-10 px-4 pt-10 lg:px-6">
-        <aside className="sticky top-24 hidden h-[calc(100dvh-7rem)] w-60 shrink-0 overflow-y-auto pb-10 lg:block">
+      <SiteHeader menu={menu} wide />
+      <div className="grid lg:grid-cols-[17rem_minmax(0,1fr)] xl:grid-cols-[17rem_minmax(0,1fr)_16rem]">
+        <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-r border-outline-variant/60 py-8 pr-4 pl-12 lg:block">
           <DocsSidebar />
         </aside>
-        <main id="content" className="min-w-0 flex-1">
-          {children}
+        <main id="content" className="min-w-0 px-4 pt-10 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mx-auto w-full max-w-[56rem]">{children}</div>
         </main>
+        <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain py-10 pr-12 pl-2 xl:block">
+          <OnThisPage />
+        </aside>
       </div>
+      <SiteFooter className="border-t border-outline-variant/60 px-4 sm:px-8 lg:px-12" />
     </>
   );
 }

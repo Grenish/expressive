@@ -1,12 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { Demo, type DemoName } from "@/components/demos";
-import { C, DocsPage, H2, H3, List, P, Preview, PropsTable, rich } from "@/components/docs/prose";
+import { C, DocsPage, H2, H3, LinkTiles, List, P, Preview, PropsTable, rich } from "@/components/docs/prose";
 import { componentDocs } from "@/lib/component-docs";
 import { PAGES, pageMetadata } from "@/lib/seo";
 import { components, groups, titles } from "@/lib/site";
@@ -49,7 +48,18 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
     .map((other) => ({ slug: other, name: titles[other] ?? other, tagline: PAGES[`/docs/components/${other}`]?.og.subtitle ?? "" }));
 
   return (
-    <DocsPage href={`/docs/components/${slug}`} eyebrow={group} title={titles[slug] ?? slug} lead={item.description}>
+    <DocsPage
+      href={`/docs/components/${slug}`}
+      eyebrow={group}
+      title={titles[slug] ?? slug}
+      lead={item.description}
+      specs={[
+        ["group", group ?? "—"],
+        ["files", sources.map((s) => s.path.split("/").pop()).join(", ")],
+        ["depends on", npmDeps.length ? npmDeps.join(", ") : "—"],
+        ["add", `add ${slug}`],
+      ]}
+    >
       <Preview>
         <Demo name={slug as DemoName} />
       </Preview>
@@ -104,19 +114,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
       {/* Internal links: kept out of search so they don't add incidental matches. */}
       <div data-pagefind-ignore="all" className="flex flex-col gap-5">
         <H2>Related components</H2>
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {related.map(({ slug: other, name, tagline }) => (
-            <li key={other}>
-              <Link
-                href={`/docs/components/${other}`}
-                className="state-layer focus-ring flex h-full flex-col gap-1 rounded-shape-large border border-outline-variant p-4"
-              >
-                <span className="text-title-medium text-on-surface">{name}</span>
-                <span className="text-body-medium text-on-surface-variant">{tagline}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <LinkTiles items={related.map(({ slug: other, name, tagline }) => ({ href: `/docs/components/${other}`, title: name, description: tagline }))} />
       </div>
 
       <H2>Source</H2>

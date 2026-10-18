@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
-import { C, Callout, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
+import { C, Callout, DocsPage, H2, LinkTiles, List, P, TextLink } from "@/components/docs/prose";
 
 export const metadata: Metadata = pageMetadata("/docs");
 
@@ -39,7 +39,7 @@ export default function Introduction() {
           GSAP.
         </li>
         <li>
-          <strong>19 components</strong> built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
+          <strong>19 components and counting</strong>, built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
           screen reader behavior.
         </li>
         <li>
@@ -71,15 +71,13 @@ export default function Introduction() {
       </Callout>
 
       <H2>Next steps</H2>
-      <List>
-        <li>
-          <TextLink href="/docs/installation">Install Expressive</TextLink> in a React project.
-        </li>
-        <li>
-          Read how <TextLink href="/docs/theming">theming</TextLink> works, then browse the{" "}
-          <TextLink href="/docs/components/button">components</TextLink>.
-        </li>
-      </List>
+      <LinkTiles
+        items={[
+          { href: "/docs/installation", title: "Install", description: "Set up Expressive in a React project with one command." },
+          { href: "/docs/theming", title: "Theming", description: "Seed color, fonts and motion scheme, as CSS variables." },
+          { href: "/docs/components/button", title: "Components", description: "Nineteen and counting, each with a live preview and its source." },
+        ]}
+      />
     </DocsPage>
   );
 }

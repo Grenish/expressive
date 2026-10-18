@@ -40,6 +40,16 @@ export const docsNav: NavSection[] = [
 
 const flat = docsNav.flatMap((section) => section.links);
 
+/** A page's place in reading order, 1-based (0 when it isn't in the nav). Shown as its index number. */
+export function pageNumber(href: string) {
+  return flat.findIndex((link) => link.href === href) + 1;
+}
+
+export const pageCount = flat.length;
+
+/** Two-digit index label: 5 → "05". */
+export const pad = (n: number) => String(n).padStart(2, "0");
+
 export function neighbours(href: string) {
   const index = flat.findIndex((link) => link.href === href);
   return { prev: index > 0 ? flat[index - 1] : undefined, next: index >= 0 ? flat[index + 1] : undefined };
