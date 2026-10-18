@@ -149,9 +149,9 @@ export function CommandTabs({ items, className = "" }: CommandTabsProps) {
   const command = items.find((item) => item.manager === active)?.command ?? items[0]!.command;
 
   return (
-    <figure className={`code-block @container relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
+    <figure data-lang="bash" data-command-tabs="" className={`code-block @container relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
       {/* Sized by the block, not the viewport: roomy from 24rem, tight below, logos only under 21rem. */}
-      <div className="flex items-center gap-1 border-b border-outline-variant/60 py-1.5 pl-1.5 pr-2 @sm:gap-2 @sm:pr-2.5">
+      <div data-pagefind-ignore="all" data-md-skip="" className="flex items-center gap-1 border-b border-outline-variant/60 py-1.5 pl-1.5 pr-2 @sm:gap-2 @sm:pr-2.5">
         <div ref={listRef} role="tablist" aria-label="Package manager" className="relative flex items-center gap-0.5" onKeyDown={onKeyDown}>
           {indicator && (
             <span
@@ -195,6 +195,9 @@ export function CommandTabs({ items, className = "" }: CommandTabsProps) {
           id={`${id}-${manager}-panel`}
           aria-labelledby={`${id}-${manager}-tab`}
           hidden={manager !== active}
+          data-manager={manager}
+          // Index and export the npm variant only; the others are the same command.
+          data-pagefind-ignore={manager === "npm" ? undefined : "all"}
           className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] leading-6"
           dangerouslySetInnerHTML={{ __html: html }}
         />

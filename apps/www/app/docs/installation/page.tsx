@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { C, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
 import { PackageCommand } from "@/components/package-command";
 
-export const metadata: Metadata = { title: "Installation" };
+export const metadata: Metadata = pageMetadata("/docs/installation");
 
 export default function Installation() {
   return (

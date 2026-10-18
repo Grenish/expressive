@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, P, Preview } from "@/components/docs/prose";
@@ -6,7 +7,7 @@ import { CornerScale, ShapeStyles } from "@/components/docs/foundations";
 import { ShapeGallery } from "@/components/demos-more";
 import { TextLink } from "@/components/docs/prose";
 
-export const metadata: Metadata = { title: "Shape" };
+export const metadata: Metadata = pageMetadata("/docs/shape");
 
 export default function Shape() {
   return (

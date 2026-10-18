@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
 
-export const metadata: Metadata = { title: "Theming" };
+export const metadata: Metadata = pageMetadata("/docs/theming");
 
 export default function Theming() {
   return (

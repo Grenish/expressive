@@ -1,7 +1,7 @@
 {
   "name": "@grenishrai/expressive",
   "version": "0.0.1",
-  "description": "Add Material 3 Expressive–inspired components to your project. You own the code.",
+  "description": "Material 3 Expressive components for React and Tailwind CSS: copy the source into your project and own it.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -55,6 +55,18 @@
     "tailwindcss",
     "components",
     "cli",
-    "shadcn"
+    "shadcn",
+    "material-3-expressive",
+    "m3-expressive",
+    "material-design-3",
+    "material-design",
+    "react-components",
+    "tailwind-css",
+    "tailwindcss-v4",
+    "shadcn-ui",
+    "design-tokens",
+    "base-ui",
+    "nextjs",
+    "ui-kit"
   ]
 }

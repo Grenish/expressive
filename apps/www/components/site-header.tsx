@@ -8,10 +8,12 @@ import { Dialog, DialogActions, DialogClose, DialogContent, DialogDescription, D
 import { Tooltip } from "@/registry/components/tooltip";
 import { ThemeControls } from "@/components/theme-controls";
 import { Icon } from "@/components/icons";
+import { Search } from "@/components/search";
 import { usePlayground } from "@/lib/playground";
 import { cn } from "@/registry/lib/utils";
+import { GITHUB_URL } from "@/lib/links";
 
-export const GITHUB_URL = "https://github.com/Grenish/expressive";
+export { GITHUB_URL };
 
 export function Logo() {
   return (
@@ -42,7 +44,8 @@ export function CustomizeDialog({ children }: { children: React.ReactElement }) 
   );
 }
 
-export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
+/** `wide` aligns the header with full-bleed pages (the landing page) instead of the docs column. */
+export function SiteHeader({ menu, wide = false }: { menu?: React.ReactNode; wide?: boolean }) {
   const pathname = usePathname();
   const { state, update } = usePlayground();
   const link = (href: string, label: string, active: boolean) => (
@@ -60,7 +63,7 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-outline-variant/50 bg-surface/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 lg:px-6">
+      <div className={cn("mx-auto flex h-16 items-center gap-2", wide ? "px-4 sm:px-8 lg:px-12" : "max-w-7xl px-4 lg:px-6")}>
         {menu}
         <Logo />
         <nav aria-label="Site" className="ml-4 hidden items-center gap-1 sm:flex">
@@ -68,6 +71,7 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
           {link("/docs/components/button", "Components", pathname.startsWith("/docs/components"))}
         </nav>
         <div className="ml-auto flex items-center gap-1">
+          <Search />
           <CustomizeDialog>
             <Button variant="tonal" size="sm" icon={<Icon name="palette" />} aria-label="Customize theme" className="max-sm:px-2.5">
               <span className="max-sm:sr-only">Customize</span>
@@ -78,8 +82,9 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
               <Icon name={state.dark ? "sun" : "moon"} />
             </IconButton>
           </Tooltip>
+          {/* Hidden on narrow phones so the header fits; GitHub is linked from the landing page and footer too. */}
           <Tooltip content="GitHub">
-            <IconButton aria-label="GitHub repository" render={<a href={GITHUB_URL} />} nativeButton={false}>
+            <IconButton aria-label="GitHub repository" render={<a href={GITHUB_URL} />} nativeButton={false} className="max-[420px]:hidden">
               <Icon name="github" />
             </IconButton>
           </Tooltip>

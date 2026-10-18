@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, DocsPage, H2, List, P, Preview } from "@/components/docs/prose";
 import { ColorRoles, SurfaceLadder } from "@/components/docs/foundations";
 import { TonalPalettes } from "@/components/theme-controls";
 
-export const metadata: Metadata = { title: "Color" };
+export const metadata: Metadata = pageMetadata("/docs/color");
 
 export default function Color() {
   return (
