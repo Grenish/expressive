@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { CopyPage } from "@/components/copy-page";
 import { Icon } from "@/components/icons";
+import { JsonLd } from "@/components/seo/json-ld";
 import { neighbours } from "@/lib/docs-nav";
+import { PAGES, markdownPath, pageJsonLd } from "@/lib/seo";
 
 const slug = (text: string) =>
   text
@@ -27,15 +30,35 @@ export function DocsPage({
   children: React.ReactNode;
 }) {
   const { prev, next } = neighbours(href);
+  const seo = PAGES[href];
+  // Search indexes only the article (data-pagefind-body); the Markdown copy drops anything marked data-md-skip.
   return (
-    <article className="flex min-w-0 flex-col pb-20">
+    <article className="flex min-w-0 flex-col pb-20" data-pagefind-body="" data-pagefind-filter={seo?.section ? `section:${seo.section}` : undefined}>
+      {seo && <JsonLd data={pageJsonLd(href)} />}
       <header className="flex flex-col gap-3 pb-10">
-        {eyebrow && <p className="text-label-large text-primary">{eyebrow}</p>}
+        <div className="flex flex-wrap items-center justify-between gap-2" data-pagefind-ignore="all" data-md-skip="">
+          <nav aria-label="Breadcrumb">
+            <ol className="flex flex-wrap items-center gap-1.5 text-label-large">
+              {href !== "/docs" && (
+                <li className="flex items-center gap-1.5">
+                  <Link href="/docs" className="focus-ring rounded-shape-extra-small text-on-surface-variant hover:text-on-surface">
+                    Docs
+                  </Link>
+                  <span aria-hidden="true" className="text-outline">
+                    /
+                  </span>
+                </li>
+              )}
+              {eyebrow && <li className="text-primary">{eyebrow}</li>}
+            </ol>
+          </nav>
+          {seo && <CopyPage href={markdownPath(href)} />}
+        </div>
         <h1 className="font-display text-display-small font-semibold tracking-tight text-on-surface sm:text-display-medium">{title}</h1>
         <p className="max-w-2xl text-body-large text-on-surface-variant">{lead}</p>
       </header>
       <div className="flex flex-col gap-5">{children}</div>
-      <nav aria-label="Pagination" className="mt-16 grid gap-3 border-t border-outline-variant/60 pt-6 sm:grid-cols-2">
+      <nav aria-label="Pagination" data-pagefind-ignore="all" data-md-skip="" className="mt-16 grid gap-3 border-t border-outline-variant/60 pt-6 sm:grid-cols-2">
         {prev ? (
           <Link href={prev.href} className="state-layer focus-ring flex flex-col gap-1 rounded-shape-large border border-outline-variant p-4">
             <span className="text-label-medium text-on-surface-variant">Previous</span>
@@ -61,7 +84,7 @@ export function H2({ children }: { children: string }) {
     <h2 id={id} className="group mt-8 scroll-mt-24 font-display text-headline-small font-semibold tracking-tight text-on-surface">
       <a href={`#${id}`} className="focus-ring rounded-shape-small">
         {children}
-        <span aria-hidden="true" className="ml-2 text-outline opacity-0 group-hover:opacity-100">
+        <span aria-hidden="true" data-md-skip="" data-pagefind-ignore="" className="ml-2 text-outline opacity-0 group-hover:opacity-100">
           #
         </span>
       </a>
@@ -151,5 +174,9 @@ export function PropsTable({ rows }: { rows: PropRow[] }) {
 
 /** Live example frame. */
 export function Preview({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-shape-extra-large border border-outline-variant p-6 sm:p-8 ${className}`}>{children}</div>;
+  return (
+    <div data-md-skip="" className={`rounded-shape-extra-large border border-outline-variant p-6 sm:p-8 ${className}`}>
+      {children}
+    </div>
+  );
 }

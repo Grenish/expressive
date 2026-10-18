@@ -15,9 +15,9 @@ interface CodeProps {
 export async function Code({ code, lang = "tsx", title, className = "", scroll = false }: CodeProps) {
   const html = await highlight(code, lang);
   return (
-    <figure className={`code-block relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
+    <figure data-lang={lang} className={`code-block relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
       {title && (
-        <figcaption className="border-b border-outline-variant/60 px-4 py-2 font-mono text-[12px] text-on-surface-variant">{title}</figcaption>
+        <figcaption data-code-title="" className="border-b border-outline-variant/60 px-4 py-2 font-mono text-[12px] text-on-surface-variant">{title}</figcaption>
       )}
       <div
         className={`overflow-x-auto p-4 pr-14 font-mono text-[13px] leading-6 ${scroll ? "max-h-[34rem] overflow-y-auto" : ""}`}

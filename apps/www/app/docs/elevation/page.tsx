@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { C, DocsPage, H2, P, Preview } from "@/components/docs/prose";
 import { ElevationLevels } from "@/components/docs/foundations";
 
-export const metadata: Metadata = { title: "Elevation" };
+export const metadata: Metadata = pageMetadata("/docs/elevation");
 
 export default function Elevation() {
   return (

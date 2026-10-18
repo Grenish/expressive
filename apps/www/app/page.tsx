@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/registry/components/button";
 import { Code } from "@/components/code";
@@ -7,8 +8,14 @@ import { ColorRoles } from "@/components/docs/foundations";
 import { Icon } from "@/components/icons";
 import { SeedDial } from "@/components/landing/seed-dial";
 import { Gallery, HeroSpecimen, MotionShowcase, SeedHint, ShapeShowcase } from "@/components/landing/sections";
-import { GITHUB_URL, SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "@/components/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
+import { FAQ } from "@/lib/faq";
+import { GITHUB_URL } from "@/lib/links";
+import { faqJsonLd, pageMetadata, siteJsonLd } from "@/lib/seo";
 import { TonalPalettes } from "@/components/theme-controls";
+
+export const metadata: Metadata = pageMetadata("/");
 
 function Section({ id, title, lead, children }: { id: string; title: string; lead: string; children: React.ReactNode }) {
   return (
@@ -28,10 +35,12 @@ export default function Landing() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex max-w-7xl flex-col gap-28 px-4 pt-12 pb-24 lg:px-6 lg:pt-20">
+      <JsonLd data={[...siteJsonLd(), faqJsonLd(FAQ)]} />
+      <main data-pagefind-body="" className="mx-auto flex max-w-7xl flex-col gap-28 px-4 pt-12 pb-24 lg:px-6 lg:pt-20">
         {/* Hero: the seed dial re-themes everything on the page. */}
         <section aria-labelledby="hero-title" className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
           <div className="flex flex-col items-start gap-7">
+            <p className="-mb-3 text-label-large tracking-wide text-primary uppercase">Material 3 Expressive for React</p>
             <h1
               id="hero-title"
               className="font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.92] font-bold tracking-[-0.035em] text-balance text-on-surface [font-stretch:85%]"
@@ -52,7 +61,7 @@ export default function Landing() {
             </div>
             <CommandPill args="init" className="rounded-shape-full bg-surface-container px-4 py-2 font-mono text-[13px] text-on-surface-variant" />
           </div>
-          <div className="flex flex-col gap-5">
+          <div data-md-skip="" className="flex flex-col gap-5">
             <SeedDial />
             <div className="text-center">
               <SeedHint />
@@ -66,7 +75,7 @@ export default function Landing() {
           title="Every role, from one seed"
           lead="Google's Material color algorithm turns your seed into five tonal palettes, then assigns each color role in light and dark. Contrast between a role and its on-role is built in."
         >
-          <div className="flex flex-col gap-6">
+          <div data-md-skip="" className="flex flex-col gap-6">
             <TonalPalettes />
             <ColorRoles />
           </div>
@@ -77,7 +86,9 @@ export default function Landing() {
           title="Motion that springs"
           lead="Movement uses spring physics instead of fixed durations. Same move, three schemes: expressive overshoots, standard settles, and fluid drifts like a droplet, stretching with speed and wobbling as it lands."
         >
-          <MotionShowcase />
+          <div data-md-skip="">
+            <MotionShowcase />
+          </div>
         </Section>
 
         <Section
@@ -85,7 +96,9 @@ export default function Landing() {
           title="Shapes that respond"
           lead="All 35 Material 3 Expressive shapes, from cookies and clovers to the burst and the flower, morphing into each other on springs. And corners are tokens that move: press and hold a tile."
         >
-          <ShapeShowcase />
+          <div data-md-skip="">
+            <ShapeShowcase />
+          </div>
         </Section>
 
         <Section
@@ -120,8 +133,21 @@ export default function Landing() {
               See them all
             </Button>
           </div>
-          <Gallery />
+          <div data-md-skip="">
+            <Gallery />
+          </div>
         </section>
+
+        <Section id="faq" title="Questions" lead="What Expressive is, what it isn't, and where it runs.">
+          <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            {FAQ.map(({ q, a }) => (
+              <div key={q} className="flex flex-col gap-2">
+                <dt className="text-title-large text-on-surface">{q}</dt>
+                <dd className="text-body-large text-on-surface-variant">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
 
         <section className="flex flex-col items-start gap-6 rounded-shape-extra-extra-large bg-primary-container p-8 text-on-primary-container sm:p-12">
           <h2 className="max-w-2xl font-display text-display-small font-semibold tracking-tight text-balance">

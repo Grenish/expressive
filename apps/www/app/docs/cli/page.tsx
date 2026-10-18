@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, DocsPage, H2, List, P, PropsTable } from "@/components/docs/prose";
 
-export const metadata: Metadata = { title: "CLI" };
+export const metadata: Metadata = pageMetadata("/docs/cli");
 
 const common = [
   { name: "-c, --cwd <path>", type: "path", default: "current dir", description: "Project directory." },

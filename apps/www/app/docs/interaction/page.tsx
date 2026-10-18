@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { C, DocsPage, H2, List, P, Preview } from "@/components/docs/prose";
 import { StateLayers } from "@/components/docs/foundations";
 
-export const metadata: Metadata = { title: "Interaction" };
+export const metadata: Metadata = pageMetadata("/docs/interaction");
 
 export default function Interaction() {
   return (

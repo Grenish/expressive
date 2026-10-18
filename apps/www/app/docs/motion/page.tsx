@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, H3, List, P } from "@/components/docs/prose";
 import { SpringPlot } from "@/components/docs/foundations";
 import { MotionShowcase } from "@/components/landing/sections";
 
-export const metadata: Metadata = { title: "Motion" };
+export const metadata: Metadata = pageMetadata("/docs/motion");
 
 export default function Motion() {
   return (

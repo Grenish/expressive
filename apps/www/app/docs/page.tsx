@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { C, Callout, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
 
-export const metadata: Metadata = { title: "Introduction" };
+export const metadata: Metadata = pageMetadata("/docs");
 
 export default function Introduction() {
   return (

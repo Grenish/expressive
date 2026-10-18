@@ -8,10 +8,12 @@ import { Dialog, DialogActions, DialogClose, DialogContent, DialogDescription, D
 import { Tooltip } from "@/registry/components/tooltip";
 import { ThemeControls } from "@/components/theme-controls";
 import { Icon } from "@/components/icons";
+import { Search } from "@/components/search";
 import { usePlayground } from "@/lib/playground";
 import { cn } from "@/registry/lib/utils";
+import { GITHUB_URL } from "@/lib/links";
 
-export const GITHUB_URL = "https://github.com/Grenish/expressive";
+export { GITHUB_URL };
 
 export function Logo() {
   return (
@@ -68,6 +70,7 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
           {link("/docs/components/button", "Components", pathname.startsWith("/docs/components"))}
         </nav>
         <div className="ml-auto flex items-center gap-1">
+          <Search />
           <CustomizeDialog>
             <Button variant="tonal" size="sm" icon={<Icon name="palette" />} aria-label="Customize theme" className="max-sm:px-2.5">
               <span className="max-sm:sr-only">Customize</span>
@@ -78,8 +81,9 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
               <Icon name={state.dark ? "sun" : "moon"} />
             </IconButton>
           </Tooltip>
+          {/* Hidden on narrow phones so the header fits; GitHub is linked from the landing page and footer too. */}
           <Tooltip content="GitHub">
-            <IconButton aria-label="GitHub repository" render={<a href={GITHUB_URL} />} nativeButton={false}>
+            <IconButton aria-label="GitHub repository" render={<a href={GITHUB_URL} />} nativeButton={false} className="max-[420px]:hidden">
               <Icon name="github" />
             </IconButton>
           </Tooltip>

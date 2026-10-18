@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Code } from "@/components/code";
 import { PackageCommand } from "@/components/package-command";
 import { C, DocsPage, H2, List, P } from "@/components/docs/prose";
 import { TypeScale } from "@/components/docs/foundations";
 
-export const metadata: Metadata = { title: "Typography" };
+export const metadata: Metadata = pageMetadata("/docs/typography");
 
 export default function Typography() {
   return (
