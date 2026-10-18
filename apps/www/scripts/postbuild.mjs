@@ -65,8 +65,9 @@ function convert(path, html) {
   for (const link of body.querySelectorAll("a[href^='/']")) link.setAttribute("href", SITE + link.getAttribute("href"));
 
   let markdown = turndown.turndown(body.innerHTML).replace(/\n{3,}/g, "\n\n").trim();
-  if (!markdown.startsWith("# ")) markdown = `# ${heading}\n\n${markdown}`;
-  markdown = markdown.replace(/^(# .+)\n/, `$1\n\nSource: ${SITE}${path === "/" ? "/" : path}\n`);
+  // One H1 per copy: add the page title only if the content has none, then cite the source under it.
+  if (!/^# /m.test(markdown)) markdown = `# ${heading}\n\n${markdown}`;
+  markdown = markdown.replace(/^(# .+)$/m, `$1\n\nSource: ${SITE}${path === "/" ? "/" : path}`);
   return { path, title, heading, description, section, html, markdown: `${markdown}\n` };
 }
 

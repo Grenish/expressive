@@ -12,7 +12,7 @@ import {
 import { Playground } from "@/lib/playground";
 import { PAGES, SITE } from "@/lib/seo";
 import { generateScheme } from "@/registry/tokens/colors";
-import { DEFAULT_SEED } from "@/registry/tokens/theme";
+import { SITE_SEED } from "@/lib/brand";
 import "./globals.css";
 
 // Optical sizing only: nothing sets Roboto Flex's width, and the extra axis doubles the download.
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
 };
 
-const scheme = generateScheme({ seed: DEFAULT_SEED });
+const scheme = generateScheme({ seed: SITE_SEED });
 
 export const viewport: Viewport = {
   themeColor: [

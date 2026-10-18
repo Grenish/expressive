@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/seo";
 import { generateScheme } from "@/registry/tokens/colors";
-import { DEFAULT_SEED } from "@/registry/tokens/theme";
+import { SITE_SEED } from "@/lib/brand";
 
 export default function manifest(): MetadataRoute.Manifest {
-  const { light } = generateScheme({ seed: DEFAULT_SEED });
+  const { light } = generateScheme({ seed: SITE_SEED });
   return {
     name: "Expressive: Material 3 Expressive for React",
     short_name: SITE.name,

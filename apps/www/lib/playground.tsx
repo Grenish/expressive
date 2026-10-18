@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import type { SchemeVariant } from "@/registry/tokens/colors";
-import { createTheme, DEFAULT_SEED } from "@/registry/tokens/theme";
+import { createTheme } from "@/registry/tokens/theme";
+import { PREVIOUS_SITE_SEED, SITE_SEED } from "@/lib/brand";
 import type { MotionScheme } from "@/registry/tokens/motion";
 import { ThemeProvider } from "@/registry/lib/theme-provider";
 import { SnackbarProvider } from "@/registry/components/snackbar";
@@ -32,7 +33,7 @@ export interface PlaygroundState {
 }
 
 const initial: PlaygroundState = {
-  seed: DEFAULT_SEED,
+  seed: SITE_SEED,
   variant: "expressive",
   dark: false,
   motion: "expressive",
@@ -62,6 +63,8 @@ export function Playground({ children }: { children: React.ReactNode }) {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const next = { ...initial, ...JSON.parse(saved) };
+        // Every visit saved the full state, so an untouched seed is still the old default: move it to the new one.
+        if (next.seed?.toUpperCase() === PREVIOUS_SITE_SEED) next.seed = SITE_SEED;
         if (next.motion === "fluid" && next.engine === "css") next.engine = "motion";
         setState(next);
       }

@@ -44,7 +44,8 @@ export function CustomizeDialog({ children }: { children: React.ReactElement }) 
   );
 }
 
-export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
+/** `wide` aligns the header with full-bleed pages (the landing page) instead of the docs column. */
+export function SiteHeader({ menu, wide = false }: { menu?: React.ReactNode; wide?: boolean }) {
   const pathname = usePathname();
   const { state, update } = usePlayground();
   const link = (href: string, label: string, active: boolean) => (
@@ -62,7 +63,7 @@ export function SiteHeader({ menu }: { menu?: React.ReactNode }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-outline-variant/50 bg-surface/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 lg:px-6">
+      <div className={cn("mx-auto flex h-16 items-center gap-2", wide ? "px-4 sm:px-8 lg:px-12" : "max-w-7xl px-4 lg:px-6")}>
         {menu}
         <Logo />
         <nav aria-label="Site" className="ml-4 hidden items-center gap-1 sm:flex">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { docsNav } from "@/lib/docs-nav";
+import { SITE_SEED } from "@/lib/brand";
 import { GITHUB_URL, NPM_URL, SITE_URL } from "@/lib/links";
 import { groups, titles } from "@/lib/site";
 
@@ -24,11 +25,10 @@ export const TITLE_SUFFIX = " · Expressive";
 
 /** Seed colors for each page's Open Graph card (one hue per section, so the set reads as a family). */
 export const OG_SEEDS = {
-  violet: "#6750A4",
+  signature: SITE_SEED,
   amber: "#B5770D",
   rose: "#B4246E",
   coral: "#C2521C",
-  teal: "#00796B",
   blue: "#1A5FD0",
   green: "#3B7D2E",
 } as const;
@@ -69,7 +69,7 @@ const docs: Array<Omit<PageSeo, "section">> = [
     title: "Introduction: Material 3 Expressive for React",
     description:
       "What Expressive is: Material 3 Expressive's color, type, shape and motion for React and Tailwind CSS, as source code you copy into your app and own.",
-    og: { seed: "violet", art: "intro", eyebrow: "Documentation", headline: "Material 3 Expressive, for React", subtitle: "Color, type, shape and motion for React and Tailwind CSS, as code you own." },
+    og: { seed: "signature", art: "intro", eyebrow: "Documentation", headline: "Material 3 Expressive, for React", subtitle: "Color, type, shape and motion for React and Tailwind CSS, as code you own." },
   },
   {
     path: "/docs/installation",
@@ -101,7 +101,7 @@ const docs: Array<Omit<PageSeo, "section">> = [
     title: "Material 3 color scheme from one seed color",
     description:
       "Generate a full Material 3 color scheme from one seed: five tonal palettes, every color role in light and dark, nine scheme variants and adjustable contrast.",
-    og: { seed: "violet", art: "color", eyebrow: "Foundations", headline: "Color from one seed" },
+    og: { seed: "signature", art: "color", eyebrow: "Foundations", headline: "Color from one seed" },
   },
   {
     path: "/docs/typography",
@@ -125,7 +125,7 @@ const docs: Array<Omit<PageSeo, "section">> = [
     title: "Material 3 Expressive motion and spring physics",
     description:
       "Spring-based motion tokens from M3 Expressive: expressive, standard and fluid schemes, running on CSS, Motion or GSAP, with reduced motion built in.",
-    og: { seed: "teal", art: "motion", eyebrow: "Foundations", headline: "Motion that springs" },
+    og: { seed: "blue", art: "motion", eyebrow: "Foundations", headline: "Motion that springs" },
   },
   {
     path: "/docs/elevation",
@@ -216,8 +216,8 @@ const componentTaglines: Record<string, string> = {
 };
 
 const groupSeeds: Record<string, Seed> = {
-  Actions: "violet",
-  "Selection & input": "teal",
+  Actions: "signature",
+  "Selection & input": "blue",
   Navigation: "blue",
   Containment: "coral",
   Communication: "green",
@@ -237,7 +237,7 @@ const componentPages: Array<Omit<PageSeo, "section">> = groups.flatMap((group) =
       title: componentTitle(name),
       description: componentDescriptions[slug] ?? "",
       og: {
-        seed: groupSeeds[group.title] ?? "violet",
+        seed: groupSeeds[group.title] ?? "signature",
         art: { component: slug },
         eyebrow: `Component · ${group.title}`,
         headline: name,
@@ -257,7 +257,7 @@ export const PAGES: Record<string, PageSeo> = Object.fromEntries(
       name: "Expressive",
       title: "Expressive: Material 3 Expressive components for React",
       description: SITE.description,
-      og: { seed: "violet", art: "home", eyebrow: "Material 3 Expressive for React", headline: "One color. A whole design system." },
+      og: { seed: "signature", art: "home", eyebrow: "Material 3 Expressive for React", headline: "One color. A whole design system." },
     } satisfies PageSeo,
     ...docs,
     ...componentPages,
