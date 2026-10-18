@@ -51,6 +51,12 @@ through the adapter exported by `motion.ts`. To change engines, change that
 one import, or point it at your own `my-motion.ts`.
 `prefers-reduced-motion` and `motion="none"` turn motion off.
 
+## Contributing
+
+Bug reports, component requests and pull requests are welcome. Start with
+[CONTRIBUTING.md](CONTRIBUTING.md); everyone taking part follows the
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## Notes
 
 - `@material/material-color-utilities@0.4.0` ships some extensionless ESM

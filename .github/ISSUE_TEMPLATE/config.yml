@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://expressive.grenishrai.pro/docs
+    about: Installation, theming, the CLI reference and every component, with live examples.
+  - name: Material 3 Expressive guidelines
+    url: https://m3.material.io
+    about: Google's design guidelines that Expressive follows. Expressive isn't affiliated with Google.

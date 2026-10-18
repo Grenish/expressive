@@ -1,55 +1,69 @@
-// A few Material Symbols (Apache 2.0), inlined so the docs have no icon dependency.
-const paths = {
-  add: "M11 13H5v-2h6V5h2v6h6v2h-6v6h-2Z",
-  favorite:
-    "m12 21-1.45-1.3q-2.53-2.28-4.17-3.93T3.75 12.8 2.4 10.4 2 8.15Q2 5.8 3.58 4.22T7.5 2.65q1.3 0 2.47.55T12 4.75q.85-1 2.03-1.55t2.47-.55q2.35 0 3.93 1.58T22 8.15q0 1.15-.4 2.25t-1.35 2.4-2.63 2.97-4.17 3.93Z",
-  edit: "M5 19h1.43L16.2 9.23l-1.43-1.43L5 17.58Zm-2 2v-4.25L16.2 3.58q.3-.28.66-.43t.77-.15q.4 0 .78.15t.65.45L20.43 5q.3.28.44.65T21 6.4q0 .4-.14.76t-.44.66L7.25 21Z",
-  delete:
-    "M7 21q-.82 0-1.41-.59T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .82-.59 1.41T17 21ZM17 6H7v13h10ZM9 17h2V8H9Zm4 0h2V8h-2ZM7 6v13Z",
-  bolt: "m8 22 1-7H4l9-13h2l-1 8h6L10 22Z",
-  palette:
-    "M12 22q-2.05 0-3.87-.79t-3.18-2.14T2.8 15.9 2 12q0-2.08.81-3.9t2.2-3.17T8.27 2.8 12.2 2q2 0 3.78.69t3.11 1.89 2.12 2.84T22 11.05q0 2.88-1.75 4.41T16 17h-1.85q-.23 0-.31.13t-.09.27q0 .3.38.86t.38 1.29q0 1.25-.69 1.85T12 22Zm-5.5-9q.65 0 1.08-.43T8 11.5t-.42-1.07T6.5 10t-1.07.43T5 11.5t.43 1.07T6.5 13Zm3-4q.65 0 1.08-.43T11 7.5t-.42-1.07T9.5 6t-1.07.43T8 7.5t.43 1.07T9.5 9Zm5 0q.65 0 1.08-.43T16 7.5t-.42-1.07T14.5 6t-1.07.43T13 7.5t.43 1.07T14.5 9Zm3 4q.65 0 1.08-.43T19 11.5t-.42-1.07T17.5 10t-1.07.43T16 11.5t.43 1.07T17.5 13Z",
-  copy: "M9 18q-.82 0-1.41-.59T7 16V4q0-.82.59-1.41T9 2h9q.82 0 1.41.59T20 4v12q0 .82-.59 1.41T18 18Zm0-2h9V4H9Zm-4 6q-.82 0-1.41-.59T3 20V6h2v14h11v2Z",
-  check: "M9.55 18 3.85 12.3l1.43-1.43 4.27 4.28 9.17-9.18 1.43 1.43Z",
-  menu: "M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z",
-  moon: "M12 21q-3.75 0-6.37-2.63T3 12t2.63-6.37T12 3q.35 0 .69.03t.66.07q-1.03.73-1.64 1.9T11.1 7.5q0 2.25 1.58 3.83T16.5 12.9q1.38 0 2.54-.61t1.89-1.64q.05.33.06.66T21 12q0 3.75-2.62 6.38T12 21Z",
-  sun: "M11 5V1h2v4Zm0 18v-4h2v4Zm8-10v-2h4v2ZM1 13v-2h4v2Zm17.7-5.3-1.4-1.4 2.8-2.85 1.43 1.43ZM3.9 20.1l-1.43-1.43L5.3 15.9l1.4 1.4ZM20.1 20.1l-2.8-2.8 1.4-1.4 2.85 2.8ZM5.3 7.7 2.47 4.9 3.9 3.47l2.8 2.83ZM12 18q-2.5 0-4.25-1.75T6 12t1.75-4.25T12 6t4.25 1.75T18 12t-1.75 4.25T12 18Z",
-  github: "M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z",
-  arrow: "M16.18 13H4v-2h12.18l-5.6-5.6L12 4l8 8-8 8-1.43-1.4Z",
-  terminal: "M4 20q-.82 0-1.41-.59T2 18V6q0-.82.59-1.41T4 4h16q.82 0 1.41.59T22 6v12q0 .82-.59 1.41T20 20Zm0-2h16V8H4Zm3.5-1-1.4-1.4L8.67 13l-2.6-2.6L7.5 9l4 4Zm4.5 0v-2h6v2Z",
-  home: "M4 21V9l8-6 8 6v12h-6v-7h-4v7Z",
-  inbox:
-    "M5 21q-.82 0-1.41-.59T3 19V5q0-.82.59-1.41T5 3h14q.82 0 1.41.59T21 5v14q0 .82-.59 1.41T19 21Zm0-2h14v-3h-3q-.75.95-1.8 1.48T12 18t-2.2-.52T8 16H5Zm7-3q.95 0 1.73-.55T14.8 14H19V5H5v9h4.2q.3.9 1.08 1.45T12 16Z",
-  search:
-    "m19.6 21-6.3-6.3q-.75.6-1.73.95T9.5 16q-2.73 0-4.61-1.89T3 9.5t1.89-4.61T9.5 3t4.61 1.89T16 9.5q0 1.1-.35 2.08T14.7 13.3l6.3 6.3ZM9.5 14q1.88 0 3.19-1.31T14 9.5t-1.31-3.19T9.5 5 6.31 6.31 5 9.5t1.31 3.19T9.5 14Z",
-  star: "m5.85 21 1.63-7.03L2 9.25l7.2-.63L12 2l2.8 6.63 7.2.62-5.47 4.73L18.15 21 12 17.27Z",
-  more:
-    "M12 20q-.82 0-1.41-.59T10 18t.59-1.41T12 16t1.41.59T14 18t-.59 1.41T12 20Zm0-6q-.82 0-1.41-.59T10 12t.59-1.41T12 10t1.41.59T14 12t-.59 1.41T12 14Zm0-6q-.82 0-1.41-.59T10 6t.59-1.41T12 4t1.41.59T14 6t-.59 1.41T12 8Z",
-  back: "m7.83 13 5.6 5.6L12 20l-8-8 8-8 1.43 1.4-5.6 5.6H20v2Z",
-  event: "M5 22q-.82 0-1.41-.59T3 20V6q0-.82.59-1.41T5 4h1V2h2v2h8V2h2v2h1q.82 0 1.41.59T21 6v14q0 .82-.59 1.41T19 22Zm0-2h14V10H5Z",
-  person:
-    "M12 12q-1.65 0-2.82-1.18T8 8t1.18-2.82T12 4t2.82 1.18T16 8t-1.18 2.82T12 12Zm-8 8v-2.8q0-.85.44-1.56t1.16-1.09q1.55-.77 3.15-1.16T12 13t3.25.39 3.15 1.16q.72.38 1.16 1.09T20 17.2V20Z",
-  folder: "M4 20q-.82 0-1.41-.59T2 18V6q0-.82.59-1.41T4 4h6l2 2h8q.82 0 1.41.59T22 8v10q0 .82-.59 1.41T20 20Z",
-  info: "M11 17h2v-6h-2Zm1-8q.43 0 .71-.29T13 8t-.29-.71T12 7t-.71.29T11 8t.29.71T12 9Zm0 13q-2.07 0-3.9-.79t-3.18-2.14T2.8 15.9 2 12t.79-3.9 2.14-3.17T8.1 2.8 12 2t3.9.8 3.17 2.13 2.14 3.18T22 12t-.79 3.9-2.14 3.18-3.17 2.13T12 22Z",
-} as const;
+/*
+ * The site's icons: Phosphor (MIT). They come from Phosphor's server-safe
+ * entry, so the same component renders in server and client components.
+ * Bold is the default: at 16–24px it sits closest to Material's 2px strokes.
+ * Glyphs that read as solid shapes (heart, star, bolt) use the fill weight.
+ */
+import type { IconWeight } from "@phosphor-icons/react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CalendarBlankIcon,
+  CheckIcon,
+  CopyIcon,
+  DotsThreeVerticalIcon,
+  FolderIcon,
+  GithubLogoIcon,
+  HeartIcon,
+  HouseIcon,
+  InfoIcon,
+  LightningIcon,
+  ListIcon,
+  MagnifyingGlassIcon,
+  MoonIcon,
+  PaletteIcon,
+  PencilSimpleIcon,
+  PlusIcon,
+  StarIcon,
+  SunIcon,
+  TerminalWindowIcon,
+  TrashIcon,
+  TrayIcon,
+  UserIcon,
+} from "@phosphor-icons/react/ssr";
 
-export type IconName = keyof typeof paths;
+const icons = {
+  add: PlusIcon,
+  favorite: HeartIcon,
+  edit: PencilSimpleIcon,
+  delete: TrashIcon,
+  bolt: LightningIcon,
+  palette: PaletteIcon,
+  copy: CopyIcon,
+  check: CheckIcon,
+  menu: ListIcon,
+  moon: MoonIcon,
+  sun: SunIcon,
+  github: GithubLogoIcon,
+  arrow: ArrowRightIcon,
+  terminal: TerminalWindowIcon,
+  home: HouseIcon,
+  inbox: TrayIcon,
+  search: MagnifyingGlassIcon,
+  star: StarIcon,
+  more: DotsThreeVerticalIcon,
+  back: ArrowLeftIcon,
+  event: CalendarBlankIcon,
+  person: UserIcon,
+  folder: FolderIcon,
+  info: InfoIcon,
+};
 
-export function Icon({
-  name,
-  className,
-}: {
-  name: IconName;
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d={paths[name]} />
-    </svg>
-  );
+const solid = new Set<IconName>(["favorite", "star", "bolt"]);
+
+export type IconName = keyof typeof icons;
+
+export function Icon({ name, className, weight }: { name: IconName; className?: string; weight?: IconWeight }) {
+  const Glyph = icons[name];
+  return <Glyph aria-hidden="true" className={className} weight={weight ?? (solid.has(name) ? "fill" : "bold")} />;
 }

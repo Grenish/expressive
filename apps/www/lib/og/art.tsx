@@ -27,16 +27,25 @@ const display = (size: number, weight: 600 | 700 = 700): Style => ({ fontFamily:
 const body = (size: number): Style => ({ fontFamily: "Roboto Flex", fontSize: size, lineHeight: 1.3 });
 const mono = (size: number): Style => ({ fontFamily: "JetBrains Mono", fontSize: size });
 
+/*
+ * The site's icons are Phosphor (bold), so cards use the same paths. The
+ * checkbox, chip and switch draw their own check mark in the library, so those
+ * cards keep it ("mark").
+ */
 const ICONS = {
-  check: "M9.55 18 3.85 12.3l1.43-1.43 4.27 4.28 9.17-9.18 1.43 1.43Z",
-  add: "M11 13H5v-2h6V5h2v6h6v2h-6v6h-2Z",
-  menu: "M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z",
+  check: { viewBox: "0 0 256 256", d: "M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z" },
+  add: { viewBox: "0 0 256 256", d: "M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z" },
+  menu: {
+    viewBox: "0 0 256 256",
+    d: "M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128ZM40,76H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24ZM216,180H40a12,12,0,0,0,0,24H216a12,12,0,0,0,0-24Z",
+  },
+  mark: { viewBox: "0 0 24 24", d: "M9.55 18 3.85 12.3l1.43-1.43 4.27 4.28 9.17-9.18 1.43 1.43Z" },
 };
 
 function Icon({ name, size, color }: { name: keyof typeof ICONS; size: number; color: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24">
-      <path d={ICONS[name]} fill={color} />
+    <svg width={size} height={size} viewBox={ICONS[name].viewBox}>
+      <path d={ICONS[name].d} fill={color} />
     </svg>
   );
 }
@@ -205,7 +214,7 @@ function component(name: string, { c, p }: Omit<ArtProps, "art" | "seed">) {
     case "chip": {
       const chip = (label: string, selected: boolean) => (
         <div style={row({ gap: 10, height: 68, padding: selected ? "0 28px 0 18px" : "0 28px", borderRadius: 18, backgroundColor: selected ? c.secondaryContainer : "transparent", border: selected ? undefined : `3px solid ${c.outlineVariant}`, color: selected ? c.onSecondaryContainer : c.onSurfaceVariant, ...display(28, 600) })}>
-          {selected && <Icon name="check" size={34} color={c.onSecondaryContainer} />}
+          {selected && <Icon name="mark" size={34} color={c.onSecondaryContainer} />}
           <span>{label}</span>
         </div>
       );
@@ -252,7 +261,7 @@ function component(name: string, { c, p }: Omit<ArtProps, "art" | "seed">) {
       const box = (state: "on" | "mixed" | "off", label: string) => (
         <div style={row({ gap: 26 })}>
           <div style={row({ justifyContent: "center", width: 68, height: 68, borderRadius: 14, backgroundColor: state === "off" ? "transparent" : c.primary, border: state === "off" ? `5px solid ${c.onSurfaceVariant}` : undefined })}>
-            {state === "on" && <Icon name="check" size={54} color={c.onPrimary} />}
+            {state === "on" && <Icon name="mark" size={54} color={c.onPrimary} />}
             {state === "mixed" && <div style={{ display: "flex", width: 34, height: 7, borderRadius: 4, backgroundColor: c.onPrimary }} />}
           </div>
           <span style={{ ...body(36), color: c.onSurface }}>{label}</span>
@@ -309,7 +318,7 @@ function component(name: string, { c, p }: Omit<ArtProps, "art" | "seed">) {
           <span style={{ ...body(38), color: c.onSurface }}>{label}</span>
           <div style={row({ width: 208, height: 128, padding: on ? "0 16px 0 0" : "0 0 0 22px", borderRadius: 64, justifyContent: on ? "flex-end" : "flex-start", backgroundColor: on ? c.primary : c.surfaceContainerHighest, border: on ? undefined : `6px solid ${c.outline}` })}>
             <div style={row({ justifyContent: "center", width: on ? 96 : 64, height: on ? 96 : 64, borderRadius: 48, backgroundColor: on ? c.onPrimary : c.outline })}>
-              {on && <Icon name="check" size={52} color={c.primary} />}
+              {on && <Icon name="mark" size={52} color={c.primary} />}
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.9.0",
     "@expressive/registry": "workspace:*",
     "@material/material-color-utilities": "^0.4.0",
+    "@phosphor-icons/react": "2.1.10",
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
