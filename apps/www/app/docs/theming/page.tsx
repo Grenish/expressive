@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
 
 export const metadata: Metadata = { title: "Theming" };
@@ -75,7 +76,7 @@ const css = themeToCss(theme); // ":root { --ex-color-primary: … }"`}
         When the theme depends on something only known while the app runs, like a color the user picks or a per-customer brand, add
         the theme provider:
       </P>
-      <Code code="npx @grenishrai/expressive add theme-provider" lang="bash" />
+      <PackageCommand args="add theme-provider" />
       <Code
         code={`"use client";
 

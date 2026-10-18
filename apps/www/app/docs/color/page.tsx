@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { C, DocsPage, H2, List, P, Preview } from "@/components/docs/prose";
 import { ColorRoles, SurfaceLadder } from "@/components/docs/foundations";
 import { TonalPalettes } from "@/components/theme-controls";
@@ -65,7 +66,7 @@ export default function Color() {
         tertiary colors; <C>tonal-spot</C> is the calmer classic Material look; <C>monochrome</C> removes chroma entirely. Try them in
         Customize.
       </P>
-      <Code code={`npx @grenishrai/expressive theme --variant tonal-spot\nnpx @grenishrai/expressive theme --contrast 0.5   # higher contrast`} lang="bash" />
+      <PackageCommand args={["theme --variant tonal-spot", "theme --contrast 0.5   # higher contrast"]} />
 
       <H2>Using color</H2>
       <Code

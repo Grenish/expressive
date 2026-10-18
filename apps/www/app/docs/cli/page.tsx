@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { C, DocsPage, H2, List, P, PropsTable } from "@/components/docs/prose";
 
 export const metadata: Metadata = { title: "CLI" };
@@ -18,12 +19,12 @@ export default function Cli() {
       lead="The expressive CLI sets up your project, copies components in, regenerates your theme, and shows how your copies differ from the originals."
     >
       <P>
-        Run it with <C>npx @grenishrai/expressive</C>, as in the examples below. If you install it globally (
-        <C>npm i -g @grenishrai/expressive</C>), the command is simply <C>expressive</C>.
+        Run it through your package manager: every example below has a tab for npm, pnpm, Yarn and Bun. If you install it
+        globally (<C>npm i -g @grenishrai/expressive</C>), the command is simply <C>expressive</C>.
       </P>
       <H2>init</H2>
       <P>Sets up config, tokens, the motion layer, the stylesheet and your theme. Run it once.</P>
-      <Code code={`npx @grenishrai/expressive init\nnpx @grenishrai/expressive init --yes --seed "#0B57D0" --motion motion`} lang="bash" />
+      <PackageCommand args={["init", `init --yes --seed "#0B57D0" --motion motion`]} />
       <PropsTable
         rows={[
           { name: "-y, --yes", type: "flag", description: "Skip prompts and use defaults for anything not passed." },
@@ -41,7 +42,7 @@ export default function Cli() {
 
       <H2>add</H2>
       <P>Copies components, and anything they depend on, into your project.</P>
-      <Code code="npx @grenishrai/expressive add button text-field navigation-bar" lang="bash" />
+      <PackageCommand args="add button text-field navigation-bar" />
       <P>
         If a file already exists and you&apos;ve changed it, <C>add</C> asks before replacing it. With <C>--yes</C> it skips those
         files and tells you which ones; with <C>--overwrite</C> it replaces them.
@@ -60,7 +61,7 @@ export default function Cli() {
         Regenerates the theme variables in your global CSS (between the <C>expressive:theme</C> markers) and saves the new settings
         to <C>expressive.json</C>.
       </P>
-      <Code code={`npx @grenishrai/expressive theme --seed "#B3261E" --variant vibrant\nnpx @grenishrai/expressive theme --contrast 0.5\nnpx @grenishrai/expressive theme --scheme fluid --motion motion`} lang="bash" />
+      <PackageCommand args={[`theme --seed "#B3261E" --variant vibrant`, "theme --contrast 0.5", "theme --scheme fluid --motion motion"]} />
       <PropsTable
         rows={[
           { name: "--seed <hex>", type: "string", description: "New seed color." },
@@ -76,11 +77,11 @@ export default function Cli() {
 
       <H2>list</H2>
       <P>Lists available components and marks the ones you&apos;ve installed.</P>
-      <Code code="npx @grenishrai/expressive list" lang="bash" />
+      <PackageCommand args="list" />
 
       <H2>diff</H2>
       <P>Shows how your copy of a component differs from the registry version, for example before updating it.</P>
-      <Code code="npx @grenishrai/expressive diff button" lang="bash" />
+      <PackageCommand args="diff button" />
 
       <H2>expressive.json</H2>
       <P>

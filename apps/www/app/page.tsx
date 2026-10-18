@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/registry/components/button";
 import { Code } from "@/components/code";
+import { CommandPill } from "@/components/command-tabs";
+import { PackageCommand } from "@/components/package-command";
 import { ColorRoles } from "@/components/docs/foundations";
 import { Icon } from "@/components/icons";
 import { SeedDial } from "@/components/landing/seed-dial";
@@ -48,9 +50,7 @@ export default function Landing() {
                 Browse components
               </Button>
             </div>
-            <code className="rounded-shape-full bg-surface-container px-4 py-2 font-mono text-[13px] text-on-surface-variant">
-              <span className="text-primary">$</span> npx @grenishrai/expressive init
-            </code>
+            <CommandPill args="init" className="rounded-shape-full bg-surface-container px-4 py-2 font-mono text-[13px] text-on-surface-variant" />
           </div>
           <div className="flex flex-col gap-5">
             <SeedDial />
@@ -94,13 +94,7 @@ export default function Landing() {
           lead="The CLI copies each component's source into your project and rewrites imports to your paths. No package to upgrade around, nothing hidden in node_modules."
         >
           <div className="grid gap-4 xl:grid-cols-2">
-            <Code
-              lang="bash"
-              code={`npx @grenishrai/expressive init
-npx @grenishrai/expressive add button dialog
-npx @grenishrai/expressive theme --seed "#0B57D0"
-npx @grenishrai/expressive diff button`}
-            />
+            <PackageCommand args={["init", "add button dialog", `theme --seed "#0B57D0"`, "diff button"]} />
             <Code
               lang="bash"
               title="your project"

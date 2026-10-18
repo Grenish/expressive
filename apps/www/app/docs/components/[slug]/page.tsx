@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { Demo, type DemoName } from "@/components/demos";
 import { C, DocsPage, H2, H3, List, P, Preview, PropsTable, rich } from "@/components/docs/prose";
 import { componentDocs } from "@/lib/component-docs";
@@ -45,7 +46,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
       <P>{rich(doc.overview)}</P>
 
       <H2>Installation</H2>
-      <Code code={`npx @grenishrai/expressive add ${slug}`} lang="bash" />
+      <PackageCommand args={`add ${slug}`} />
       <P>
         This copies <C>{sources.map((s) => s.path.split("/").pop()).join(", ")}</C> into your components folder
         {item.registryDependencies?.length ? (

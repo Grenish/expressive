@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, P, Preview } from "@/components/docs/prose";
 import { CornerScale, ShapeStyles } from "@/components/docs/foundations";
 import { ShapeGallery } from "@/components/demos-more";
@@ -60,9 +61,10 @@ export default function Shape() {
 <img src={photo} alt="" className="size-16 object-cover shape-clover-4" />`}
       />
       <P>
-        Add them with <C>npx @grenishrai/expressive add shape</C>. See the <TextLink href="/docs/components/shape">Shape component</TextLink>{" "}
-        for the full list of names and options.
+        Add them with the CLI. See the <TextLink href="/docs/components/shape">Shape component</TextLink> for the full list of
+        names and options.
       </P>
+      <PackageCommand args="add shape" />
 
       <H2>Customizing</H2>
       <Code code={`createTheme({ shape: { corners: { medium: 14, large: 20, "extra-large": 32 } } });`} />

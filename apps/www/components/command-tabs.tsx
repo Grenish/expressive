@@ -2,11 +2,7 @@
 
 import * as React from "react";
 import { CopyButton } from "@/components/copy-button";
-
-export type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
-
-const MANAGERS: PackageManager[] = ["npm", "pnpm", "yarn", "bun"];
-const LABELS: Record<PackageManager, string> = { npm: "npm", pnpm: "pnpm", yarn: "Yarn", bun: "Bun" };
+import { LABELS, MANAGERS, type PackageManager, cliCommand } from "@/lib/package-managers";
 
 /*
  * The chosen package manager is shared by every command block on the page and
@@ -96,6 +92,16 @@ function Logo({ manager }: { manager: PackageManager }) {
   }
 }
 
+/** A one-line command (e.g. in a hero) that follows the visitor's chosen package manager. */
+export function CommandPill({ args, className = "" }: { args: string; className?: string }) {
+  const manager = usePackageManager();
+  return (
+    <code className={className}>
+      <span className="text-primary">$</span> {cliCommand(manager, args)}
+    </code>
+  );
+}
+
 interface CommandTabsProps {
   /** One pre-highlighted command per package manager (see PackageCommand). */
   items: Array<{ manager: PackageManager; command: string; html: string }>;
@@ -143,8 +149,9 @@ export function CommandTabs({ items, className = "" }: CommandTabsProps) {
   const command = items.find((item) => item.manager === active)?.command ?? items[0]!.command;
 
   return (
-    <figure className={`code-block relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
-      <div className="flex items-center gap-1 border-b border-outline-variant/60 py-1.5 pl-1.5 pr-2 sm:gap-2 sm:pr-2.5">
+    <figure className={`code-block @container relative overflow-hidden rounded-shape-large bg-surface-container ${className}`}>
+      {/* Sized by the block, not the viewport: roomy from 24rem, tight below, logos only under 21rem. */}
+      <div className="flex items-center gap-1 border-b border-outline-variant/60 py-1.5 pl-1.5 pr-2 @sm:gap-2 @sm:pr-2.5">
         <div ref={listRef} role="tablist" aria-label="Package manager" className="relative flex items-center gap-0.5" onKeyDown={onKeyDown}>
           {indicator && (
             <span
@@ -167,13 +174,14 @@ export function CommandTabs({ items, className = "" }: CommandTabsProps) {
                 aria-selected={selected}
                 aria-controls={`${id}-${manager}-panel`}
                 tabIndex={selected ? 0 : -1}
+                title={LABELS[manager]}
                 onClick={() => choose(manager)}
-                className={`state-layer focus-ring relative inline-flex h-8 cursor-pointer select-none items-center gap-1.5 rounded-full px-2.5 text-[13px] font-medium transition-colors spring-effects-fast sm:gap-2 sm:px-3 ${
+                className={`state-layer focus-ring relative inline-flex h-8 cursor-pointer select-none items-center gap-1.5 rounded-full px-2.5 text-[13px] font-medium transition-colors spring-effects-fast @sm:gap-2 @sm:px-3 ${
                   selected ? "text-on-secondary-container" : "text-on-surface-variant hover:text-on-surface"
                 } ${selected && !indicator ? "bg-secondary-container" : ""}`}
               >
                 <Logo manager={manager} />
-                {LABELS[manager]}
+                <span className="sr-only @[21rem]:not-sr-only">{LABELS[manager]}</span>
               </button>
             );
           })}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
+import { PackageCommand } from "@/components/package-command";
 import { C, Callout, DocsPage, H2, H3, List, P } from "@/components/docs/prose";
 import { SpringPlot } from "@/components/docs/foundations";
 import { MotionShowcase } from "@/components/landing/sections";
@@ -75,7 +76,7 @@ export default function Motion() {
         CSS transitions can&apos;t read velocity, so fluid needs the <strong>Motion</strong> or <strong>GSAP</strong> engine. With
         the CSS engine, fluid falls back to expressive and logs a warning once. The CLI won&apos;t combine them:
       </P>
-      <Code code={`npx @grenishrai/expressive init --scheme fluid            # picks the Motion engine\nnpx @grenishrai/expressive theme --scheme fluid --motion gsap`} lang="bash" />
+      <PackageCommand args={["init --scheme fluid            # picks the Motion engine", "theme --scheme fluid --motion gsap"]} />
       <P>
         Or opt in per component with <C>motion=&quot;fluid&quot;</C>. Colors and fades still use CSS transitions, timed by the
         fluid springs.
