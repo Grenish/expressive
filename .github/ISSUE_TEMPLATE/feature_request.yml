@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest an improvement to a component, the CLI, the tokens or the docs.
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - A component
+        - The CLI
+        - Tokens or theming
+        - Motion
+        - The docs site
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe what you're trying to do and what gets in the way today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+      description: An API sketch, a CLI command or a screenshot from the Material 3 guidelines all help.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: Including editing your local copy, which you can always do.
+    validations:
+      required: false

@@ -1,0 +1,129 @@
+# Contributing to Expressive
+
+Thanks for helping. Expressive is a source-first design system: the CLI copies Material 3 Expressive components, tokens and
+the motion layer into people's projects, and they own the code from then on. So every change here ends up in someone else's
+codebase, readable and editable. That shapes most of what follows.
+
+By taking part you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Ways to help
+
+- **Report a bug** in a component, the CLI, the tokens or the docs, using the bug report form.
+- **Request a component.** There are 19 so far and counting; the component request form asks for the Material 3 Expressive
+  spec you have in mind.
+- **Fix something.** Issues labeled `good first issue` are a good place to start.
+- **Improve the docs.** Typos, unclear explanations and missing examples are all welcome.
+
+For anything bigger than a bug fix (a new component, a new token, an API change), open an issue first so we can agree on
+the shape before you write the code.
+
+## What we're aiming for
+
+- **Material 3 Expressive, faithfully.** Components follow the published
+  [Material 3 Expressive guidelines](https://m3.material.io). When the guidelines and taste disagree, the guidelines win; when
+  they're silent, say so in the PR. Expressive is inspired by Material Design; it isn't a Google project, so don't copy Google's
+  code or assets.
+- **Tokens, not values.** Components read semantic tokens through Tailwind utilities (`bg-primary`, `text-label-large`,
+  `rounded-shape-large`, `spring-spatial-fast`). No raw hex colors, pixel radii or hand-written durations in component code.
+- **Accessible by default.** Keyboard support, focus rings, screen reader semantics and reduced motion are part of "done",
+  not a follow-up. Components build on [Base UI](https://base-ui.com) primitives wherever one exists.
+- **Readable source.** People will open these files in their own editor. Prefer clear code over clever code, and comment the
+  *why* where it isn't obvious.
+
+## Repository layout
+
+| Path | What |
+| --- | --- |
+| `packages/registry/src/components` | the components |
+| `packages/registry/src/tokens` | color, typography, shape, motion, elevation, spacing and interaction tokens |
+| `packages/registry/src/lib` | spring physics, motion adapters, `useMotion`, `ThemeProvider`, `cn` |
+| `packages/registry/src/styles` | `expressive.css`, the Tailwind v4 bridge (partly generated) |
+| `packages/registry/registry.ts` | the manifest: every installable item, its files and dependencies |
+| `packages/registry/test` | Vitest + Testing Library tests (jsdom) |
+| `packages/cli` | the `@grenishrai/expressive` CLI |
+| `apps/www` | the docs site and theme playground (Next.js), deployed at [expressive.grenishrai.pro](https://expressive.grenishrai.pro) |
+
+## Setup
+
+You need Node.js 20.9 or newer and pnpm. The repo pins pnpm through `packageManager`, so Corepack picks the right version:
+
+```bash
+corepack enable
+pnpm install
+pnpm --filter @expressive/registry build   # shapes, styles and the registry JSON the site and CLI read
+pnpm --filter @expressive/www dev          # the docs site at http://localhost:3000
+```
+
+Day to day:
+
+```bash
+pnpm test         # registry and CLI tests
+pnpm typecheck    # every package
+pnpm build        # everything, including the site and its search index
+```
+
+To try the CLI against your local registry, point it at a scratch app:
+
+```bash
+pnpm --filter @grenishrai/expressive build
+node packages/cli/dist/index.js init --registry ./apps/www/public/r --cwd ../my-app
+node packages/cli/dist/index.js add button --registry ./apps/www/public/r --cwd ../my-app
+```
+
+## Changing a component
+
+1. Edit the source in `packages/registry/src/components/`.
+2. If its files or dependencies change, update its entry in `packages/registry/registry.ts`. Dependencies carry version
+   ranges (`@base-ui/react@^1.9.0`), and `registryDependencies` lists the Expressive items it needs.
+3. Add or update tests in `packages/registry/test/`. Cover behavior (keyboard, ARIA state, controlled and uncontrolled use),
+   not class names.
+4. Rebuild the registry with `pnpm --filter @expressive/registry build`, so `apps/www/public/r` matches.
+5. Check the component's docs page in light and dark mode, and with reduced motion turned on.
+
+## Adding a component
+
+Everything in "Changing a component", plus the docs site, which needs to know about it in a few places:
+
+| File | Add |
+| --- | --- |
+| `apps/www/lib/site.ts` | its title, and which group it belongs to |
+| `apps/www/lib/component-docs.ts` | overview, usage example, props, accessibility notes |
+| `apps/www/components/demos.tsx` | the live demo shown at the top of its page |
+| `apps/www/lib/seo.ts` | its search description and Open Graph subtitle |
+| `apps/www/lib/og/art.tsx` | the artwork on its social card |
+
+The component count also appears in copy ("19 components and counting") on the landing page (`apps/www/app/page.tsx`), the
+docs introduction (`apps/www/app/docs/page.tsx`) and the CLI README. Bump it in the same PR.
+
+## Changing tokens
+
+Tokens are the single source of truth: components, the generated CSS and the docs all read them. After changing anything in
+`packages/registry/src/tokens/`, rebuild the registry and run the tests. Motion changes belong in `tokens/motion.ts`; the
+CSS transitions sample their `linear()` easing from those springs.
+
+## Working on the docs site
+
+The site lives in `apps/www`. `pnpm build` there also runs `scripts/postbuild.mjs`, which writes the search index, a Markdown
+copy of every page, `llms.txt` and `llms-full.txt`. Before opening a PR for a UI change, check:
+
+- light and dark mode
+- a phone-width viewport (390px), with no horizontal scrolling
+- keyboard navigation and visible focus
+
+Every pull request gets a Vercel preview deployment, so reviewers can try your change on a live site.
+
+## Pull requests
+
+- Branch from `main` and keep each PR to one topic.
+- Fill in the PR template; for visual changes, include before and after screenshots in light and dark mode.
+- Make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass.
+- Don't bump package versions or publish; the maintainer handles releases.
+
+### Commit messages
+
+Match the existing history: a short, imperative summary line ("Add a tooltip delay prop", "Fix slider focus ring in dark
+mode"), then, if it helps, a body that explains what changed and why. No prefixes like `feat:` or `fix:`.
+
+## License
+
+Expressive is [MIT licensed](LICENSE). By contributing, you agree that your contributions are licensed under the same terms.

@@ -1,0 +1,51 @@
+name: Component request
+description: Ask for a Material 3 Expressive component that Expressive doesn't have yet.
+title: "Component: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Expressive has 19 components and counting. Requests for components in the
+        [Material 3 Expressive guidelines](https://m3.material.io/components) are the most likely to land.
+
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: Split button
+    validations:
+      required: true
+
+  - type: input
+    id: spec
+    attributes:
+      label: Material 3 spec
+      description: A link to the component's page in the Material 3 guidelines, if it has one.
+      placeholder: https://m3.material.io/components/split-button
+    validations:
+      required: false
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What would you use it for?
+      description: The screen or flow you're building helps decide which variants matter most.
+    validations:
+      required: true
+
+  - type: textarea
+    id: variants
+    attributes:
+      label: Variants and behavior you need
+      description: Sizes, styles, states, keyboard behavior, motion.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I'd like to build this myself (see CONTRIBUTING.md, "Adding a component").
+          required: false

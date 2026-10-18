@@ -1,0 +1,123 @@
+name: Bug report
+description: Something in a component, the CLI, the tokens or the docs isn't working as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. A minimal reproduction is the fastest way to a fix.
+
+        Since Expressive copies components into your project, please check first whether your copy still matches the
+        registry: `npx @grenishrai/expressive diff <component>` shows your local changes.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where is the problem?
+      options:
+        - A component
+        - The CLI (init, add, theme, diff, list)
+        - Tokens or theming (color, type, shape, elevation)
+        - Motion
+        - The docs site
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which component?
+      description: Skip this if the problem isn't in a component.
+      options:
+        - Button
+        - Icon button
+        - FAB
+        - Chips
+        - Checkbox
+        - Radio group
+        - Slider
+        - Switch
+        - Text field
+        - Navigation bar
+        - Navigation rail
+        - Top app bar
+        - Card
+        - Dialog
+        - Shape
+        - Loading
+        - Progress
+        - Snackbar
+        - Tooltip
+        - Several, or not a component
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include error messages or console output in full, and screenshots or a recording for visual bugs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: Steps, or a link to a minimal repository or StackBlitz.
+      placeholder: |
+        1. npx @grenishrai/expressive add slider
+        2. Render <Slider defaultValue={40} /> inside a Dialog
+        3. Press the right arrow key
+    validations:
+      required: true
+
+  - type: input
+    id: cli-version
+    attributes:
+      label: CLI version
+      description: Output of `npx @grenishrai/expressive --version`.
+      placeholder: "0.0.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options:
+        - Next.js
+        - Vite
+        - React Router
+        - TanStack Start
+        - Astro
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Versions and browser
+      description: React, Tailwind CSS, and the browser and OS where it happens.
+      placeholder: React 19.2, Tailwind CSS 4.1, Chrome 141 on macOS
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and this hasn't been reported.
+          required: true
+        - label: The problem happens with an unmodified copy of the component (or isn't in a component).
+          required: false
