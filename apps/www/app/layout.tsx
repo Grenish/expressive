@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import {
   Bricolage_Grotesque,
@@ -41,6 +42,7 @@ export default function RootLayout({
         <Playground>
           {children}
         </Playground>
+        <Analytics />
       </body>
     </html>
   );

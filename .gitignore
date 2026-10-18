@@ -4,3 +4,6 @@ dist
 .turbo
 *.tsbuildinfo
 .env*
+
+# Remotion launch film (local only)
+apps/video/

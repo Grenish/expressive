@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Code } from "@/components/code";
-import { C, Callout, DocsPage, H2, H3, List, P, TextLink } from "@/components/docs/prose";
+import { C, DocsPage, H2, List, P, TextLink } from "@/components/docs/prose";
+import { PackageCommand } from "@/components/package-command";
 
 export const metadata: Metadata = { title: "Installation" };
 
@@ -21,14 +22,9 @@ export default function Installation() {
         <li>Next.js, Vite, React Router / Remix, TanStack Start or Astro (with React islands).</li>
       </List>
 
-      <Callout title="Pre-release">
-        The component registry is live at <C>expressive.grenishrai.pro/r</C>, but the CLI isn&apos;t published to npm yet. Until it
-        is, run it from a clone of the repository, as shown under <TextLink href="#run-from-source">Run from source</TextLink>.
-      </Callout>
-
       <H2>1. Initialize</H2>
       <P>Run this in your project root:</P>
-      <Code code="npx @grenishrai/expressive init" lang="bash" />
+      <PackageCommand args="init" />
       <P>It asks for six things, all changeable later:</P>
       <List>
         <li>
@@ -63,11 +59,11 @@ export default function Installation() {
           adds <C>expressive.css</C> next to your global CSS and imports it after Tailwind;
         </li>
         <li>generates your theme&apos;s CSS variables into the global CSS file;</li>
-        <li>installs the npm packages those files use.</li>
+        <li>installs the npm packages those files use, with the package manager your lockfile points to.</li>
       </List>
 
       <H2>2. Add components</H2>
-      <Code code="npx @grenishrai/expressive add button dialog switch" lang="bash" />
+      <PackageCommand args="add button dialog switch" />
       <P>
         Components land in <C>components/expressive/</C>, with imports rewritten to your path aliases (or to relative paths if you
         don&apos;t use aliases). Anything a component depends on is added too.
@@ -100,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }`}
       />
-      <Code code={`npx @grenishrai/expressive theme --font "var(--font-geist)"`} lang="bash" />
+      <PackageCommand args={`theme --font "var(--font-geist)"`} />
 
       <H2>Dark mode</H2>
       <P>
@@ -109,25 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <C>attribute=&quot;class&quot;</C>.
       </P>
 
-      <H2>Run from source</H2>
-      <P>Until the CLI is on npm:</P>
-      <Code
-        lang="bash"
-        code={`git clone https://github.com/Grenish/expressive.git
-cd expressive
-pnpm install
-pnpm --filter @expressive/registry build   # builds the registry JSON
-pnpm --filter @grenishrai/expressive build             # builds the CLI
-
-# in your project (uses the hosted registry):
-node /path/to/expressive/packages/cli/dist/index.js init`}
-      />
-      <P>
-        To work against your local checkout instead, add <C>--registry /path/to/expressive/apps/www/public/r</C>. The registry
-        location is saved in <C>expressive.json</C>, so later <C>add</C> commands find it on their own.
-      </P>
-
-      <H3>Troubleshooting</H3>
+      <H2>Troubleshooting</H2>
       <List>
         <li>
           <strong>“Could not find a CSS file with @import &quot;tailwindcss&quot;”</strong>: set up Tailwind v4 first, or point at
