@@ -3,8 +3,8 @@
 //   <page>.md        a Markdown copy of every page (/docs/color.md, /index.md, …)
 //   llms.txt         an llmstxt.org index of the docs, linking the Markdown copies
 //   llms-full.txt    every page's Markdown in one file
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { dirname, join, relative } from "node:path";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "node-html-parser";
 import * as pagefind from "pagefind";
@@ -13,7 +13,7 @@ import { gfm } from "turndown-plugin-gfm";
 
 const SITE = "https://expressive.grenishrai.pro";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const built = join(root, ".next/server/app");
+const server = join(root, ".next/server");
 const pub = join(root, "public");
 
 const fail = (message) => {
@@ -21,10 +21,24 @@ const fail = (message) => {
   process.exit(1);
 };
 
+// Prerendered output, keyed by route file ("docs/color.html", "sitemap.xml.body"). Next writes it to
+// .next/server/app/<route>, or, when a deployment adapter is loaded (Vercel's is), to
+// .next/server/route-cache/<kind>/<hash>/$/<route>. Index both so the script works locally and on Vercel.
+const prerendered = new Map();
+for (const dir of ["app", "route-cache"]) {
+  const base = join(server, dir);
+  for (const file of await readdir(base, { recursive: true }).catch(() => [])) {
+    if (!/\.(html|body)$/.test(file)) continue;
+    const route = dir === "app" ? file : file.split(`${sep}$${sep}`)[1];
+    if (route) prerendered.set(route.split(sep).join("/"), join(base, file));
+  }
+}
+const builtFile = (route) => prerendered.get(route) ?? join(server, "app", route);
+
 // Pages in navigation order, from the generated sitemap.
-const sitemap = await readFile(join(built, "sitemap.xml.body"), "utf8").catch(() => fail("sitemap.xml not found; run next build first"));
+const sitemap = await readFile(builtFile("sitemap.xml.body"), "utf8").catch(() => fail("sitemap.xml not found; run next build first"));
 const paths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
-const htmlFile = (path) => join(built, path === "/" ? "index.html" : `${path.slice(1)}.html`);
+const htmlFile = (path) => builtFile(path === "/" ? "index.html" : `${path.slice(1)}.html`);
 const mdPath = (path) => (path === "/" ? "/index.md" : `${path}.md`);
 
 const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced", bulletListMarker: "-", emDelimiter: "*" });
