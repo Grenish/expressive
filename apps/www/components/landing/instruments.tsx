@@ -178,7 +178,7 @@ function SnackbarInstrument() {
   );
 }
 
-/** Nineteen components and counting; fourteen of them on the bench, all live and themed by the knob. */
+/** A sample of the components, all live and themed by the knob. */
 export function Instruments() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">

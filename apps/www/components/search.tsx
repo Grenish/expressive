@@ -50,6 +50,7 @@ interface Option {
 
 const SUGGESTIONS = [
   { title: "Installation", url: "/docs/installation" },
+  { title: "Why Expressive", url: "/docs/why" },
   { title: "Color", url: "/docs/color" },
   { title: "Motion", url: "/docs/motion" },
   { title: "Button", url: "/docs/components/button" },

@@ -97,6 +97,7 @@ export function IconButton({ className, variant, size, width, shape, motion, chi
     <BaseButton
       ref={useComposedRef(local, ref)}
       data-slot="icon-button"
+      data-variant={variant ?? "standard"}
       data-motion={motion}
       disabled={disabled}
       className={cn(iconButtonVariants({ variant, size, width, shape }), className)}
@@ -115,6 +116,7 @@ export function ToggleIconButton({ className, variant, size, width, shape, motio
     <BaseToggle
       ref={useComposedRef(local, ref)}
       data-slot="icon-button"
+      data-variant={variant ?? "standard"}
       data-motion={motion}
       disabled={disabled}
       className={cn(iconButtonVariants({ variant, size, width, shape, toggle: true }), className)}

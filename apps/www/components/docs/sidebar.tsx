@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { docsNav, pad, pageNumber } from "@/lib/docs-nav";
+import { docsNav } from "@/lib/docs-nav";
 import { cn } from "@/registry/lib/utils";
 import { spec } from "@/components/landing/tokens";
 
@@ -22,14 +22,16 @@ export function DocsSidebar({ onNavigate }: { onNavigate?: () => void }) {
                 onClick={onNavigate}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "state-layer focus-ring flex items-baseline justify-between gap-3 rounded-shape-full px-3 py-1.5 text-label-large text-on-surface-variant",
+                  "group state-layer focus-ring flex items-baseline gap-3 rounded-shape-full px-3 py-1.5 text-label-large text-on-surface-variant",
                   "aria-[current=page]:bg-secondary-container aria-[current=page]:text-on-secondary-container",
                 )}
               >
                 {link.title}
-                <span aria-hidden="true" className="font-mono text-[10px] tabular-nums opacity-55">
-                  {pad(pageNumber(link.href))}
-                </span>
+                {link.isNew && (
+                  <span className="ms-auto rounded-shape-full bg-tertiary-container px-1.5 text-label-small text-on-tertiary-container group-aria-[current=page]:bg-tertiary group-aria-[current=page]:text-on-tertiary">
+                    New
+                  </span>
+                )}
               </Link>
             );
           })}

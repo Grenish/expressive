@@ -52,7 +52,8 @@ function usePackageManager() {
 }
 
 // Brand marks from Simple Icons (CC0). pnpm and Bun's dark parts follow the text color so they read in dark mode.
-function Logo({ manager }: { manager: PackageManager }) {
+/** The package manager's logo, 16px. Also used by the code block demo. */
+export function PackageManagerLogo({ manager }: { manager: PackageManager }) {
   const props = { viewBox: "0 0 24 24", className: "size-4 shrink-0", "aria-hidden": true } as const;
   switch (manager) {
     case "npm":
@@ -180,7 +181,7 @@ export function CommandTabs({ items, className = "" }: CommandTabsProps) {
                   selected ? "text-on-secondary-container" : "text-on-surface-variant hover:text-on-surface"
                 } ${selected && !indicator ? "bg-secondary-container" : ""}`}
               >
-                <Logo manager={manager} />
+                <PackageManagerLogo manager={manager} />
                 <span className="sr-only @[21rem]:not-sr-only">{LABELS[manager]}</span>
               </button>
             );

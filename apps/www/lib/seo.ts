@@ -47,6 +47,8 @@ export type OgArt =
   | "elevation"
   | "interaction"
   | "accessibility"
+  | "why"
+  | "agents"
   | { component: string };
 
 export interface PageSeo {
@@ -72,6 +74,14 @@ const docs: Array<Omit<PageSeo, "section">> = [
     og: { seed: "signature", art: "intro", eyebrow: "Documentation", headline: "Material 3 Expressive, for React", subtitle: "Color, type, shape and motion for React and Tailwind CSS, as code you own." },
   },
   {
+    path: "/docs/why",
+    name: "Why Expressive",
+    title: "Why Expressive: vs MUI, Material Web and shadcn/ui",
+    description:
+      "How Expressive compares with MUI, Material Web, shadcn/ui and headless libraries, when each is the better choice, and how to migrate from MUI or shadcn/ui.",
+    og: { seed: "signature", art: "why", eyebrow: "Getting started", headline: "Why Expressive", subtitle: "Material 3 Expressive, Tailwind-native, as code you own." },
+  },
+  {
     path: "/docs/installation",
     name: "Installation",
     title: "Install Material 3 Expressive in React",
@@ -94,6 +104,14 @@ const docs: Array<Omit<PageSeo, "section">> = [
     description:
       "Combine color, type, shape, motion and elevation tokens into one theme. Expressive outputs CSS variables for Tailwind CSS v4 that every component reads.",
     og: { seed: "rose", art: "theming", eyebrow: "Getting started", headline: "Theming" },
+  },
+  {
+    path: "/docs/agent-skills",
+    name: "Agent skills",
+    title: "Agent skills: teach AI coding agents Expressive",
+    description:
+      "Install Expressive's agent skills so Claude Code, Codex, Cursor and other coding agents use its components, tokens, motion and accessibility rules correctly.",
+    og: { seed: "green", art: "agents", eyebrow: "Getting started", headline: "Agent skills", command: "npx skills add Grenish/expressive" },
   },
   {
     path: "/docs/color",
@@ -190,6 +208,44 @@ const componentDescriptions: Record<string, string> = {
     "All 35 Material 3 Expressive shapes for React: flower, cookies, clovers, bursts and more, as SVG components and masks that morph into each other on springs.",
   loading:
     "Material 3 Expressive loading indicator for React: the shape-morphing loader, plus circular, wavy, spinning-shape, bouncing dots and pulse variants.",
+  "button-group":
+    "Material 3 Expressive button groups for React: standard groups whose buttons react to each press, and connected toggle groups that replace segmented buttons.",
+  "split-button":
+    "Material 3 Expressive split button for React: a main action joined to a menu of related actions, with a trailing half that morphs into a circle when open.",
+  "fab-menu":
+    "Material 3 Expressive FAB menu for React: a floating action button that morphs into a close button as related actions spring up. Keyboard accessible.",
+  toolbar:
+    "Material 3 Expressive toolbars for React: floating and docked, standard or vibrant, horizontal or vertical, with arrow-key navigation from Base UI.",
+  menu: "Material 3 Expressive menus for React with icons, shortcuts, checkbox and radio items, groups and submenus. Keyboard accessible, built on Base UI.",
+  tabs: "Material 3 tabs for React: primary and secondary, fixed or scrollable, with a springy indicator and badges. Accessible tabs built on Base UI.",
+  list: "Material 3 Expressive lists for React: one-, two- and three-line items with leading and trailing slots, in standard or segmented style.",
+  badge: "Material 3 badges for React: a small dot or a numbered badge, capped at 999+, pinned to icons, tabs and navigation items. Accessible by default.",
+  divider: "Material 3 dividers for React, horizontal or vertical, full width or inset. An accessible separator styled with Expressive design tokens.",
+  "bottom-sheet":
+    "Material 3 modal bottom sheet for React with a drag handle, swipe to dismiss, snap points and spring motion. Focus-trapped and built on Base UI.",
+  "side-sheet":
+    "Material 3 modal side sheet for React from either edge, with header, scrolling body and actions, swipe to dismiss and spring motion. Built on Base UI.",
+  "navigation-drawer":
+    "Material 3 navigation drawers for React, standard and modal, with section headlines, badges and a springy active indicator. Copy it in one command.",
+  table:
+    "Data table for React with sortable headers, selectable rows, numeric columns and a sticky header, styled with Material 3 Expressive tokens.",
+  toast:
+    "Stacked toast notifications for React with titles, type icons, actions, swipe to dismiss and promise states, via a useToast() hook. Built on Base UI.",
+  accordion:
+    "Accessible accordion for React with segmented or divided sections and spring-animated panels, styled with Material 3 Expressive tokens on Base UI.",
+  alert: "Inline alerts for React: info, success, warning and error messages with actions and dismissal, announced to screen readers and themed by tokens.",
+  "alert-dialog":
+    "Material 3 alert dialog for React that confirms destructive actions, traps focus and can't be dismissed by an outside click. Built on Base UI.",
+  avatar: "Avatars for React with image loading and initials fallback, five sizes, any of the 35 Material 3 Expressive shapes, and avatar groups.",
+  breadcrumb: "Accessible breadcrumb navigation for React with chevron separators, router links and the current page, styled with Material 3 tokens.",
+  calendar: "Material 3 calendar for React with single, multiple and range selection, keyboard navigation and locales, built on react-day-picker.",
+  "date-picker":
+    "Material 3 docked date and date-range pickers for React: a field that opens a calendar, with form support, locales and disabled dates.",
+  carousel: "Material 3 carousel for React with scroll snapping, masked edge items and parallax, in multi-browse, hero and uncontained layouts.",
+  "code-block": "Copyable code blocks and tabbed code for React with icons, file names, line numbers and synced tabs. Plain text or Shiki-highlighted HTML.",
+  select: "Material 3 select for React: filled and outlined dropdown fields with a floating label, groups and typeahead, built on Base UI.",
+  pagination: "Accessible pagination for React with previous and next, collapsing page ranges, and buttons or links, styled with Material 3 tokens.",
+  sidebar: "App sidebar for React that collapses to a Material 3 icon rail or off-canvas, becomes a drawer on phones, toggles with ⌘B and remembers its state.",
 };
 
 /** One short line for each component's social card. */
@@ -213,6 +269,32 @@ const componentTaglines: Record<string, string> = {
   tooltip: "Plain and rich tooltips with hover and keyboard triggers.",
   shape: "All 35 Material 3 Expressive shapes, morphing on springs.",
   loading: "The shape-morphing loader, plus five more variants.",
+  "button-group": "Buttons that react to each other, and connected toggles.",
+  "split-button": "A main action plus a menu that morphs open.",
+  "fab-menu": "A FAB that springs open into related actions.",
+  toolbar: "Floating and docked toolbars, standard or vibrant.",
+  menu: "Icons, shortcuts, checkable items and submenus.",
+  tabs: "Primary and secondary tabs with a springy indicator.",
+  list: "Standard and segmented lists with leading and trailing slots.",
+  badge: "Dots and counts for icons, tabs and navigation.",
+  divider: "Full-width and inset lines, horizontal or vertical.",
+  "bottom-sheet": "Drag to dismiss, snap points and spring motion.",
+  "side-sheet": "Filters and details that slide in from either edge.",
+  "navigation-drawer": "Standard and modal drawers with a springy indicator.",
+  table: "Sortable headers, selectable rows and numeric columns.",
+  toast: "Stacked notifications with actions and promise states.",
+  accordion: "Expandable sections with springy panels.",
+  alert: "Inline messages that stay until they're resolved.",
+  "alert-dialog": "Confirm consequential actions before they happen.",
+  avatar: "Initials fallback, five sizes, any Material shape.",
+  breadcrumb: "Where this page sits in the hierarchy.",
+  calendar: "Single, multiple and range selection, keyboard first.",
+  "date-picker": "A field that opens a calendar, for dates and ranges.",
+  carousel: "Snapping items with masked edges and parallax.",
+  "code-block": "Copyable snippets and synced tabs, with icons.",
+  select: "Dropdown fields with a floating label.",
+  pagination: "Move through pages, with collapsing ranges.",
+  sidebar: "Collapses to an icon rail, becomes a drawer on phones.",
 };
 
 const groupSeeds: Record<string, Seed> = {

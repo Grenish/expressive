@@ -1,0 +1,4 @@
+interface:
+  display_name: "Expressive contributor"
+  short_description: "Add and change components in the Expressive repo"
+  default_prompt: "Use $expressive-contributor to add this component to Expressive, following the full checklist."

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "component",
+  "description": "Hierarchy trail of links with chevron separators and the current page.",
+  "files": [
+    {
+      "path": "breadcrumb.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { useRender } from \"@base-ui/react/use-render\";\nimport { mergeProps } from \"@base-ui/react/merge-props\";\nimport { cn } from \"@/registry/lib/utils\";\n\n/*\n * Breadcrumb: where the current page sits in the hierarchy. Items are links\n * (pass `href`, or `render={<Link href=\"…\" />}` for your router); the last one\n * is the current page and isn't a link. Chevron separators are drawn between\n * items and hidden from screen readers.\n *\n *   <Breadcrumb>\n *     <BreadcrumbItem href=\"/\">Home</BreadcrumbItem>\n *     <BreadcrumbItem href=\"/docs\">Docs</BreadcrumbItem>\n *     <BreadcrumbItem current>Button</BreadcrumbItem>\n *   </Breadcrumb>\n */\n\nexport interface BreadcrumbProps extends React.ComponentProps<\"nav\"> {\n  \"aria-label\"?: string;\n}\n\nexport function Breadcrumb({ className, children, \"aria-label\": ariaLabel = \"Breadcrumb\", ...props }: BreadcrumbProps) {\n  return (\n    <nav data-slot=\"breadcrumb\" aria-label={ariaLabel} className={className} {...props}>\n      <ol className=\"flex flex-wrap items-center gap-0.5 text-label-large text-on-surface-variant\">{children}</ol>\n    </nav>\n  );\n}\n\nexport interface BreadcrumbItemProps extends useRender.ComponentProps<\"a\"> {\n  /** The current page: rendered as text with `aria-current=\"page\"`. */\n  current?: boolean;\n  /** Leading icon, e.g. a home icon on the first item. */\n  icon?: React.ReactNode;\n}\n\nconst separator = (\n  <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"currentColor\" className=\"size-4.5 shrink-0 text-outline rtl:-scale-x-100\">\n    <path d=\"M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z\" />\n  </svg>\n);\n\nexport function BreadcrumbItem({ className, current = false, icon, children, render, ref, ...props }: BreadcrumbItemProps) {\n  const link = useRender({\n    defaultTagName: \"a\",\n    render,\n    ref,\n    props: mergeProps<\"a\">(\n      {\n        className: cn(\n          \"state-layer focus-ring inline-flex h-8 items-center gap-1.5 rounded-shape-full px-2 hover:text-on-surface [&_svg]:size-4.5\",\n          className,\n        ),\n        children: (\n          <>\n            {icon}\n            {children}\n          </>\n        ),\n      } as React.ComponentProps<\"a\">,\n      props,\n    ),\n  });\n  return (\n    <li data-slot=\"breadcrumb-item\" className=\"group/crumb flex items-center gap-0.5\">\n      {/* The separator precedes every item but the first. */}\n      <span className=\"hidden group-not-first/crumb:flex\">{separator}</span>\n      {current ? (\n        <span aria-current=\"page\" className={cn(\"inline-flex h-8 items-center gap-1.5 px-2 text-on-surface [&_svg]:size-4.5\", className)}>\n          {icon}\n          {children}\n        </span>\n      ) : (\n        link\n      )}\n    </li>\n  );\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "styles"
+  ]
+}

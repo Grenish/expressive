@@ -1,0 +1,4 @@
+interface:
+  display_name: "Expressive"
+  short_description: "Material 3 Expressive UI for React and Tailwind"
+  default_prompt: "Use $expressive to build this interface with Expressive components and tokens."

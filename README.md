@@ -12,17 +12,31 @@ npx @grenishrai/expressive diff button                # compare your copy with t
 
 Requires React 19 and Tailwind CSS v4.
 
+## AI agents
+
+Agent skills teach coding agents (Claude Code, Codex, Cursor and others) how to use Expressive: setup, picking
+components, tokens, motion, accessibility rules, patterns, and how it compares with MUI, shadcn/ui and others.
+
+```bash
+npx skills add Grenish/expressive --skill expressive
+```
+
+More on the [Agent skills](https://expressive.grenishrai.pro/docs/agent-skills) page; for how Expressive compares with
+other libraries, see [Why Expressive](https://expressive.grenishrai.pro/docs/why). The docs are also available as [llms.txt](https://expressive.grenishrai.pro/llms.txt) and
+[llms-full.txt](https://expressive.grenishrai.pro/llms-full.txt).
+
 ## Repo layout
 
 | Path | What |
 | --- | --- |
 | `packages/registry/src/tokens` | `colors` (seed → palettes/roles via material-color-utilities), `typography`, `shape`, `motion`, `elevation`, `spacing`, `interaction`, `theme` (`createTheme`, `themeToCss`) |
 | `packages/registry/src/lib` | spring physics, motion adapters (`css`, `motion`, `gsap`), `useMotion`, `ThemeProvider`, `cn` |
-| `packages/registry/src/components` | Button, IconButton, FAB, Chips, Checkbox, RadioGroup, Slider, Switch, TextField, NavigationBar, NavigationRail, TopAppBar, Card, Dialog, Shape, Loading, Progress, Snackbar, Tooltip (Base UI primitives) |
+| `packages/registry/src/components` | the 45 components, on Base UI primitives |
 | `packages/registry/src/styles` | `expressive.css`: Tailwind v4 bridge (generated) + state-layer/focus-ring/spring utilities |
 | `packages/registry/registry.ts` | item manifest → `apps/www/public/r/*.json` |
 | `packages/cli` | the `expressive` CLI |
 | `apps/www` | docs + live theme playground |
+| `skills` | agent skills: `expressive` (building apps) and `expressive-contributor` (working on this repo) |
 
 ## Development
 

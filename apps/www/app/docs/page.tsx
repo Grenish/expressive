@@ -39,7 +39,7 @@ export default function Introduction() {
           GSAP.
         </li>
         <li>
-          <strong>19 components and counting</strong>, built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
+          <strong>45 components and counting</strong>, built on <TextLink href="https://base-ui.com">Base UI</TextLink> for keyboard, focus and
           screen reader behavior.
         </li>
         <li>
@@ -74,8 +74,9 @@ export default function Introduction() {
       <LinkTiles
         items={[
           { href: "/docs/installation", title: "Install", description: "Set up Expressive in a React project with one command." },
+          { href: "/docs/why", title: "Why Expressive", description: "How it compares with MUI, Material Web and shadcn/ui." },
           { href: "/docs/theming", title: "Theming", description: "Seed color, fonts and motion scheme, as CSS variables." },
-          { href: "/docs/components/button", title: "Components", description: "Nineteen and counting, each with a live preview and its source." },
+          { href: "/docs/components/button", title: "Components", description: "Forty-five and counting, each with a working demo and its source." },
         ]}
       />
     </DocsPage>
