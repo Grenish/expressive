@@ -1,0 +1,19 @@
+{
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
+  "name": "badge",
+  "type": "component",
+  "description": "Small dot and numbered badges for icons, tabs and navigation.",
+  "files": [
+    {
+      "path": "badge.tsx",
+      "target": "components",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/registry/lib/utils\";\n\n/*\n * Badges flag new or unread content on an icon. Without `count` the badge is\n * a small 6px dot; with one it grows into a pill showing the number (capped\n * at `max`, e.g. \"999+\"). Wrap the icon in <BadgeAnchor> to pin the badge to\n * its top-right corner.\n */\n\nexport interface BadgeProps extends Omit<React.ComponentProps<\"span\">, \"children\"> {\n  /** The number (or short text) to show. Omit for a small dot. */\n  count?: number | string;\n  /** Counts above this show as `${max}+`. */\n  max?: number;\n  /**\n   * Accessible text, e.g. \"3 unread messages\". Without it the badge is hidden\n   * from screen readers, so put the count in the parent's label instead.\n   */\n  label?: string;\n}\n\nexport function Badge({ className, count, max = 999, label, ...props }: BadgeProps) {\n  const dot = count === undefined;\n  const text = typeof count === \"number\" && count > max ? `${max}+` : count;\n  return (\n    <span\n      data-slot=\"badge\"\n      data-dot={dot ? \"\" : undefined}\n      role={label ? \"img\" : undefined}\n      aria-label={label}\n      aria-hidden={label ? undefined : true}\n      className={cn(\n        \"inline-flex shrink-0 items-center justify-center rounded-shape-full bg-error text-label-small text-on-error\",\n        dot ? \"size-1.5\" : \"h-4 min-w-4 px-1 tabular-nums\",\n        className,\n      )}\n      {...props}\n    >\n      {text}\n    </span>\n  );\n}\n\nexport interface BadgeAnchorProps extends React.ComponentProps<\"span\"> {\n  /** A <Badge>, placed over the top-right corner of `children`. */\n  badge: React.ReactNode;\n}\n\n/** Positions a badge on an icon (24px icons by default). */\nexport function BadgeAnchor({ className, badge, children, ...props }: BadgeAnchorProps) {\n  return (\n    <span\n      data-slot=\"badge-anchor\"\n      className={cn(\n        \"relative inline-flex [&>[data-slot=badge]]:absolute\",\n        // A dot sits just inside the corner; a count straddles it and grows to the right.\n        \"[&>[data-slot=badge][data-dot]]:top-0.5 [&>[data-slot=badge][data-dot]]:left-[calc(100%-6px)]\",\n        \"[&>[data-slot=badge]:not([data-dot])]:-top-0.5 [&>[data-slot=badge]:not([data-dot])]:left-[calc(100%-10px)]\",\n        className,\n      )}\n      {...props}\n    >\n      {children}\n      {badge}\n    </span>\n  );\n}\n",
+      "client": false
+    }
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "styles"
+  ]
+}

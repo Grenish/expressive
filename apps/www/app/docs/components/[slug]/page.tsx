@@ -1,3 +1,4 @@
+import * as React from "react";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Metadata } from "next";
@@ -84,6 +85,23 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
 
       <H2>Usage</H2>
       <Code code={doc.usage} />
+
+      {doc.guides?.map((guide) => (
+        <React.Fragment key={guide.title}>
+          <H2>{guide.title}</H2>
+          {guide.intro.map((line) => (
+            <P key={line}>{rich(line)}</P>
+          ))}
+          <Code code={guide.code} />
+          {guide.tips && (
+            <List>
+              {guide.tips.map((line) => (
+                <li key={line}>{rich(line)}</li>
+              ))}
+            </List>
+          )}
+        </React.Fragment>
+      ))}
 
       <H2>Props</H2>
       {Object.entries(doc.props).map(([name, rows]) => (

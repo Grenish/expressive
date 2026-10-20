@@ -492,6 +492,470 @@ function component(name: string, { c, p }: Omit<ArtProps, "art" | "seed">) {
           </div>
         </div>
       );
+    case "button-group": {
+      const segment = (label: string, i: number, selected: boolean) => (
+        <div
+          key={label}
+          style={row({
+            justifyContent: "center",
+            height: 96,
+            padding: "0 34px",
+            borderRadius: selected ? 48 : i === 0 ? "48px 12px 12px 48px" : i === 2 ? "12px 48px 48px 12px" : 12,
+            backgroundColor: selected ? c.primary : c.surfaceContainer,
+            color: selected ? c.onPrimary : c.onSurfaceVariant,
+            ...display(32, 600),
+          })}
+        >
+          {label}
+        </div>
+      );
+      return (
+        <div style={col({ gap: 40, alignItems: "center" })}>
+          <div style={row({ gap: 4 })}>{["Day", "Week", "Month"].map((label, i) => segment(label, i, i === 1))}</div>
+          <div style={row({ gap: 16 })}>
+            <div style={row({ width: 96, height: 96, justifyContent: "center", borderRadius: 48, backgroundColor: c.secondaryContainer })}>
+              <Glyph name="triangle" size={36} color={c.onSecondaryContainer} rotate={-90} />
+            </div>
+            <div style={row({ height: 96, padding: "0 64px", borderRadius: 24, backgroundColor: c.primary, color: c.onPrimary, ...display(32, 600) })}>Play</div>
+            <div style={row({ width: 96, height: 96, justifyContent: "center", borderRadius: 48, backgroundColor: c.secondaryContainer })}>
+              <Glyph name="triangle" size={36} color={c.onSecondaryContainer} rotate={90} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    case "split-button":
+      return (
+        <div style={col({ gap: 14, alignItems: "flex-end" })}>
+          <div style={row({ gap: 4 })}>
+            <div style={row({ height: 112, padding: "0 44px 0 56px", borderRadius: "56px 10px 10px 56px", backgroundColor: c.primary, color: c.onPrimary, ...display(40, 600) })}>Send</div>
+            <div style={row({ justifyContent: "center", width: 112, height: 112, borderRadius: 56, backgroundColor: c.primary })}>
+              <Glyph name="triangle" size={34} color={c.onPrimary} rotate={180} />
+            </div>
+          </div>
+          <div style={col({ width: 330, padding: 10, gap: 4, borderRadius: 24, backgroundColor: c.surfaceContainer, boxShadow: "0 12px 30px rgba(0,0,0,0.14)" })}>
+            {["Schedule send", "Save draft"].map((label, i) => (
+              <div key={label} style={row({ height: 64, padding: "0 22px", borderRadius: i === 0 ? 18 : 10, backgroundColor: i === 0 ? c.tertiaryContainer : "transparent", color: i === 0 ? c.onTertiaryContainer : c.onSurface, ...body(28) })}>
+                {label}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    case "fab-menu":
+      return (
+        <div style={col({ gap: 12, alignItems: "flex-end" })}>
+          {["Document", "Folder", "Scan"].map((label, i) => (
+            <div key={label} style={row({ gap: 16, height: 84, padding: "0 36px 0 28px", borderRadius: 42, backgroundColor: c.tertiaryContainer, color: c.onTertiaryContainer, boxShadow: "0 8px 20px rgba(0,0,0,0.14)", ...display(30, 600) })}>
+              <Glyph name={(["square", "cookie-4", "sunny"] as const)[i]!} size={34} color={c.onTertiaryContainer} />
+              {label}
+            </div>
+          ))}
+          <div style={row({ justifyContent: "center", width: 96, height: 96, marginTop: 8, borderRadius: 48, backgroundColor: c.tertiary, boxShadow: "0 8px 20px rgba(0,0,0,0.18)" })}>
+            <svg width={40} height={40} viewBox="0 0 24 24">
+              <path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z" fill={c.onTertiary} />
+            </svg>
+          </div>
+        </div>
+      );
+    case "toolbar": {
+      const slot = (shape: MaterialShapeName, active = false) => (
+        <div key={shape} style={row({ justifyContent: "center", width: 84, height: 84, borderRadius: active ? 24 : 42, backgroundColor: active ? c.surfaceContainer : "transparent" })}>
+          <Glyph name={shape} size={38} color={active ? c.onSurface : c.onPrimaryContainer} />
+        </div>
+      );
+      return (
+        <div style={col({ gap: 36, alignItems: "center" })}>
+          <div style={row({ gap: 8, height: 120, padding: "0 18px", borderRadius: 60, backgroundColor: c.primaryContainer, boxShadow: "0 12px 30px rgba(0,0,0,0.16)" })}>
+            {slot("circle")}
+            {slot("heart", true)}
+            {slot("cookie-4")}
+            <div style={row({ justifyContent: "center", width: 124, height: 84, borderRadius: 42, backgroundColor: c.primary })}>
+              <Glyph name="flower" size={38} color={c.onPrimary} />
+            </div>
+          </div>
+          <div style={row({ width: 520, height: 110, justifyContent: "space-around", borderRadius: 28, backgroundColor: c.surfaceContainer })}>
+            {(["pill", "gem", "sunny", "clover-4"] as const).map((shape) => (
+              <Glyph key={shape} name={shape} size={38} color={c.onSurfaceVariant} />
+            ))}
+          </div>
+        </div>
+      );
+    }
+    case "menu":
+      return (
+        <div style={col({ width: 420, padding: 12, gap: 4, borderRadius: 28, backgroundColor: c.surfaceContainer, boxShadow: "0 14px 34px rgba(0,0,0,0.16)" })}>
+          {["Rename", "Duplicate", "Show grid", "Move to"].map((label, i) => (
+            <div key={label} style={row({ gap: 20, height: 76, padding: "0 24px", borderRadius: i === 2 ? 22 : 10, backgroundColor: i === 2 ? c.tertiaryContainer : "transparent", color: i === 2 ? c.onTertiaryContainer : c.onSurface, ...body(30) })}>
+              {i === 2 ? <Icon name="mark" size={32} color={c.onTertiaryContainer} /> : <Glyph name={(["pill", "gem", "circle", "cookie-4"] as const)[i]!} size={30} color={c.onSurfaceVariant} />}
+              <span style={{ display: "flex", flex: 1 }}>{label}</span>
+              {i === 0 && <span style={{ ...mono(22), color: c.onSurfaceVariant }}>⌘E</span>}
+            </div>
+          ))}
+        </div>
+      );
+    case "tabs": {
+      const tabs: Array<[MaterialShapeName, string]> = [["sunny", "Photos"], ["cookie-4", "Albums"], ["clover-4", "Shared"]];
+      return (
+        <div style={col({ width: 540, borderRadius: 32, backgroundColor: c.surfaceContainerLow, paddingTop: 16 })}>
+          <div style={row({ borderBottom: `2px solid ${c.outlineVariant}` })}>
+            {tabs.map(([shape, label], i) => (
+              <div key={label} style={col({ flex: 1, alignItems: "center", gap: 10, paddingTop: 16 })}>
+                <Glyph name={shape} size={40} color={i === 0 ? c.primary : c.onSurfaceVariant} />
+                <span style={{ ...display(26, 600), color: i === 0 ? c.primary : c.onSurfaceVariant }}>{label}</span>
+                <div style={{ display: "flex", width: 104, height: 7, marginTop: 12, borderRadius: "7px 7px 0 0", backgroundColor: i === 0 ? c.primary : "transparent" }} />
+              </div>
+            ))}
+          </div>
+          <div style={col({ gap: 16, padding: 32 })}>
+            <div style={{ display: "flex", width: 380, height: 18, borderRadius: 9, backgroundColor: c.surfaceContainerHighest }} />
+            <div style={{ display: "flex", width: 260, height: 18, borderRadius: 9, backgroundColor: c.surfaceContainerHighest }} />
+          </div>
+        </div>
+      );
+    }
+    case "list":
+      return (
+        <div style={col({ width: 480, gap: 4 })}>
+          {["Inbox", "Drafts", "Archive", "Starred"].map((label, i) => (
+            <div
+              key={label}
+              style={row({
+                gap: 24,
+                height: 96,
+                padding: "0 32px",
+                borderRadius: i === 0 ? 28 : i === 3 ? "8px 8px 28px 28px" : 8,
+                backgroundColor: i === 0 ? c.secondaryContainer : c.surfaceContainer,
+                color: i === 0 ? c.onSecondaryContainer : c.onSurface,
+                ...body(30),
+              })}
+            >
+              <Glyph name={(["circle", "gem", "pill", "sunny"] as const)[i]!} size={36} color={i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant} />
+              <span style={{ display: "flex", flex: 1 }}>{label}</span>
+              {i < 2 && <span style={{ ...display(26, 600), color: c.onSurfaceVariant }}>{i === 0 ? "24" : "3"}</span>}
+            </div>
+          ))}
+        </div>
+      );
+    case "badge": {
+      const anchored = (shape: MaterialShapeName, count?: string) => (
+        <div key={shape} style={row({ justifyContent: "center", position: "relative", width: 150, height: 150, borderRadius: 48, backgroundColor: c.surfaceContainer })}>
+          <Glyph name={shape} size={70} color={c.onSurfaceVariant} />
+          <div
+            style={row({
+              justifyContent: "center",
+              position: "absolute",
+              left: count ? 84 : 98,
+              top: count ? 26 : 36,
+              minWidth: count ? 44 : 18,
+              height: count ? 44 : 18,
+              padding: count ? "0 10px" : 0,
+              borderRadius: 22,
+              backgroundColor: c.error,
+              color: c.onError,
+              ...display(24, 600),
+            })}
+          >
+            {count}
+          </div>
+        </div>
+      );
+      return <div style={row({ gap: 30 })}>{[anchored("circle"), anchored("cookie-4", "3"), anchored("sunny", "999+")]}</div>;
+    }
+    case "divider":
+      return (
+        <div style={col({ width: 480, padding: "12px 0", borderRadius: 32, backgroundColor: c.surfaceContainerLow })}>
+          {["Full width", "Inset", "Middle inset", "End"].map((label, i) => (
+            <div key={label} style={col({})}>
+              <div style={row({ height: 92, padding: "0 36px", ...body(32), color: c.onSurface })}>{label}</div>
+              {i < 3 && <div style={{ display: "flex", height: 3, marginLeft: i === 0 ? 0 : 36, marginRight: i === 2 ? 36 : 0, backgroundColor: c.outlineVariant }} />}
+            </div>
+          ))}
+        </div>
+      );
+    case "bottom-sheet":
+      return (
+        <div style={col({ width: 520, height: 470, justifyContent: "flex-end", borderRadius: 40, overflow: "hidden", backgroundColor: c.surfaceDim })}>
+          <div style={col({ alignItems: "center", gap: 26, padding: "18px 36px 40px", borderRadius: "40px 40px 0 0", backgroundColor: c.surfaceContainerLow })}>
+            <div style={{ display: "flex", width: 56, height: 8, borderRadius: 4, backgroundColor: c.onSurfaceVariant, opacity: 0.4 }} />
+            <span style={{ ...display(32, 600), color: c.onSurface, alignSelf: "flex-start" }}>Share to</span>
+            <div style={row({ gap: 26 })}>
+              {(["circle", "cookie-4", "clover-4", "sunny"] as const).map((shape) => (
+                <div key={shape} style={row({ justifyContent: "center", width: 92, height: 92, borderRadius: 46, backgroundColor: c.secondaryContainer })}>
+                  <Glyph name={shape} size={40} color={c.onSecondaryContainer} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    case "side-sheet":
+      return (
+        <div style={row({ width: 540, height: 470, justifyContent: "flex-end", borderRadius: 40, overflow: "hidden", backgroundColor: c.surfaceDim })}>
+          <div style={col({ width: 330, height: 470, gap: 22, padding: "40px 32px", borderRadius: "32px 0 0 32px", backgroundColor: c.surfaceContainerLow })}>
+            <span style={{ ...display(34, 600), color: c.onSurfaceVariant }}>Filters</span>
+            {["Documents", "Photos", "Shared"].map((label, i) => (
+              <div key={label} style={row({ gap: 18, ...body(28), color: c.onSurface })}>
+                <div style={row({ justifyContent: "center", width: 36, height: 36, borderRadius: 6, backgroundColor: i < 2 ? c.primary : "transparent", border: i < 2 ? undefined : `4px solid ${c.onSurfaceVariant}` })}>
+                  {i < 2 && <Icon name="mark" size={28} color={c.onPrimary} />}
+                </div>
+                {label}
+              </div>
+            ))}
+            <div style={row({ alignSelf: "flex-start", height: 72, marginTop: 30, padding: "0 36px", borderRadius: 36, backgroundColor: c.primary, color: c.onPrimary, ...display(28, 600) })}>Apply</div>
+          </div>
+        </div>
+      );
+    case "navigation-drawer":
+      return (
+        <div style={col({ width: 470, gap: 6, padding: 24, borderRadius: "0 40px 40px 0", backgroundColor: c.surfaceContainerLow })}>
+          <span style={{ ...display(24, 600), color: c.onSurfaceVariant, padding: "8px 28px 12px" }}>Mail</span>
+          {["Inbox", "Starred", "Sent", "Drafts"].map((label, i) => (
+            <div key={label} style={row({ gap: 22, height: 88, padding: "0 32px 0 28px", borderRadius: 44, backgroundColor: i === 0 ? c.secondaryContainer : "transparent", color: i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant, ...display(28, 600) })}>
+              <Glyph name={(["circle", "sunny", "triangle", "gem"] as const)[i]!} size={34} color={i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant} />
+              <span style={{ display: "flex", flex: 1 }}>{label}</span>
+              {i === 0 && <span>24</span>}
+            </div>
+          ))}
+        </div>
+      );
+    case "table": {
+      const rows: Array<[string, string, boolean]> = [["Northwind", "$1,280", false], ["Contoso", "$940", true], ["Fabrikam", "$3,120", false], ["Tailspin", "$415", false]];
+      return (
+        <div style={col({ width: 520, borderRadius: 28, border: `3px solid ${c.outlineVariant}`, backgroundColor: c.surface, overflow: "hidden" })}>
+          <div style={row({ height: 84, padding: "0 32px", borderBottom: `3px solid ${c.outlineVariant}`, ...display(26, 600), color: c.onSurfaceVariant })}>
+            <span style={{ display: "flex", flex: 1 }}>Client</span>
+            <span style={{ display: "flex", color: c.onSurface }}>Amount ↑</span>
+          </div>
+          {rows.map(([client, amount, selected], i) => (
+            <div key={client} style={row({ height: 80, padding: "0 32px", gap: 22, borderBottom: i < rows.length - 1 ? `2px solid ${c.outlineVariant}` : undefined, backgroundColor: selected ? c.secondaryContainer : "transparent", color: selected ? c.onSecondaryContainer : c.onSurface, ...body(28) })}>
+              <div style={row({ justifyContent: "center", width: 30, height: 30, borderRadius: 6, backgroundColor: selected ? c.primary : "transparent", border: selected ? undefined : `3px solid ${c.onSurfaceVariant}` })}>
+                {selected && <Icon name="mark" size={24} color={c.onPrimary} />}
+              </div>
+              <span style={{ display: "flex", flex: 1 }}>{client}</span>
+              <span style={{ display: "flex" }}>{amount}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    case "toast": {
+      const toast = (title: string, text: string, bubble: string, glyph: string, shape: MaterialShapeName, i: number) => (
+        <div key={title} style={row({ gap: 22, width: 470 - i * 28, padding: "24px 28px", borderRadius: 24, backgroundColor: c.surfaceContainerHigh, boxShadow: "0 12px 30px rgba(0,0,0,0.16)", opacity: 1 - i * 0.22 })}>
+          <div style={row({ justifyContent: "center", width: 60, height: 60, borderRadius: 30, backgroundColor: bubble })}>
+            <Glyph name={shape} size={28} color={glyph} />
+          </div>
+          <div style={col({ gap: 4 })}>
+            <span style={{ ...display(28, 600), color: c.onSurface }}>{title}</span>
+            <span style={{ ...body(22), color: c.onSurfaceVariant }}>{text}</span>
+          </div>
+        </div>
+      );
+      return (
+        <div style={col({ gap: 14, alignItems: "center" })}>
+          {toast("Upload failed", "Check your connection.", c.errorContainer, c.onErrorContainer, "triangle", 2)}
+          {toast("New version", "Reload to update.", c.secondaryContainer, c.onSecondaryContainer, "circle", 1)}
+          {toast("Changes saved", "Synced across devices.", c.primaryContainer, c.onPrimaryContainer, "cookie-4", 0)}
+        </div>
+      );
+    }
+    case "accordion":
+      return (
+        <div style={col({ width: 480, gap: 4 })}>
+          {["Shipping", "Returns", "Warranty"].map((label, i) => (
+            <div key={label} style={col({ padding: "26px 30px", gap: 14, borderRadius: i === 0 ? 28 : i === 2 ? "8px 8px 28px 28px" : 8, backgroundColor: c.surfaceContainer })}>
+              <div style={row({ justifyContent: "space-between", ...display(30, 600), color: c.onSurface })}>
+                <span>{label}</span>
+                <div style={row({ justifyContent: "center", width: 48, height: 48, borderRadius: 24, backgroundColor: i === 0 ? c.secondaryContainer : "transparent" })}>
+                  <Glyph name="triangle" size={22} color={i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant} rotate={i === 0 ? 0 : 180} />
+                </div>
+              </div>
+              {i === 0 && <span style={{ ...body(24), color: c.onSurfaceVariant }}>Orders ship within two working days.</span>}
+            </div>
+          ))}
+        </div>
+      );
+    case "alert": {
+      const alert = (title: string, text: string, bg: string, fg: string, shape: MaterialShapeName) => (
+        <div key={title} style={row({ gap: 20, width: 500, padding: "24px 28px", borderRadius: 24, backgroundColor: bg, alignItems: "flex-start" })}>
+          <Glyph name={shape} size={36} color={fg} />
+          <div style={col({ gap: 6 })}>
+            <span style={{ ...display(28, 600), color: fg }}>{title}</span>
+            <span style={{ ...body(22), color: fg }}>{text}</span>
+          </div>
+        </div>
+      );
+      return (
+        <div style={col({ gap: 14 })}>
+          {alert("Sync failed", "Changes haven't been saved yet.", c.errorContainer, c.onErrorContainer, "triangle")}
+          {alert("Storage almost full", "You've used 92% of 15 GB.", c.tertiaryContainer, c.onTertiaryContainer, "sunny")}
+          {alert("Payment received", "Your receipt is on its way.", c.primaryContainer, c.onPrimaryContainer, "cookie-4")}
+        </div>
+      );
+    }
+    case "alert-dialog":
+      return (
+        <div style={col({ width: 460, padding: 36, gap: 18, borderRadius: 32, backgroundColor: c.surfaceContainerHigh, boxShadow: "0 18px 50px rgba(0,0,0,0.18)" })}>
+          <span style={{ ...display(36, 600), color: c.onSurface }}>Delete 3 files?</span>
+          <span style={{ ...body(24), color: c.onSurfaceVariant }}>They'll be removed from all your devices and can't be recovered.</span>
+          <div style={row({ gap: 30, alignSelf: "flex-end", marginTop: 12, ...display(26, 600), color: c.primary })}>
+            <span>Cancel</span>
+            <span>Delete</span>
+          </div>
+        </div>
+      );
+    case "avatar": {
+      const face = (letters: string, shape: MaterialShapeName, bg: string, fg: string, size: number) => (
+        <div key={letters} style={{ display: "flex", position: "relative", width: size, height: size }}>
+          <Glyph name={shape} size={size} color={bg} />
+          <div style={row({ justifyContent: "center", position: "absolute", inset: 0, ...display(size * 0.32, 600), color: fg })}>{letters}</div>
+        </div>
+      );
+      return (
+        <div style={col({ gap: 34, alignItems: "center" })}>
+          <div style={row({ gap: 22 })}>
+            {face("AL", "circle", c.primaryContainer, c.onPrimaryContainer, 150)}
+            {face("GH", "cookie-9", c.tertiaryContainer, c.onTertiaryContainer, 150)}
+            {face("AT", "clover-4", c.secondaryContainer, c.onSecondaryContainer, 150)}
+          </div>
+          <div style={row({ gap: 18 })}>
+            {face("KJ", "flower", c.primary, c.onPrimary, 96)}
+            {face("MH", "sunny", c.secondaryContainer, c.onSecondaryContainer, 96)}
+            {face("+3", "circle", c.surfaceContainerHighest, c.onSurfaceVariant, 96)}
+          </div>
+        </div>
+      );
+    }
+    case "breadcrumb":
+      return (
+        <div style={row({ gap: 10, padding: "28px 34px", borderRadius: 30, backgroundColor: c.surfaceContainerLow, ...display(30, 600) })}>
+          {["Home", "Docs", "Components", "Breadcrumb"].map((label, i) => (
+            <div key={label} style={row({ gap: 10 })}>
+              {i > 0 && <Glyph name="triangle" size={20} color={c.outline} rotate={90} />}
+              <span style={{ color: i === 3 ? c.onSurface : c.onSurfaceVariant }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      );
+    case "calendar":
+    case "date-picker": {
+      const days = Array.from({ length: 35 }, (_, i) => i - 2);
+      return (
+        <div style={col({ gap: 16, width: 470, padding: 28, borderRadius: 36, backgroundColor: c.surfaceContainerHigh, boxShadow: "0 18px 50px rgba(0,0,0,0.14)" })}>
+          {name === "date-picker" && (
+            <div style={row({ height: 76, padding: "0 22px", borderRadius: "10px 10px 0 0", backgroundColor: c.surfaceContainerHighest, borderBottom: `4px solid ${c.primary}`, justifyContent: "space-between", ...body(26), color: c.onSurface })}>
+              <span>Oct 20 – 24, 2026</span>
+              <Glyph name="square" size={30} color={c.onSurfaceVariant} />
+            </div>
+          )}
+          <span style={{ ...display(24, 600), color: c.onSurfaceVariant }}>October 2026</span>
+          <div style={{ display: "flex", flexWrap: "wrap", width: 414 }}>
+            {days.map((d) => {
+              const inRange = d >= 20 && d <= 24;
+              const end = d === 20 || d === 24;
+              return (
+                <div key={d} style={row({ justifyContent: "center", width: 59, height: 52, backgroundColor: inRange && !end ? c.secondaryContainer : "transparent" })}>
+                  <div style={row({ justifyContent: "center", width: 44, height: 44, borderRadius: 22, backgroundColor: end ? c.primary : "transparent", border: d === 14 ? `2px solid ${c.primary}` : undefined, ...body(20), color: end ? c.onPrimary : d < 1 ? c.outline : c.onSurface })}>
+                    {d < 1 ? 30 + d : d}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+    case "carousel":
+      return (
+        <div style={row({ gap: 12, width: 540, height: 300 })}>
+          {[p.primary[70], p.tertiary[70], p.secondary[70]].map((tone, i) => (
+            <div key={i} style={row({ justifyContent: "center", width: [300, 160, 56][i], height: 300, borderRadius: 32, backgroundColor: tone })}>
+              <Glyph name={(["sunny", "flower", "clover-4"] as const)[i]!} size={[140, 90, 36][i]!} color={c.surface} />
+            </div>
+          ))}
+        </div>
+      );
+    case "code-block":
+      return (
+        <div style={col({ width: 520, borderRadius: 26, backgroundColor: c.surfaceContainerHigh, overflow: "hidden" })}>
+          <div style={row({ height: 72, padding: "0 14px", gap: 8, borderBottom: `2px solid ${c.outlineVariant}` })}>
+            {["save.tsx", "globals.css", "expressive.json"].map((tab, i) => (
+              <div key={tab} style={row({ gap: 8, height: 46, padding: "0 16px", borderRadius: 23, backgroundColor: i === 0 ? c.secondaryContainer : "transparent", ...mono(19), color: i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant })}>
+                <Glyph name={(["square", "circle", "pill"] as const)[i]!} size={18} color={i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant} />
+                {tab}
+              </div>
+            ))}
+          </div>
+          <div style={col({ padding: "22px 26px", gap: 10, ...mono(22) })}>
+            {[
+              ["1", "<Button onClick={save}>", c.primary],
+              ["2", "  Save changes", c.onSurface],
+              ["3", "</Button>", c.primary],
+            ].map(([n, text, color]) => (
+              <div key={n} style={row({ gap: 22 })}>
+                <span style={{ color: c.outline }}>{n}</span>
+                <span style={{ color, whiteSpace: "pre" }}>{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    case "select":
+      return (
+        <div style={col({ width: 440, gap: 10 })}>
+          <div style={col({ height: 96, padding: "14px 24px", justifyContent: "center", borderRadius: "12px 12px 0 0", backgroundColor: c.surfaceContainerHighest, borderBottom: `4px solid ${c.primary}` })}>
+            <span style={{ ...body(20), color: c.primary }}>Country</span>
+            <span style={{ ...body(30), color: c.onSurface }}>Portugal</span>
+          </div>
+          <div style={col({ padding: 10, gap: 4, borderRadius: 24, backgroundColor: c.surfaceContainer, boxShadow: "0 12px 30px rgba(0,0,0,0.14)" })}>
+            {["Nepal", "Portugal", "Japan"].map((label, i) => (
+              <div key={label} style={row({ height: 66, padding: "0 22px", justifyContent: "space-between", borderRadius: i === 1 ? 18 : 10, backgroundColor: i === 1 ? c.tertiaryContainer : "transparent", ...body(28), color: i === 1 ? c.onTertiaryContainer : c.onSurface })}>
+                <span>{label}</span>
+                {i === 1 && <Icon name="mark" size={30} color={c.onTertiaryContainer} />}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    case "pagination":
+      return (
+        <div style={row({ gap: 8 })}>
+          {["‹", "1", "…", "5", "6", "7", "…", "20", "›"].map((label, i) => (
+            <div key={i} style={row({ justifyContent: "center", minWidth: 58, height: 64, padding: "0 10px", borderRadius: 32, backgroundColor: label === "6" ? c.secondaryContainer : "transparent", ...display(28, 600), color: label === "6" ? c.onSecondaryContainer : c.onSurfaceVariant })}>
+              {label}
+            </div>
+          ))}
+        </div>
+      );
+    case "sidebar":
+      return (
+        <div style={row({ width: 540, height: 400, alignItems: "stretch", borderRadius: 36, overflow: "hidden", border: `3px solid ${c.outlineVariant}`, backgroundColor: c.surface })}>
+          <div style={col({ width: 220, padding: 18, gap: 6, backgroundColor: c.surfaceContainerLow })}>
+            <div style={row({ gap: 12, padding: "6px 10px 16px" })}>
+              <Glyph name="cookie-9" size={34} color={c.primary} />
+              <span style={{ ...display(24, 600), color: c.onSurface }}>Mail</span>
+            </div>
+            {["Inbox", "Starred", "Sent", "Drafts"].map((label, i) => (
+              <div key={label} style={row({ gap: 14, height: 56, padding: "0 18px", borderRadius: 28, backgroundColor: i === 0 ? c.secondaryContainer : "transparent", ...display(22, 600), color: i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant })}>
+                <Glyph name={(["circle", "sunny", "triangle", "gem"] as const)[i]!} size={24} color={i === 0 ? c.onSecondaryContainer : c.onSurfaceVariant} />
+                {label}
+              </div>
+            ))}
+          </div>
+          <div style={col({ width: 84, padding: "18px 0", gap: 10, alignItems: "center", backgroundColor: c.surfaceContainer })}>
+            {(["cookie-9", "circle", "sunny", "triangle", "gem"] as const).map((shape, i) => (
+              <div key={shape} style={row({ justifyContent: "center", width: 56, height: i === 0 ? 50 : 40, borderRadius: 20, backgroundColor: i === 1 ? c.secondaryContainer : "transparent" })}>
+                <Glyph name={shape} size={i === 0 ? 30 : 24} color={i === 0 ? c.primary : i === 1 ? c.onSecondaryContainer : c.onSurfaceVariant} />
+              </div>
+            ))}
+          </div>
+          <div style={col({ flex: 1, padding: 22, gap: 12 })}>
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} style={{ display: "flex", height: 52, borderRadius: 16, backgroundColor: c.surfaceContainerLow }} />
+            ))}
+          </div>
+        </div>
+      );
     default:
       return <Glyph name="flower" size={320} color={c.primary} />;
   }
@@ -642,6 +1106,29 @@ export function Art({ art, c, p, seed }: ArtProps) {
             <span>Reduced motion respected</span>
           </div>
         </div>
+      );
+    case "why": {
+      const point = (label: string, shape: MaterialShapeName, bg: string, fg: string) => (
+        <div key={label} style={row({ gap: 20, height: 96, padding: "0 32px 0 22px", borderRadius: 48, backgroundColor: bg, color: fg, ...display(30, 600) })}>
+          <Glyph name={shape} size={48} color={fg} />
+          {label}
+        </div>
+      );
+      return (
+        <div style={col({ gap: 16, alignItems: "flex-start" })}>
+          {point("M3 Expressive", "flower", c.primary, c.onPrimary)}
+          {point("Tailwind-native tokens", "cookie-4", c.secondaryContainer, c.onSecondaryContainer)}
+          {point("Code you own", "clover-4", c.tertiaryContainer, c.onTertiaryContainer)}
+          {point("Springs, not durations", "sunny", c.surfaceContainerHighest, c.onSurface)}
+        </div>
+      );
+    }
+    case "agents":
+      return (
+        <Terminal
+          c={c}
+          lines={[{ cmd: "npx skills add Grenish/expressive" }, { out: "Found 2 skills" }, { out: "expressive" }, { out: "expressive-contributor" }, { out: "Installed for Claude Code, Codex" }]}
+        />
       );
   }
 }

@@ -3,7 +3,7 @@ import { CopyPage } from "@/components/copy-page";
 import { Icon } from "@/components/icons";
 import { JsonLd } from "@/components/seo/json-ld";
 import { spec } from "@/components/landing/tokens";
-import { type NavLink, neighbours, pad, pageCount, pageNumber } from "@/lib/docs-nav";
+import { type NavLink, neighbours } from "@/lib/docs-nav";
 import { PAGES, markdownPath, pageJsonLd } from "@/lib/seo";
 import { cn } from "@/registry/lib/utils";
 
@@ -14,8 +14,14 @@ const slug = (text: string) =>
     .replace(/(^-|-$)/g, "");
 
 /** Render `inline code` spans inside plain strings. */
+/** Inline Markdown for doc strings: `code` and [links](https://…). */
 export function rich(text: string) {
-  return text.split(/(`[^`]+`)/g).map((part, i) => (part.startsWith("`") ? <C key={i}>{part.slice(1, -1)}</C> : part));
+  return text.split(/(`[^`]+`|\[[^\]]+\]\([^)\s]+\))/g).map((part, i) => {
+    if (part.startsWith("`")) return <C key={i}>{part.slice(1, -1)}</C>;
+    const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(part);
+    if (link) return <TextLink key={i} href={link[2]!}>{link[1]}</TextLink>;
+    return part;
+  });
 }
 
 export function DocsPage({
@@ -36,7 +42,6 @@ export function DocsPage({
 }) {
   const { prev, next } = neighbours(href);
   const seo = PAGES[href];
-  const number = pageNumber(href);
   // Search indexes only the article (data-pagefind-body); the Markdown copy drops anything marked data-md-skip.
   return (
     <article
@@ -68,12 +73,7 @@ export function DocsPage({
           </nav>
           {seo && <CopyPage href={markdownPath(href)} />}
         </div>
-        {number > 0 && (
-          <span aria-hidden="true" data-md-skip="" className={cn(spec, "pt-10 text-primary tabular-nums")}>
-            {pad(number)} <span className="text-on-surface-variant">/ {pad(pageCount)}</span>
-          </span>
-        )}
-        <h1 className="pt-3 font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.98] font-semibold tracking-[-0.035em] text-on-surface">
+        <h1 className="pt-10 font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.98] font-semibold tracking-[-0.035em] text-on-surface">
           {title}
         </h1>
         <p className="max-w-2xl pt-5 text-title-large font-normal text-on-surface-variant">{lead}</p>
@@ -97,7 +97,7 @@ export function DocsPage({
   );
 }
 
-/** A previous/next tile: its index number, direction and title. The next one is the tinted, heavier of the two. */
+/** A previous/next tile: its direction and title. The next one is the tinted, heavier of the two. */
 function PageLink({ link, direction, wide }: { link: NavLink; direction: "previous" | "next"; wide: boolean }) {
   const isNext = direction === "next";
   return (
@@ -112,7 +112,7 @@ function PageLink({ link, direction, wide }: { link: NavLink; direction: "previo
     >
       <span className={cn(spec, "flex items-center gap-2 opacity-75")}>
         {!isNext && <Icon name="arrow" className="size-4 rotate-180" />}
-        {direction} · {pad(pageNumber(link.href))}
+        {direction}
         {isNext && <Icon name="arrow" className="size-4" />}
       </span>
       <span className="font-display text-headline-medium font-semibold tracking-tight">{link.title}</span>
@@ -225,14 +225,10 @@ export function PropsTable({ rows }: { rows: PropRow[] }) {
   );
 }
 
-/** Live example, on a flat tonal tile like the landing page's bench. */
+/** Component example, on a flat tonal tile like the landing page's component grid. */
 export function Preview({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div data-md-skip="" className={cn("relative rounded-shape-extra-large bg-surface-container-low px-6 pt-14 pb-8 sm:px-10 sm:pb-10", className)}>
-      <span aria-hidden="true" className={cn(spec, "absolute top-5 left-6 flex items-center gap-2 text-on-surface-variant sm:left-10")}>
-        <span className="size-1.5 rounded-full bg-primary" />
-        live
-      </span>
+    <div data-md-skip="" className={cn("relative rounded-shape-extra-large bg-surface-container-low px-6 py-8 sm:p-10", className)}>
       {children}
     </div>
   );
@@ -246,9 +242,8 @@ export function LinkTiles({ items }: { items: { href: string; title: string; des
         <li key={item.href}>
           <Link
             href={item.href}
-            className="state-layer focus-ring flex h-full flex-col gap-6 rounded-shape-extra-large bg-surface-container-low p-5"
+            className="state-layer focus-ring flex h-full flex-col rounded-shape-extra-large bg-surface-container-low p-5"
           >
-            <span className={cn(spec, "text-on-surface-variant tabular-nums")}>{pad(pageNumber(item.href))}</span>
             <span className="flex flex-col gap-1">
               <span className="font-display text-title-large font-semibold tracking-tight text-on-surface">{item.title}</span>
               <span className="text-body-medium text-on-surface-variant">{item.description}</span>

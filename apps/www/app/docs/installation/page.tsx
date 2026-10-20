@@ -106,6 +106,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <C>attribute=&quot;class&quot;</C>.
       </P>
 
+      <H2>AI coding agents</H2>
+      <P>
+        To have Claude Code, Codex, Cursor or another agent build with Expressive correctly, install the{" "}
+        <TextLink href="/docs/agent-skills">agent skills</TextLink>.
+      </P>
+
       <H2>Troubleshooting</H2>
       <List>
         <li>

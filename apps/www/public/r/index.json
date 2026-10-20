@@ -500,5 +500,446 @@
         "target": "components"
       }
     ]
+  },
+  {
+    "name": "button-group",
+    "type": "component",
+    "description": "Standard button groups whose buttons react to each other, and connected (segmented) toggle groups.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "button-group.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "split-button",
+    "type": "component",
+    "description": "A main action joined to a menu button that morphs into a circle while its menu is open.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "ripple",
+      "menu",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "split-button.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "fab-menu",
+    "type": "component",
+    "description": "A FAB that opens related actions, morphing into a close button as the items spring up.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "fab",
+      "ripple",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "fab-menu.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "toolbar",
+    "type": "component",
+    "description": "Floating and docked toolbars, standard or vibrant, with arrow-key navigation.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "icon-button",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "toolbar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "menu",
+    "type": "component",
+    "description": "Menus with icons, shortcuts, checkbox and radio items, groups and submenus.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "menu.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "tabs",
+    "type": "component",
+    "description": "Primary and secondary tabs, fixed or scrollable, with a springy indicator.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "tabs.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "list",
+    "type": "component",
+    "description": "One-, two- and three-line lists with leading and trailing slots, standard or segmented.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "list.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "badge",
+    "type": "component",
+    "description": "Small dot and numbered badges for icons, tabs and navigation.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "badge.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "divider",
+    "type": "component",
+    "description": "Horizontal and vertical dividers, full width or inset.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "divider.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "bottom-sheet",
+    "type": "component",
+    "description": "Modal bottom sheet with a drag handle, swipe to dismiss and snap points.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "bottom-sheet.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "side-sheet",
+    "type": "component",
+    "description": "Modal side sheet from either edge, with header, scrolling body and actions.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "side-sheet.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "navigation-drawer",
+    "type": "component",
+    "description": "Standard and modal navigation drawers with section headlines and a springy active indicator.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "navigation-drawer.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "table",
+    "type": "component",
+    "description": "Data tables with sortable headers, selectable rows, numeric columns and a sticky header.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "table.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "toast",
+    "type": "component",
+    "description": "Stacked toasts with titles, type icons, actions and promise states, via useToast().",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "toast.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "accordion",
+    "type": "component",
+    "description": "Expandable sections, segmented or divided, with springy panels.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "accordion.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "alert",
+    "type": "component",
+    "description": "Inline info, success, warning and error messages with actions and dismissal.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "alert.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "alert-dialog",
+    "type": "component",
+    "description": "A dialog that asks to confirm a consequential action and can't be dismissed by clicking outside.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "alert-dialog.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "avatar",
+    "type": "component",
+    "description": "Images with initials fallback, in five sizes, as circles or any Material shape, plus avatar groups.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "material-shapes",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "avatar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "breadcrumb",
+    "type": "component",
+    "description": "Hierarchy trail of links with chevron separators and the current page.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "breadcrumb.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "calendar",
+    "type": "component",
+    "description": "Month grid for single, multiple or range selection, on react-day-picker.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "calendar.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "date-picker",
+    "type": "component",
+    "description": "Docked date and date-range pickers: a field that opens a calendar.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "calendar",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "date-picker.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "carousel",
+    "type": "component",
+    "description": "M3 carousel with snapping, masked edge items and parallax, in multi-browse, hero and uncontained layouts.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "carousel.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "code-block",
+    "type": "component",
+    "description": "Copyable code blocks and synced code tabs with icons, file names and line numbers; bring your own highlighter.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "code-block.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "select",
+    "type": "component",
+    "description": "Filled and outlined dropdown fields with a floating label and a Material menu.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "select.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "pagination",
+    "type": "component",
+    "description": "Page navigation with previous/next, collapsing ranges, and buttons or links.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "pagination.tsx",
+        "target": "components"
+      }
+    ]
+  },
+  {
+    "name": "sidebar",
+    "type": "component",
+    "description": "App sidebar that collapses to an icon rail or off-canvas, becomes a drawer on phones, and toggles with ⌘B.",
+    "internal": false,
+    "registryDependencies": [
+      "utils",
+      "motion",
+      "icon-button",
+      "tooltip",
+      "styles"
+    ],
+    "files": [
+      {
+        "path": "sidebar.tsx",
+        "target": "components"
+      }
+    ]
   }
 ]

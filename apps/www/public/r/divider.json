@@ -1,0 +1,21 @@
+{
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
+  "name": "divider",
+  "type": "component",
+  "description": "Horizontal and vertical dividers, full width or inset.",
+  "files": [
+    {
+      "path": "divider.tsx",
+      "target": "components",
+      "content": "import { Separator as BaseSeparator } from \"@base-ui/react/separator\";\nimport { cn } from \"@/registry/lib/utils\";\n\n/*\n * A thin line that groups content in lists and layouts. Horizontal dividers\n * can be inset from the leading edge or from both edges.\n */\n\nexport interface DividerProps extends Omit<BaseSeparator.Props, \"className\"> {\n  orientation?: \"horizontal\" | \"vertical\";\n  /** `start` insets the leading edge by 16px; `middle` insets both ends. */\n  inset?: \"none\" | \"start\" | \"middle\";\n  className?: string;\n}\n\nexport function Divider({ className, orientation = \"horizontal\", inset = \"none\", ...props }: DividerProps) {\n  const vertical = orientation === \"vertical\";\n  return (\n    <BaseSeparator\n      data-slot=\"divider\"\n      orientation={orientation}\n      className={cn(\n        \"shrink-0 border-0 bg-outline-variant\",\n        vertical ? \"w-px self-stretch\" : \"h-px w-auto\",\n        !vertical && inset === \"start\" && \"ms-4\",\n        !vertical && inset === \"middle\" && \"mx-4\",\n        vertical && inset === \"middle\" && \"my-2\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n",
+      "client": false
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "styles"
+  ]
+}

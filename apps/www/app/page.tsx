@@ -51,7 +51,7 @@ function SectionHead({ index, id, title, lead, link }: { index: string; id: stri
 }
 
 const SPECS = [
-  ["19", "components, and counting"],
+  ["45", "components, and counting"],
   ["35", "morphing shapes"],
   ["9", "scheme variants"],
   ["3", "motion schemes"],
@@ -116,7 +116,7 @@ export default function Landing() {
           <SectionHead
             index="02"
             id="bench-title"
-            title="Nineteen components and counting. Fourteen on the bench."
+            title="Forty-five components and counting."
             lead="Every tile is the real component, not a picture of one, themed live by the knob above. Press, drag, toggle: they're yours to play with."
             link={{ href: "/docs/components/button", label: "All components" }}
           />

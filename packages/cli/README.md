@@ -62,9 +62,11 @@ npx @grenishrai/expressive diff button
   Motion or GSAP (`fluid` needs one of those two).
 - **Typography, shape, elevation and interaction tokens**, exposed as Tailwind utilities such as `bg-primary`,
   `text-title-large`, `rounded-shape-large` and `shape-flower`.
-- **19 components and counting**, on [Base UI](https://base-ui.com): button, icon button, FAB, chips, checkbox, radio group,
-  slider, switch, text field, navigation bar and rail, top app bar, card, dialog, shape, loading, progress,
-  snackbar and tooltip.
+- **45 components and counting**, on [Base UI](https://base-ui.com): button, icon button, button group, split button,
+  FAB, FAB menu, chips, calendar, checkbox, date picker, menu, radio group, select, slider, switch, text field,
+  breadcrumb, navigation bar, drawer and rail, pagination, sidebar, tabs, toolbar, top app bar, accordion, avatar, bottom sheet,
+  card, carousel, code block, dialog, divider, list, side sheet, table, shape, alert, alert dialog, badge, loading,
+  progress, snackbar, toast and tooltip.
 - **All 35 Material 3 Expressive shapes**, morphing into each other.
 
 ## Configuration

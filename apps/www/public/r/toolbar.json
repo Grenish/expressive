@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
+  "name": "toolbar",
+  "type": "component",
+  "description": "Floating and docked toolbars, standard or vibrant, with arrow-key navigation.",
+  "files": [
+    {
+      "path": "toolbar.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport { Toolbar as BaseToolbar } from \"@base-ui/react/toolbar\";\nimport { cn } from \"@/registry/lib/utils\";\n\n/*\n * Toolbars (M3 Expressive) hold actions for the current page. A `floating`\n * toolbar is a pill that sits above content, horizontally or vertically, often\n * next to a FAB; a `docked` toolbar spans the bottom of the window. Base UI\n * makes it one tab stop with arrow-key navigation between the items.\n *\n * Make each control a toolbar item with `render`:\n *   <ToolbarButton render={<IconButton aria-label=\"Bold\" />}><BoldIcon /></ToolbarButton>\n */\n\nexport interface ToolbarProps extends Omit<BaseToolbar.Root.Props, \"className\"> {\n  variant?: \"floating\" | \"docked\";\n  /** `vibrant` uses primary-container colors for more emphasis. */\n  color?: \"standard\" | \"vibrant\";\n  className?: string;\n}\n\nexport function Toolbar({ className, variant = \"floating\", color = \"standard\", orientation = \"horizontal\", ...props }: ToolbarProps) {\n  const vertical = orientation === \"vertical\";\n  return (\n    <BaseToolbar.Root\n      data-slot=\"toolbar\"\n      data-variant={variant}\n      data-color={color}\n      orientation={orientation}\n      className={cn(\n        \"flex items-center gap-1\",\n        \"bg-surface-container text-on-surface-variant data-[color=vibrant]:bg-primary-container data-[color=vibrant]:text-on-primary-container\",\n        variant === \"floating\" && \"w-fit rounded-shape-full shadow-elevation-3\",\n        variant === \"floating\" && (vertical ? \"flex-col px-2 py-4\" : \"h-16 px-2\"),\n        variant === \"docked\" && \"h-16 w-full justify-between px-4\",\n        // Standard icon buttons pick up the toolbar's colors; filled and tonal ones keep their own.\n        \"[&_[data-slot=icon-button][data-variant=standard]]:text-current\",\n        \"data-[color=vibrant]:[&_[data-slot=icon-button][data-variant=standard][data-pressed]]:bg-surface-container data-[color=vibrant]:[&_[data-slot=icon-button][data-variant=standard][data-pressed]]:text-on-surface\",\n        \"data-[color=standard]:[&_[data-slot=icon-button][data-variant=standard][data-pressed]]:bg-secondary-container data-[color=standard]:[&_[data-slot=icon-button][data-variant=standard][data-pressed]]:text-on-secondary-container\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport const ToolbarButton = BaseToolbar.Button;\nexport const ToolbarLink = BaseToolbar.Link;\n\nexport function ToolbarGroup({ className, ...props }: BaseToolbar.Group.Props & { className?: string }) {\n  return <BaseToolbar.Group data-slot=\"toolbar-group\" className={cn(\"flex items-center gap-1 data-[orientation=vertical]:flex-col\", className)} {...props} />;\n}\n\nexport function ToolbarSeparator({ className, ...props }: BaseToolbar.Separator.Props & { className?: string }) {\n  return (\n    <BaseToolbar.Separator\n      data-slot=\"toolbar-separator\"\n      className={cn(\n        \"shrink-0 bg-current opacity-20\",\n        \"data-[orientation=vertical]:mx-1 data-[orientation=vertical]:h-6 data-[orientation=vertical]:w-px\",\n        \"data-[orientation=horizontal]:my-1 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-6\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "icon-button",
+    "styles"
+  ]
+}

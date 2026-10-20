@@ -23,6 +23,8 @@ interface TooltipBaseProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: BaseTooltip.Root.Props["onOpenChange"];
+  /** Turn the tooltip off without unmounting it, e.g. a label that only shows while a sidebar is collapsed. */
+  disabled?: boolean;
 }
 
 export interface TooltipProps extends TooltipBaseProps {

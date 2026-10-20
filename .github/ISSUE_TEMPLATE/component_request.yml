@@ -6,14 +6,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Expressive has 19 components and counting. Requests for components in the
+        Expressive has 45 components and counting. Requests for components in the
         [Material 3 Expressive guidelines](https://m3.material.io/components) are the most likely to land.
 
   - type: input
     id: component
     attributes:
       label: Component
-      placeholder: Split button
+      placeholder: Carousel
     validations:
       required: true
 
@@ -22,7 +22,7 @@ body:
     attributes:
       label: Material 3 spec
       description: A link to the component's page in the Material 3 guidelines, if it has one.
-      placeholder: https://m3.material.io/components/split-button
+      placeholder: https://m3.material.io/components/carousel
     validations:
       required: false
 

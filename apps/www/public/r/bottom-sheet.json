@@ -1,0 +1,22 @@
+{
+  "$schema": "https://expressive.grenishrai.pro/schema/registry-item.json",
+  "name": "bottom-sheet",
+  "type": "component",
+  "description": "Modal bottom sheet with a drag handle, swipe to dismiss and snap points.",
+  "files": [
+    {
+      "path": "bottom-sheet.tsx",
+      "target": "components",
+      "content": "\"use client\";\n\nimport { Drawer as BaseDrawer } from \"@base-ui/react/drawer\";\nimport { cn } from \"@/registry/lib/utils\";\nimport type { MotionProp } from \"@/registry/lib/use-motion\";\n\n/*\n * Modal bottom sheet. Base UI's drawer provides focus trapping, Escape,\n * scrim dismissal, drag-to-dismiss and snap points; the sheet springs up from\n * the bottom edge on the spatial motion tokens.\n *\n *   <BottomSheet snapPoints={[\"20rem\", 1]}>…</BottomSheet>\n */\n\nexport const BottomSheet = BaseDrawer.Root;\nexport const BottomSheetTrigger = BaseDrawer.Trigger;\nexport const BottomSheetClose = BaseDrawer.Close;\n\nexport interface BottomSheetContentProps extends Omit<BaseDrawer.Popup.Props, \"className\"> {\n  /** Show the drag handle. Keep it whenever the sheet can be dragged. */\n  handle?: boolean;\n  motion?: MotionProp;\n  className?: string;\n}\n\nexport function BottomSheetContent({ className, handle = true, motion, children, ...props }: BottomSheetContentProps) {\n  return (\n    <BaseDrawer.Portal>\n      <BaseDrawer.Backdrop\n        data-slot=\"bottom-sheet-backdrop\"\n        data-motion={motion}\n        className={cn(\n          // Not faded by swipe progress: at a partial snap point Base UI reports progress 1, which would hide the scrim.\n          \"fixed inset-0 z-50 bg-scrim/32\",\n          \"transition-opacity spring-effects-default\",\n          \"data-starting-style:opacity-0 data-ending-style:opacity-0\",\n        )}\n      />\n      <BaseDrawer.Viewport className=\"fixed inset-0 z-50 flex items-end justify-center\">\n        <BaseDrawer.Popup\n          data-slot=\"bottom-sheet\"\n          data-motion={motion}\n          className={cn(\n            \"relative flex max-h-[calc(100dvh-4.5rem)] w-full max-w-160 flex-col rounded-t-shape-extra-large bg-surface-container-low text-on-surface shadow-elevation-1 outline-none\",\n            // Follows the finger while dragging, rests at the active snap point.\n            \"[transform:translateY(calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y,0px)))]\",\n            \"transition-transform spring-spatial-default data-swiping:transition-none data-swiping:select-none\",\n            \"data-starting-style:[transform:translateY(100%)] data-ending-style:[transform:translateY(100%)]\",\n            // A strip of sheet color below the edge, so the spring's overshoot never shows a gap.\n            \"after:pointer-events-none after:absolute after:inset-x-0 after:top-full after:h-12 after:bg-inherit after:content-['']\",\n            className,\n          )}\n          {...props}\n        >\n          {handle && (\n            <div aria-hidden=\"true\" className=\"flex shrink-0 justify-center pt-4 pb-2\">\n              <div className=\"h-1 w-8 rounded-shape-full bg-on-surface-variant/40\" />\n            </div>\n          )}\n          <BaseDrawer.Content className={cn(\"flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]\", !handle && \"pt-6\")}>\n            {children}\n          </BaseDrawer.Content>\n        </BaseDrawer.Popup>\n      </BaseDrawer.Viewport>\n    </BaseDrawer.Portal>\n  );\n}\n\nexport function BottomSheetTitle({ className, ...props }: BaseDrawer.Title.Props & { className?: string }) {\n  return <BaseDrawer.Title data-slot=\"bottom-sheet-title\" className={cn(\"text-title-large text-on-surface\", className)} {...props} />;\n}\n\nexport function BottomSheetDescription({ className, ...props }: BaseDrawer.Description.Props & { className?: string }) {\n  return <BaseDrawer.Description data-slot=\"bottom-sheet-description\" className={cn(\"text-body-medium text-on-surface-variant\", className)} {...props} />;\n}\n",
+      "client": true
+    }
+  ],
+  "dependencies": [
+    "@base-ui/react@^1.9.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "motion",
+    "styles"
+  ]
+}
